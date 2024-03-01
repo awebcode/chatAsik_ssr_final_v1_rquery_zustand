@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import moment from "moment";
 import { useTypingStore } from "@/store/useTyping";
 import { useOnlineUsersStore } from "@/store/useOnlineUsers";
-import { renderStatus } from "../logics/renderStatus";
+import { renderStatus } from "../logics/RenderStatus";
 import { useChatContext } from "@/context/ChatContext/ChatContextProvider";
 import { updateAllMessageStatusAsSeen } from "@/functions/messageActions";
 import { getSender, getSenderFull } from "../logics/logics";

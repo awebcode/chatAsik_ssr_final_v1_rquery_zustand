@@ -43,7 +43,15 @@ const Topbar = ({ user }: any) => {
     if (user && user?.username) {
       setCurrentUser(user);
     }
-  }, [user,setCurrentUser]);
+  }, [user, setCurrentUser]);
+  const handleLogout = () => {
+    localStorage.removeItem("userInfo");
+    toast.success("Logged Out!");
+    setCurrentUser(null as any);
+    logoutUser();
+    useRevalidateTag("user");
+    router.push("/login");
+  };
 
   return (
     <>
@@ -139,15 +147,7 @@ const Topbar = ({ user }: any) => {
                     </Link>
                     <li
                       className="flex items-center gap-2 cursor-pointer list-none text-red-400 duration-300 hover:text-rose-500"
-                      onClick={() => {
-                        localStorage.removeItem("userInfo");
-                        // Cookies.remove("authToken");
-                        toast.success("Logged Out!");
-                        router.push("/login");
-                        setCurrentUser(null as any);
-                        logoutUser();
-                        useRevalidateTag("user");
-                      }}
+                      onClick={() => handleLogout()}
                     >
                       <CiLogout />
                       Logout

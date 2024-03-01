@@ -3,7 +3,7 @@ import { Tuser } from "../leftsearchDrawer/UserCard";
 import { useUserStore } from "@/store/useUser";
 import moment from "moment";
 import Image from "next/image";
-import { renderStatus } from "../logics/renderStatus";
+import { renderStatus } from "../logics/RenderStatus";
 import { BsReply, BsThreeDotsVertical } from "react-icons/bs";
 import { useClickAway } from "@uidotdev/usehooks";
 import useEditReplyStore from "@/store/useEditReply";

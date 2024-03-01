@@ -1,7 +1,9 @@
+import { useChatStore } from "@/store/useChat";
 import { useUserStore } from "@/store/useUser";
 
-export const getReplyText = (message) => {
-    const {currentUser}=useUserStore()
+export const getReplyText = (message:any) => {
+  const { currentUser } = useUserStore()
+  const {selectedChat}=useChatStore()
   const isCurrentUserSender = message.sender._id === currentUser?._id;
   const isReplyingToSelf = message.sender._id === message.isReply?.messageId?.sender?._id;
 
@@ -14,7 +16,7 @@ export const getReplyText = (message) => {
     : `You replied to ${selectedChat?.username}`;
 };
 
-export const renderMessageContent = (message,content) => (
+export const renderMessageContent = (message: any, content: any, currentUser: any) => (
   <div className="relative text-sm bg-gray-800 rounded-lg p-3 max-w-[260px] break-words !h-fit">
     <span className="text-gray-300">{content}</span>
     {message.status !== "remove" &&
