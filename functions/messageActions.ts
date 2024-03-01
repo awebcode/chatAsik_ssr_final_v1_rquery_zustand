@@ -10,16 +10,21 @@ export const allMessages = async ({
   pageParam: any;
   queryKey: any;
   }) => {
-  if (queryKey[1]) {
+  const chatId = queryKey[1];
+   if (chatId === undefined) {
+     // Handle the case where chatId is undefined
+     return { data: [], prevOffset: 0, skip: 0 };
+   }
+
     const { data } = await axios.get(
-      `${BaseUrl}/allMessages/${queryKey[1]}?skip=${pageParam}&limit=${10}`,
+      `${BaseUrl}/allMessages/${chatId}?skip=${pageParam}&limit=${10}`,
       {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       }
     );
     return { ...data, prevOffset: pageParam, skip: pageParam };
-  }
+  
 };
 // export const allMessages = async (chatId: string) => {
 //   const { data } = await axiosClient.get(`/allMessages/${chatId}`, {
