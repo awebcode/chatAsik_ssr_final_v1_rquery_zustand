@@ -77,7 +77,9 @@ const Topbar = ({ user,locale }: any) => {
           </div>
           {/* Language */}
 
-          <LanguageChanger />
+          <div className="hidden md:inline-flex">
+            <LanguageChanger />
+          </div>
           {/* Theme button */}
           <ThemeButton />
 
@@ -137,6 +139,7 @@ const Topbar = ({ user,locale }: any) => {
                       )}
                     </Link>
                   ))}
+                  <LanguageChanger />
                 </div>
                 {currentUser && (
                   <>

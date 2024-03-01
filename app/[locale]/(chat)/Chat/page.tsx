@@ -47,7 +47,7 @@ const home = async({
         <div className="flex w-screen overflow-hidden">
           {/* <LeftSide /> */}
           <div
-            className={`basis-[100%] md:basis-[40%]   h-full min-h-[95vh] w-full rounded-md border-2 mt-2 md:m-4 py-4 md:border-blue-800 md:hover:border-violet-700 transition-all duration-500 ${
+            className={`basis-[100%] md:basis-[40%]   h-full min-h-[95vh] w-full rounded-md md:border-2 mt-2 md:m-4 py-4 md:border-blue-800 md:hover:border-violet-700 transition-all duration-500 ${
               searchParams.chatId ? "hidden md:block" : ""
             }`}
           >
