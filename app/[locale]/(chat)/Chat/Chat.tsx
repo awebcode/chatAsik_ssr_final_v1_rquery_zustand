@@ -172,6 +172,15 @@ const Chat = ({ user }: any) => {
     queryclient.invalidateQueries({ queryKey: ["messages"] });
   }, []);
   useEffect(() => {
+    // Emit "setup" event when the component mounts
+    if (currentUser) {
+      const setupData = {
+        id: currentUser?._id,
+      };
+      socket.emit("setup", setupData);
+    }
+  }, [currentUser]);
+  useEffect(() => {
     // Add event listeners
     socket.on("receiveMessage", handleSocketMessage);
     socket.on("receiveDeliveredMessage", handleDeliverMessage);
@@ -188,11 +197,7 @@ const Chat = ({ user }: any) => {
       handleAllDeliveredAfterReconnect
     );
 
-    // Emit "setup" event when the component mounts
-    const setupData = {
-      id: currentUser?._id,
-    };
-    socket.emit("setup", setupData);
+   
 
     // Clean up event listeners when the component unmounts
     return () => {
@@ -211,7 +216,7 @@ const Chat = ({ user }: any) => {
     };
   }, []); //
  
- 
+  
 
   // calling start
 

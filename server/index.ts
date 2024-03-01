@@ -79,6 +79,7 @@ const getUser = (id: string) => {
 io.on("connection", (socket: Socket) => {
   socket.on("setup", (userData) => {
     socket.join(userData.id);
+    console.log({setup:userData})
     checkOnlineUsers(userData.id, socket.id);
     io.emit("setup", users);
     console.log("Client connected");
