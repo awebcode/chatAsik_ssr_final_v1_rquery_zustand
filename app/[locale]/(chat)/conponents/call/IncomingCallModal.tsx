@@ -20,7 +20,7 @@ const IncomingCallModal = () => {
   //accept call handler
   const sendStreams = useCallback(() => {
     for (const track of localStream.getTracks()) {
-      Peer.peer.addTrack(track, localStream);
+      if (Peer.peer) Peer.peer.addTrack(track, localStream);
     }
   }, [localStream]);
   const acceptCallHandler = useCallback(async () => {
