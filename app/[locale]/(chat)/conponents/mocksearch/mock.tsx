@@ -104,7 +104,7 @@ const LeftSide = () => {
             products?.length &&
             searchText.trim() !== "" &&
             products?.map((user: any) => {
-              return <UserCard user={user} key={user._id} />;
+              return <UserCard setIsOpen={""} user={user} key={user._id} />;
             })}
 
           <h1>{isFetching ? "isFetching" : ""}</h1>
