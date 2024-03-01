@@ -16,11 +16,11 @@ const NoChatProfile = dynamic(() => import("../NoChatProfile"));
 const Messages = () => {
   const { selectedChat } = useChatStore();
   const router = useRouter();
-  // useEffect(() => {
-  //   if (!selectedChat) {
-  //     return router.push("/Chat");
-  //   }
-  // }, [router]);
+  useEffect(() => {
+    if (!selectedChat) {
+      return router.push("/Chat");
+    }
+  }, [router]);
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching, isFetched } =
     useInfiniteQuery({
       queryKey: ["messages", selectedChat?.chatId],
