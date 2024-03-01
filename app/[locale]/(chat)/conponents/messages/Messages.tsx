@@ -18,7 +18,7 @@ const Messages = () => {
   const router = useRouter();
   useEffect(() => {
     if (!selectedChat) {
-      return router.push("/Chat");
+       router.push("/Chat");
     }
   }, [router]);
   const { data, fetchNextPage, hasNextPage, isLoading, isFetching, isFetched } =
