@@ -59,7 +59,7 @@ const home = async({
           </div>
           {/* <LeftSide /> */}
           <div
-            className={` relative p-4 w-full border-2 rounded-md border-blue-800 hover:border-violet-500 transition-all duration-500 m-3 block ${
+            className={` relative p-2 md:p-4 w-full md:border-2 md:rounded-md md:border-blue-800 md:hover:border-violet-500 transition-all duration-500 m-1 md:m-3 block ${
               !searchParams.chatId ? "hidden md:block" : ""
             }`}
           >

@@ -100,7 +100,7 @@ const Messages = () => {
             ref={containerRef}
             // onScroll={handleScroll}
             id="CustomscrollableTarget"
-            className="menu p-4 bg-base-200 h-[80vh] overflow-y-scroll overflow-x-hidden flex flex-col-reverse"
+            className="menu p-2 md:p-4 bg-base-200 h-[80vh] overflow-y-scroll overflow-x-hidden flex flex-col-reverse"
           >
             {/* //if no messages then show only the profile */}
             <div className="init_profile">
@@ -121,8 +121,8 @@ const Messages = () => {
               endMessage={
                 !isLoading &&
                 messages.length > 10 && (
-                  <h1 className="text-green-400 text-center p-2 text-sm md:text-xl">
-                    <b>Yay! You have seen it all</b>
+                  <h1 className="text-rose-500 text-center p-2 text-sm md:text-xl">
+                    <b>You have seen all messages!</b>
                   </h1>
                 )
               }
@@ -148,9 +148,9 @@ const Messages = () => {
               {showScrollToBottomButton && (
                 <button
                   onClick={scrollToBottom}
-                  className="fixed flex items-center z-50 bottom-24  right-4 bg-gray-800  p-3 rounded-full hover:bg-gray-500 focus:outline-none"
+                  className="fixed flex items-center z-50 bottom-5 md:bottom-14 right-2  md:right-4 bg-gray-800  p-1 md:p-3 rounded-full hover:bg-gray-500 focus:outline-none"
                 >
-                  <FaArrowDown className="w-5 h-5 mt-1 animate-bounce text-green-400" />
+                  <FaArrowDown className="w-3 md:w-5 h-3 md:h-5 mt-1 animate-bounce text-green-400" />
                 </button>
               )}
             </InfiniteScroll>

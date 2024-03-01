@@ -22,7 +22,7 @@ import { useTypingStore } from "@/store/useTyping";
 import TypingIndicatot from "./TypingIndicator";
 import useEditReplyStore from "@/store/useEditReply";
 import { IoMdClose, IoMdPhotos } from "react-icons/io";
-import { MdAddAPhoto } from "react-icons/md";
+import { MdAddAPhoto, MdOutlineKeyboardVoice } from "react-icons/md";
 import { RiEmojiStickerLine } from "react-icons/ri";
 import ChatStatus from "./ChatStatus";
 import AudioVoice from "./audioVoice/Voice";
@@ -253,9 +253,9 @@ const Input = () => {
       {isTyping && typingContent && typingChatId === selectedChat?.chatId && (
         <TypingIndicatot user={selectedChat} />
       )}
-      <div className="max-w-fit mx-auto">
+      <div className="w-full mx-auto z-50  bg-white dark:bg-black">
         {isEdit && (
-          <div className="p-4 bg-gray-900  m-y rounded">
+          <div className="p-2 md:p-4  text-xs md:text-sm  rounded">
             <div className="flexBetween">
               <div>
                 Edit
@@ -267,13 +267,13 @@ const Input = () => {
               </div>
               <IoMdClose
                 onClick={() => cancelEdit()}
-                className="h-6 w-6 cursor-pointer"
+                className="h-4 w-4 md:h-6 md:w-6 cursor-pointer"
               />
             </div>
           </div>
         )}
         {isReply && (
-          <div className="p-4 bg-gray-900  m-y rounded">
+          <div className="p-2 md:p-4  text-xs md:text-sm  m-y rounded">
             <div className="flexBetween">
               <div>
                 {" "}
@@ -286,24 +286,24 @@ const Input = () => {
               </div>
               <IoMdClose
                 onClick={() => cancelReply()}
-                className="h-6 w-6 cursor-pointer"
+                className="h-4 w-4 md:h-6 md:w-6 cursor-pointer"
               />
             </div>
           </div>
         )}
 
-        <div className="flex items-center justify-center w-full p-4 ">
-          <span className="p-2 flex items-center">
-            <button className="rounded-md mt-2">
-              <AudioVoice callback={audioCallback} />
-              {/* <MdOutlineKeyboardVoice className="text-blue-400 h-8 w-8 mx-1" /> */}
+        <div className="flex items-center justify-center w-full p-2 md:p-4 ">
+          <span className="p-2 flex items-center justify-center gap-2 ">
+            <button className="rounded-md  text-xs md:text-sm">
+              {/* <AudioVoice  callback={audioCallback} /> */}
+              <MdOutlineKeyboardVoice className="text-blue-400 h-full w-full mx-1" />
             </button>
             <div ref={clickImageModalRef} className="relative">
               <button
-                className="rounded-md"
+                className="rounded-md mt-2 text-xs md:text-sm"
                 onClick={() => setOpenImageModal((prev) => !prev)}
               >
-                <MdAddAPhoto className="text-blue-400 h-8 w-8 mx-1" />
+                <MdAddAPhoto className="text-blue-400 h-full w-full mx-1" />
               </button>
               {openImageModal && (
                 <ImageMessage
@@ -314,17 +314,22 @@ const Input = () => {
                 />
               )}
             </div>
-            <button className="rounded-md" onClick={() => setOpenEmoji((prev) => !prev)}>
-              <IoMdPhotos className="text-blue-400 h-8 w-8 " />
-            </button>
-            <button className="rounded-md" onClick={() => setOpenEmoji((prev) => !prev)}>
-              <RiEmojiStickerLine className="text-blue-400 h-8 w-8 mx-1" />
+            {/* <button
+              className="rounded-md text-xs md:text-sm"
+              onClick={() => setOpenEmoji((prev) => !prev)}
+            >
+              <IoMdPhotos className="text-blue-400 h-full w-full " />
+            </button> */}
+            <button
+              className="rounded-md text-xs md:text-sm"
+              onClick={() => setOpenEmoji((prev) => !prev)}
+            >
+              <RiEmojiStickerLine className="text-blue-400 h-full w-full mx-1" />
             </button>
           </span>
-          <div className="relative">
+          <div className="relative basis-[100%]">
             <textarea
-            
-              className="resize-none px-2 py-3 bg-transparent rounded-xl pr-12 text-sm md:text-xl max-h-[200px] overflow-y-auto border-2 border-violet-800 hover:border-green-500 transition-all duration-300 outline-none   w-full "
+              className=" resize-none px-1 h-[70px] text-xs md:text-sm md:px-2 py-3 bg-transparent rounded-xl pr-12  max-h-[200px] overflow-y-auto border border-gray-300 dark:border-gray-600 md:border-2 md:border-violet-800 md:hover:border-green-500 transition-all duration-300 outline-none   w-full "
               name="message"
               placeholder="Aa"
               value={message.message}
@@ -332,12 +337,15 @@ const Input = () => {
               onKeyDown={onkeydown}
               rows={2}
             />
-            <div ref={clickRef} className="absolute right-2 bottom-4 text-2xl">
+            <div
+              ref={clickRef}
+              className="absolute right-1 md:right-2 bottom-2 md:bottom-4 text-2xl"
+            >
               <button
-                className="rounded-md mr-1"
+                className="rounded-md mr-1 text-sm md:text-xl"
                 onClick={() => setOpenEmoji((prev) => !prev)}
               >
-                🙂
+                😀
               </button>
               <EmojiPicker
                 open={openEmoji}
@@ -375,7 +383,9 @@ const Input = () => {
               ) : isReply ? (
                 <span className="btn capitalize text-xs h-full">Reply</span>
               ) : message.message ? (
-                <LuSendHorizonal className="text-blue-500 h-9 w-9" />
+                <div className="text-lg md:text-2xl">
+                  <LuSendHorizonal className="text-blue-500 h-full w-full" />
+                </div>
               ) : (
                 "😍"
               )}

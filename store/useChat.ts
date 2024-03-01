@@ -15,7 +15,7 @@ interface ChatData {
   groupChatName: string;
   userInfo: Tuser;
   groupAdmin?: Tuser[];
-  users?: Tuser[];
+  users: Tuser[];
   status?: string;
   chatUpdatedBy: Tuser;
 }

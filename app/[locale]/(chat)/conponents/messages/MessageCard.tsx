@@ -19,6 +19,8 @@ import { MdOutlineEmojiEmotions } from "react-icons/md";
 import { useAddRemoveReactionMutation } from "../mutations/messageMutations";
 import dynamic from "next/dynamic";
 import { RenderStatus } from "../logics/RenderStatusComponent";
+import { useOnlineUsersStore } from "@/store/useOnlineUsers";
+import { getSenderFull } from "../logics/logics";
 
 const Reactions = dynamic(() => import("./Reactions"));
 const EmojiReactModal = dynamic(() => import("./EmojiReactModal"));
@@ -46,6 +48,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
   const [open, setOpen] = useState(false);
   const [currentEmoji, setCurrentEmoji] = useState("");
   const { socket } = useChatContext();
+  const { onlineUsers } = useOnlineUsersStore();
   const modalRef: any = useClickAway(() => {
     setOpen(false);
   });
@@ -161,7 +164,11 @@ const MessageCard = ({ message }: { message: TMessage }) => {
     };
     addRemoveReactionMutation.mutateAsync(reactionData);
   };
-
+  const isUserOnline = onlineUsers.some((u: any) =>
+    selectedChat?.isGroupChat
+      ? selectedChat?.users.some((user: any) => user._id === u.id)
+      : selectedChat?.userId === u.id
+  );
   return (
     <div
       className={`flex ${
@@ -174,7 +181,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
         } space-x-2`}
       >
         {message?.sender?._id === currentUser?._id ? (
-          RenderStatus(message, "onMessage", 0,currentUser)
+          RenderStatus(message, "onMessage", 0, currentUser)
         ) : (
           <div className="h-8 w-8 relative">
             <Image
@@ -184,6 +191,11 @@ const MessageCard = ({ message }: { message: TMessage }) => {
               alt={message?.sender?.username as any}
               src={message?.sender?.pic as any}
             />
+            <span
+              className={`absolute bottom-0 right-0 rounded-full p-[4px] ${
+                isUserOnline ? "bg-green-500" : "bg-rose-500"
+              }`}
+            ></span>
           </div>
         )}
 
@@ -229,21 +241,21 @@ const MessageCard = ({ message }: { message: TMessage }) => {
                       <>
                         <a
                           onClick={() => removeHandler(message._id)}
-                          className=" text-xs hover:bg-gray-300  p-[6px] duration-300  rounded"
+                          className=" text-[10px] md:text-xs hover:bg-gray-300  p-[6px] duration-300  rounded"
                         >
                           Remove
                         </a>
                         <a
                           onClick={() => removeFromAllHandler(message._id)}
-                          className="text-xs hover:bg-gray-300  p-[6px] duration-300  rounded"
+                          className="text-[10px] md:text-xs hover:bg-gray-300  p-[6px] duration-300  rounded"
                         >
-                          Remove All
+                          Remove from all
                         </a>
                       </>
                     ) : (
                       <a
                         onClick={() => BackRemoveFromAllHandler(message._id)}
-                        className="text-xs hover:bg-gray-300  p-[6px] duration-300  rounded"
+                        className="text-[10px] md:text-xs hover:bg-gray-300  p-[6px] duration-300  rounded"
                       >
                         Back Message
                       </a>
@@ -252,7 +264,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
                     {isCurrentUserMessage && (
                       <a
                         onClick={() => unsentHandler(message._id)}
-                        className=" text-xs hover:bg-gray-300  p-[6px] duration-300  rounded"
+                        className=" text-[10px] md:text-xs hover:bg-gray-300  p-[6px] duration-300  rounded"
                       >
                         Unsent
                       </a>
@@ -301,7 +313,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
 
             <div className="">
               {/* Time */}
-              <p className="text-xs ">
+              <p className="text-[10px] md:text-xs ">
                 {message.isEdit ? (
                   <span className="font-bold mr-2">Edited</span>
                 ) : message.status === "unsent" ? (
@@ -320,7 +332,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
               {/* Time end */}
               {message.isReply ? (
                 <div>
-                  <span className=" text-xs">
+                  <span className="text-[10px] md:text-xs">
                     <BsReply className={` h-4 w-4 cursor-pointer mx-2 inline `} />{" "}
                     {message?.sender?._id === message.isReply?.messageId?.sender?._id
                       ? message?.sender?._id === currentUser?._id
@@ -332,7 +344,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
                       ? ` ${selectedChat?.username} replied to you `
                       : `You replied to ${selectedChat?.username} `}
                   </span>
-                  <div className="relative text-sm  bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 duration-300  rounded-lg p-3  max-w-[260px] break-words !h-fit  ">
+                  <div className="relative text-[10px] md:text-xs  bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 duration-300  rounded-lg p-3  max-w-[260px] break-words !h-fit  ">
                     <span className="">
                       {/* {message.isReply?.messageId?.content} */}
                       {message.isReply?.messageId?.content ? (
@@ -384,7 +396,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
                         />
                       </div>
                     ) : (
-                      <div className="absolute -bottom-7 ring-2 ring-gray-400 left-8 right-0 text-sm bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 duration-300 rounded-lg p-2  max-w-[260px] break-words !h-fit  ">
+                      <div className="absolute text-[10px] md:text-xs -bottom-7 ring-2 ring-gray-400 left-8 right-0 text-sm bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 duration-300 rounded-lg p-2  max-w-[260px] break-words !h-fit  ">
                         Removed
                       </div>
                     )}
@@ -392,7 +404,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
                 </div>
               ) : message.status !== "remove" &&
                 message.removedBy !== currentUser?._id ? (
-                <div className="text-sm relative duration-300 bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg p-3  max-w-[260px] break-words !h-fit  ">
+                <div className="text-[10px] md:text-xs relative duration-300 bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg p-3  max-w-[260px] break-words !h-fit  ">
                   {message.content ? (
                     message.content
                   ) : message.image ? (
@@ -422,7 +434,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
                   {/*Display Reactions end */}
                 </div>
               ) : (
-                <div className="text-sm  bg-gray-200 duration-300 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg p-3  max-w-[260px] break-words !h-fit  ">
+                <div className="text-[10px] md:text-xs  bg-gray-200 duration-300 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg p-3  max-w-[260px] break-words !h-fit  ">
                   Removed
                 </div>
               )}

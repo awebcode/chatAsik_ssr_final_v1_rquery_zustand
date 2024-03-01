@@ -33,34 +33,35 @@ const ChatHeader = () => {
     <div className="p-4 bg-gray-200  dark:bg-gray-800  flexBetween rounded">
       <div className="flex items-center gap-2">
         <span
-          className=" cursor-pointer p-[6px] bg-blue-500 rounded-full"
+          className=" cursor-pointer  md:p-[6px]  rounded-full"
           onClick={() => {
             router.push("/Chat");
             //  clearselectedChat();
           }}
         >
-          <FaArrowLeft className="h-3 w-3" />
+          <FaArrowLeft className="h-3 md:h-4 w-3 md:w-4" />
         </span>
         {selectedChat && (
           <>
-            <div className="relative p-[2px] h-10 w-10 ring-2 ring-violet-600 rounded-full">
+            <div className="relative p-[2px] h-8 w-8 md:h-10 md:w-10 ring md:ring-2 ring-violet-500 rounded-full">
               <Image
                 height={35}
                 width={35}
                 className="rounded-full object-fill h-full w-full"
                 alt={selectedChat.username as any}
                 src={selectedChat.pic as any}
+                loading="lazy"
               />
 
               <span
-                className={`absolute bottom-0 right-0 rounded-full p-[6px] ${
+                className={`absolute bottom-0 -right-1 rounded-full  p-[6px] ${
                   isUserOnline ? "bg-green-500" : "bg-rose-500"
                 }`}
               ></span>
             </div>
-            <div className="">
-              <h3 className="text-xs md:text-sm ">{selectedChat.username}</h3>
-              <span className="text-xs ">
+            <div className="ml-1">
+              <h3 className="text-xs md:text-sm font-bold ">{selectedChat.username}</h3>
+              <span className="text-[10px] ">
                 {isUserOnline ? (
                   <span className="text-green-500">Online</span>
                 ) : !isUserOnline &&
@@ -83,11 +84,11 @@ const ChatHeader = () => {
           <span ref={videoCallModalRef} className="cursor-pointer flex gap-2">
             <MdCall
               onClick={() => setOpenVideoCall((prev) => !prev)}
-              className="h-6 w-6  cursor-pointer"
+              className="h-4 w-4 md:h-6 md:w-6  cursor-pointer"
             />
             <MdVideoCall
               onClick={() => setOpenVideoCall((prev) => !prev)}
-              className="h-6 w-6  cursor-pointer"
+              className="h-4 w-4 md:h-6 md:w-6  cursor-pointer"
             />
             <VideoCallModal
               openVideoCall={openVideoCall}
@@ -100,7 +101,7 @@ const ChatHeader = () => {
             <span ref={userModalRef} className="cursor-pointer">
               <BsThreeDots
                 onClick={() => setOpen((prev) => !prev)}
-                className="h-6 w-6  cursor-pointer"
+                className="h-4 w-4 md:h-6 md:w-6  cursor-pointer"
               />
               <GroupModal open={open} setOpen={setOpen} onlineUsers={onlineUsers} />
             </span>

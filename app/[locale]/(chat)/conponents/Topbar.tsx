@@ -91,19 +91,23 @@ const Topbar = ({ user,locale }: any) => {
             onMouseLeave={() => setDropdown(false)}
           >
             {currentUser ? (
-              <>
+              <div className="flex flex-col items-center">
                 {" "}
-                <Image
-                  height={35}
-                  width={35}
-                  className="rounded-full h-full w-full object-cover"
-                  alt={currentUser.username}
-                  src={currentUser.pic}
-                />
-                <h1 className="text-xs md:text-sm ">{currentUser.username}</h1>
-              </>
+                <div className="h-6 w-6 md:h-9 md:w-9 ">
+                  <Image
+                    height={35}
+                    width={35}
+                    className="rounded-full h-full w-full object-cover"
+                    alt={currentUser.username}
+                    src={currentUser.pic}
+                  />
+                </div>
+                <h1 className="text-[10px] md:text-sm ">
+                  {currentUser.username.slice(0, 8)}
+                </h1>
+              </div>
             ) : (
-              <div className="h-9 w-9">
+              <div className="h-5 md:h-9 w-5 md:w-9">
                 <CgProfile className="h-full w-full" />
               </div>
             )}
@@ -123,7 +127,7 @@ const Topbar = ({ user,locale }: any) => {
                     <Link
                       key={i}
                       href={link.path}
-                      className="flex items-center gap-2 hover:text-blue-500"
+                      className="text-xs md:text-sm flex items-center gap-2 hover:text-blue-500"
                     >
                       {/* Wrap the link content inside an anchor tag */}
                       {currentUser && link.name === "Login" ? (
@@ -145,13 +149,13 @@ const Topbar = ({ user,locale }: any) => {
                     {" "}
                     <Link
                       href={"/profile"}
-                      className="flex items-center gap-2 text-sm duration-300 hover:text-blue-500"
+                      className="flex items-center gap-2 text-xs md:text-sm duration-300 hover:text-blue-500"
                     >
                       <CgProfile />
                       Profile
                     </Link>
                     <li
-                      className="flex items-center gap-2 cursor-pointer list-none text-red-400 duration-300 hover:text-rose-500"
+                      className="flex items-center gap-2 text-xs md:text-sm cursor-pointer list-none text-red-400 duration-300 hover:text-rose-500"
                       onClick={() => handleLogout()}
                     >
                       <CiLogout />
