@@ -11,7 +11,7 @@ const register = async (req: Request | any, res: Response, next: NextFunction) =
   const { username, password, email } = req.body;
 
   try {
-    console.log({ body: req.body, file: req.file });
+  
 
     // Check if the username or email is already taken
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
@@ -35,8 +35,9 @@ const register = async (req: Request | any, res: Response, next: NextFunction) =
     const user = await newUser.save();
     const token = jwt.sign({ id: user._id }, "your-secret-key", { expiresIn: "6h" });
     res.cookie("authToken", token, {
-       expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
-       secure:true
+      expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
+      secure: true,
+      sameSite: "none",
     }); // 6 hours expiration
     res.status(201).json({ message: "User registered successfully", user: user,token });
   } catch (error) {
@@ -48,7 +49,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   const { username, password } = req.body;
 
   try {
-    console.log({login:req.body})
+   
     // Find the user by username
     const user = await User.findOne({ username });
 
@@ -69,7 +70,8 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     const token = jwt.sign({ id: user._id }, "your-secret-key", { expiresIn: "6h" });
     res.cookie("authToken", token, {
       expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
-      secure:true
+      secure: true,
+      sameSite: "none",
     }); // 6 hours expiration
     res.status(200).json({ token, user });
   } catch (error) {
@@ -170,10 +172,11 @@ const allUsers = async (req: CustomRequest | any, res: Response, next: NextFunct
   }
 };
 export const logout = (req: CustomRequest | any, res: Response, next: NextFunction) => {
-  res.cookie("authToken", "", { expires: new Date(0), secure: true });
+  res.cookie("authToken", "", { expires: new Date(0), secure: true, sameSite: "none" });
+  res.clearCookie("authToken")
   // You can also do additional cleanup or handle other logout logic if needed
 
   // Respond with a success message or any other relevant information
-  res.status(200).json({ message: "Logout successful" });
+  res.status(200).json({ message: "Logout successful" })
 };
 export { register, login, getUser, allUsers };

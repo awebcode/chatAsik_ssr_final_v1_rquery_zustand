@@ -23,7 +23,6 @@ const ChatModel_1 = require("../model/ChatModel");
 const register = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password, email } = req.body;
     try {
-        console.log({ body: req.body, file: req.file });
         // Check if the username or email is already taken
         const existingUser = yield UserModel_1.User.findOne({ $or: [{ username }, { email }] });
         if (existingUser) {
@@ -47,7 +46,8 @@ const register = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         const token = jsonwebtoken_1.default.sign({ id: user._id }, "your-secret-key", { expiresIn: "6h" });
         res.cookie("authToken", token, {
             expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
-            secure: true
+            secure: true,
+            sameSite: "none",
         }); // 6 hours expiration
         res.status(201).json({ message: "User registered successfully", user: user, token });
     }
@@ -59,7 +59,6 @@ exports.register = register;
 const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
     try {
-        console.log({ login: req.body });
         // Find the user by username
         const user = yield UserModel_1.User.findOne({ username });
         // Check if the user exists
@@ -76,7 +75,8 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         const token = jsonwebtoken_1.default.sign({ id: user._id }, "your-secret-key", { expiresIn: "6h" });
         res.cookie("authToken", token, {
             expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
-            secure: true
+            secure: true,
+            sameSite: "none",
         }); // 6 hours expiration
         res.status(200).json({ token, user });
     }
@@ -168,7 +168,8 @@ const allUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
 });
 exports.allUsers = allUsers;
 const logout = (req, res, next) => {
-    res.cookie("authToken", "", { expires: new Date(0), secure: true });
+    res.cookie("authToken", "", { expires: new Date(0), secure: true, sameSite: "none" });
+    res.clearCookie("authToken");
     // You can also do additional cleanup or handle other logout logic if needed
     // Respond with a success message or any other relevant information
     res.status(200).json({ message: "Logout successful" });
