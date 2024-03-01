@@ -43,7 +43,7 @@ const Topbar = ({ user }: any) => {
     if (user && user?.username) {
       setCurrentUser(user);
     }
-  }, [user]);
+  }, [user,setCurrentUser]);
 
   return (
     <>

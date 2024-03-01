@@ -27,7 +27,7 @@ const register = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         // Check if the username or email is already taken
         const existingUser = yield UserModel_1.User.findOne({ $or: [{ username }, { email }] });
         if (existingUser) {
-            throw new errorHandler_1.CustomErrorHandler("Username or email already exists", 400);
+            return next(new errorHandler_1.CustomErrorHandler("Username or email already exists", 400));
         }
         const url = yield cloudinary_1.v2.uploader.upload(req.file.path);
         const localFilePath = req.file.path;
@@ -64,13 +64,13 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         const user = yield UserModel_1.User.findOne({ username });
         // Check if the user exists
         if (!user) {
-            throw new errorHandler_1.CustomErrorHandler("Invalid username or password", 401);
+            return next(new errorHandler_1.CustomErrorHandler("Invalid username or password", 401));
         }
         // Compare the hashed password
         const isPasswordValid = yield bcrypt_1.default.compare(password, user.password);
         // Check if the password is valid
         if (!isPasswordValid) {
-            throw new errorHandler_1.CustomErrorHandler("Invalid username or password", 401);
+            return next(new errorHandler_1.CustomErrorHandler("Invalid password", 401));
         }
         // Generate JWT token
         const token = jsonwebtoken_1.default.sign({ id: user._id }, "your-secret-key", { expiresIn: "6h" });
@@ -91,7 +91,7 @@ const getUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         const { id } = req;
         const user = yield UserModel_1.User.findOne({ _id: id });
         if (!user) {
-            throw new errorHandler_1.CustomErrorHandler("Unauthorized - No user found", 401);
+            return next(new errorHandler_1.CustomErrorHandler("Unauthorized - No user found", 401));
         }
         // You can fetch additional user details from your database or any other source
         // For demonstration purposes, we are returning the basic user information
@@ -163,7 +163,7 @@ const allUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
     }
     catch (error) {
         console.error(error);
-        res.status(500).send("Internal Server Error");
+        next(error);
     }
 });
 exports.allUsers = allUsers;

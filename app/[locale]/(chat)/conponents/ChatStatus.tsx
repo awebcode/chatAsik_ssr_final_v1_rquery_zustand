@@ -20,7 +20,7 @@ const ChatStatus = ({ user }: { user: Tuser }) => {
         </p>
       ) : (
         <p className="text-gray-700 ">
-          You can't send messages!. This user has blocked you.{" "}
+          You can&apos;t send messages!. This user has blocked you.{" "}
           <Link href="#" className="text-blue-500 cursor-pointer mx-2">
             Learn more
           </Link>

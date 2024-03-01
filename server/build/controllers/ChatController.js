@@ -24,7 +24,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const accessChat = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
     if (!userId) {
-        throw new errorHandler_1.CustomErrorHandler("Chat Id or content cannot be empty!", 400);
+        return next(new errorHandler_1.CustomErrorHandler("Chat Id or content cannot be empty!", 400));
     }
     var isChat = yield ChatModel_1.Chat.find({
         isGroupChat: false,
@@ -182,7 +182,7 @@ const createGroupChat = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     }
     var users = req.body.users;
     if (users.length < 2) {
-        return new errorHandler_1.CustomErrorHandler("more than 2 users are required to form a group chat!", 400);
+        return next(new errorHandler_1.CustomErrorHandler("more than 2 users are required to form a group chat!", 400));
     }
     users.push(req.id);
     try {
@@ -314,7 +314,7 @@ const addToGroup = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
             .populate("users", "-password")
             .populate("groupAdmin", "-password");
         if (!added) {
-            throw new errorHandler_1.CustomErrorHandler("Chat not found!", 404);
+            return next(new errorHandler_1.CustomErrorHandler("Chat not found!", 404));
         }
         else {
             res.json(added);
