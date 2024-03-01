@@ -58,8 +58,8 @@ const Topbar = ({ user,locale }: any) => {
 
   return (
     <>
-      <section className="flex items-center justify-between py-5 px-10 bg-blue-600  flex-wrap">
-        <h1 className="text-2xl md:text-4xl">{t2("logo")}</h1>
+      <section className="flex items-center justify-between py-5 px-10 bg-blue-600  ">
+        <h1 className="text-xl md:text-4xl">{t2("logo")}</h1>
         <div className="flex items-center gap-4 flex-wrap">
           <div className=" transition-transform hidden md:flex md:items-center md:gap-3">
             {links.map((link, i) => (
@@ -77,7 +77,7 @@ const Topbar = ({ user,locale }: any) => {
           </div>
           {/* Language */}
 
-          <div className="hidden md:inline-flex">
+          <div className="">
             <LanguageChanger />
           </div>
           {/* Theme button */}
@@ -100,7 +100,7 @@ const Topbar = ({ user,locale }: any) => {
                   alt={currentUser.username}
                   src={currentUser.pic}
                 />
-                <h1>{currentUser.username}</h1>
+                <h1 className="text-xs md:text-sm ">{currentUser.username}</h1>
               </>
             ) : (
               <div className="h-9 w-9">
@@ -118,7 +118,7 @@ const Topbar = ({ user,locale }: any) => {
               }`}
             >
               <div className="flex flex-col gap-3">
-                <div className="flex flex-col gap-3 md:hidden">
+                <div className="flex flex-col gap-3 ">
                   {links.map((link, i) => (
                     <Link
                       key={i}
@@ -139,7 +139,6 @@ const Topbar = ({ user,locale }: any) => {
                       )}
                     </Link>
                   ))}
-                  <LanguageChanger />
                 </div>
                 {currentUser && (
                   <>

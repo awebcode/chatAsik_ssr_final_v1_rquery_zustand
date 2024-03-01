@@ -11,7 +11,9 @@ export const allMessages = async ({
   queryKey: any;
   }) => {
   const chatId = queryKey[1];
-   if (chatId === undefined) {
+  console.log({chatId})
+  if (chatId === undefined) {
+     
      // Handle the case where chatId is undefined
      return { data: [], prevOffset: 0, skip: 0 };
    }

@@ -174,7 +174,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
         } space-x-2`}
       >
         {message?.sender?._id === currentUser?._id ? (
-          RenderStatus(message, "onMessage", 0)
+          RenderStatus(message, "onMessage", 0,currentUser)
         ) : (
           <div className="h-8 w-8 relative">
             <Image

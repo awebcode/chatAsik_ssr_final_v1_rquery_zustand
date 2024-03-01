@@ -67,11 +67,8 @@ const ChatHeader = () => {
                   !selectedChat.isGroupChat &&
                   selectedChat?.userInfo?.lastActive ? (
                   <span className="text-[9px]">
-                    active: {selectedChat?.userInfo?.lastActive as any}
-                    {moment(selectedChat?.userInfo?.lastActive as any)
-                      .endOf("day")
-                      .fromNow()}
-                     ago
+                    <span className="mr-1">active</span>
+                    {moment(selectedChat?.userInfo?.lastActive as any).fromNow()}
                   </span>
                 ) : (
                   ""

@@ -37,14 +37,14 @@ export default function LanguageChanger() {
     <select
       value={locale}
       onChange={handleChange}
-      className={` px-8 py-2 capitalize  ring-2 ring-violet-500  bg-transparent rounded-md border-none outline-none focus:border-none`}
+      className={`text-[10px] md:text-sm px-1 md:px-8 py-1 md:py-2 capitalize  ring md:ring-2 ring-violet-500  bg-transparent rounded-md border-none outline-none focus:border-none`}
     >
       {locales.map((item, i) => (
         <option
           key={item.name}
           className={`${
             theme === "dark" ? "bg-white text-black" : "bg-black text-white "
-          } m-2   capitalize text-sm flex gap-2 p-4`}
+          } m-2   capitalize text-xs md:text-sm flex gap-2 p-2 md:p-4`}
           value={item.name}
         >
           <Image
