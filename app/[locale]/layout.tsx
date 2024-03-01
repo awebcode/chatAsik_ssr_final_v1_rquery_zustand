@@ -11,6 +11,8 @@ import { unstable_setRequestLocale } from "next-intl/server";
 
 export const metadata: Metadata = {
   title: "Messengaria - Connect and Chat",
+  creator: "Md Asikur Rahman",
+  authors: [{ name: "Md Asikur Rahman", url: "https://asikur.vercel.app" }],
   description:
     "Welcome to Messengaria, the ultimate chat web app crafted by Asikur, a seasoned full-stack MERN/Next.js developer with over 5 years of expertise. Immerse yourself in a world of seamless communication with our cutting-edge chat application. Experience the power of real-time messaging, whether you're engaging in private conversations, joining lively group chats, or exploring innovative features like collaborative chat, secure messaging, and chat API integration. Our MERN stack and Next.js foundation ensure a robust and scalable chat solution that caters to modern communication needs.Discover the future of online communication with Messengaria's advanced features, including a responsive and intuitive chat UI, mobile chat app compatibility, and open-source flexibility. Unleash the potential of our chat widget, chat plugin, and chatroom software, making your website a hub for interactive and engaging conversations.Whether you're a developer seeking a chat API for integration or a user looking for a reliable and feature-rich messaging platform, Messengaria has you covered. Join our vibrant chat community and explore the endless possibilities of this dynamic chat application. Revolutionize your online interactions and elevate your communication experience with Messengaria - where innovation meets conversation.",
   icons: { icon: "/favicon.ico" },
@@ -24,8 +26,10 @@ export const metadata: Metadata = {
         height: 600,
       },
     ],
-    url: "",
+
+    url: "https://messengaria.vercel.app/english",
     siteName: "Messengaria",
+
     type: "website",
     title: "Messengaria - Connect and Chat",
     description:
@@ -52,8 +56,8 @@ export default async function LocaleLayout({
 }: {
   children: ReactNode;
   params: { locale: string };
-  }) {
-   unstable_setRequestLocale(locale);
+}) {
+  unstable_setRequestLocale(locale);
   let languages;
 
   try {
