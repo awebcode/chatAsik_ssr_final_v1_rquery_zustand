@@ -272,7 +272,7 @@ const Chat = ({ user }: any) => {
   }, []);
 
   
-
+console.log({onlineUsers})
   return (
     <div className="p-1">
       {/* <button

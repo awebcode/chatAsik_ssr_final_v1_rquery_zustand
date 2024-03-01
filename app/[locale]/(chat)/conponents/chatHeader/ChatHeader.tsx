@@ -69,9 +69,9 @@ const ChatHeader = () => {
                   <span className="text-[9px]">
                     active: {selectedChat?.userInfo?.lastActive as any}
                     {moment(selectedChat?.userInfo?.lastActive as any)
-                      .startOf("hour")
+                      .endOf("day")
                       .fromNow()}
-                    ago
+                     ago
                   </span>
                 ) : (
                   ""
