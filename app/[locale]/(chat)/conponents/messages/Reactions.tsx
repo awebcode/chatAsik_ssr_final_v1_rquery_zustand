@@ -20,7 +20,7 @@ const Reactions = ({
     <div>
       {/* Reactions */}
       <div ref={reactionListModalRef}>
-        {message.reactions?.length === 1 ? (
+        {message?.reactions?.length === 1 ? (
           <span
             onClick={() => setReactionListVisible(!isReactionListModal)}
             className={`absolute ${
@@ -41,10 +41,10 @@ const Reactions = ({
             ))}
             <span className="text-xs">
               {" "}
-              {message.reactions?.length > 1 && message.reactions?.length < 3
-                ? `` //${message.reactions.length}
-                : message.reactions?.length > 3
-                ? ` +${message.reactions.length - 3}`
+              {message?.reactions?.length > 1 && message?.reactions?.length < 3
+                ? `` //${message?.reactions.length}
+                : message?.reactions?.length > 3
+                ? ` +${message?.reactions.length - 3}`
                 : ""}
             </span>
           </span>
@@ -67,7 +67,7 @@ const Reactions = ({
             <MdClose />
           </button>
           <h1 className="text-sm md:text-3xl p-3 border-b-2 mb-6 border-violet-600">
-            Reactions ({message.reactions?.length})
+            Reactions ({message?.reactions?.length})
           </h1>
           <div className="">
             {message.reactions.map((v: any, i: any) => {
@@ -83,10 +83,10 @@ const Reactions = ({
                         height={35}
                         width={35}
                         className="rounded-full h-full w-full object-cover"
-                        alt={v.reactBy.username as any}
-                        src={v.reactBy.pic as any}
+                        alt={v?.reactBy?.username as any}
+                        src={v?.reactBy?.pic as any}
                       />
-                      {onlineUsers.some((u: any) => u.id === v.reactBy._id) ? (
+                      {onlineUsers.some((u: any) => u.id === v?.reactBy._id) ? (
                         <span
                           className={`absolute bottom-0 right-0 rounded-full p-[6px] 
                                         bg-green-500
@@ -101,7 +101,7 @@ const Reactions = ({
                       )}
                     </div>
                     <div className="flex flex-col mx-4">
-                      <span>{v.reactBy.username}</span>
+                      <span>{v?.reactBy.username}</span>
                       {/* Remove own react */}
                       {v.reactBy._id === currentUser?._id && (
                         <span

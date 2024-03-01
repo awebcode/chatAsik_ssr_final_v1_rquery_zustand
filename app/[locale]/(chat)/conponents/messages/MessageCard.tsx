@@ -60,7 +60,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
     setReactionListVisible(false);
   });
 
-  const isCurrentUserMessage = message.sender._id === currentUser?._id;
+  const isCurrentUserMessage = message?.sender?._id === currentUser?._id;
   const queryclient = useQueryClient();
   const unsentmutation = useMutation({
     mutationFn: (data) => updateAllMessageStatusAsUnsent(data),
@@ -173,7 +173,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
           isCurrentUserMessage ? "flex-row-reverse" : "flex-row"
         } space-x-2`}
       >
-        {message.sender._id === currentUser?._id ? (
+        {message?.sender?._id === currentUser?._id ? (
           RenderStatus(message, "onMessage", 0)
         ) : (
           <div className="h-8 w-8 relative">
@@ -181,8 +181,8 @@ const MessageCard = ({ message }: { message: TMessage }) => {
               height={35}
               width={35}
               className="rounded-full h-full w-full object-cover"
-              alt={message.sender.username as any}
-              src={message.sender.pic as any}
+              alt={message?.sender?.username as any}
+              src={message?.sender?.pic as any}
             />
           </div>
         )}
@@ -322,10 +322,10 @@ const MessageCard = ({ message }: { message: TMessage }) => {
                 <div>
                   <span className=" text-xs">
                     <BsReply className={` h-4 w-4 cursor-pointer mx-2 inline `} />{" "}
-                    {message.sender._id === message.isReply?.messageId?.sender?._id
-                      ? message.sender._id === currentUser?._id
+                    {message?.sender?._id === message.isReply?.messageId?.sender?._id
+                      ? message?.sender?._id === currentUser?._id
                         ? "You replied to yourself"
-                        : message.sender._id === selectedChat?.userId
+                        : message?.sender?._id === selectedChat?.userId
                         ? ` ${message.isReply?.messageId?.sender?.username} replied to You `
                         : ""
                       : message.isReply?.messageId?.sender?._id === currentUser?._id
@@ -341,7 +341,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
                         <div className="h-[130px] w-[130px] rounded">
                           <Image
                             src={message.isReply?.messageId?.image.url}
-                            alt={message.sender.username}
+                            alt={message?.sender?.username}
                             height={100}
                             width={100}
                             className="h-full w-full rounded-lg"
@@ -364,7 +364,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
                           <div className="h-[60px]  rounded">
                             <Image
                               src={message.image.url}
-                              alt={message.sender.username}
+                              alt={message?.sender?.username}
                               height={80}
                               width={80}
                               className="h-full w-full rounded-lg object-cover"
@@ -399,7 +399,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
                     <div className="h-[130px] w-[130px] rounded">
                       <Image
                         src={message.image.url}
-                        alt={message.sender.username}
+                        alt={message?.sender?.username}
                         height={100}
                         width={100}
                         className="h-full w-full rounded-lg"
