@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { IoIosCheckmarkCircle, IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { useUserStore } from "@/store/useUser";
-export const RenderStatus = (message: any, type: string, unseenArray: any) => {
+export const renderStatus = (message: any, type: string, unseenArray: any) => {
   const { currentUser } = useUserStore();
 
   const unseenMessagesCount =
