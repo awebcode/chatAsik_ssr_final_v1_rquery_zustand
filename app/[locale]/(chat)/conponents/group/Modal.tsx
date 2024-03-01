@@ -50,6 +50,11 @@ const GroupModal = () => {
         status: chat?.chatStatus?.status,
         chatUpdatedBy: chat?.chatStatus?.updatedBy,
         users: chat.isGroupChat ? chat.users : null,
+        userInfo: {
+          lastActive: !chat.isGroupChat
+            ? getSenderFull(currentUser, chat.users)?.lastActive
+            : "",
+        } as any,
       };
       setSelectedChat(chatData);
       queryclient.invalidateQueries({ queryKey: ["messages"] });
