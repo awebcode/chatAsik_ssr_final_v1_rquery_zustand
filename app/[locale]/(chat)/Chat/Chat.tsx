@@ -179,7 +179,7 @@ const Chat = ({ user }: any) => {
       };
       socket.emit("setup", setupData);
     }
-  }, [currentUser]);
+  }, [currentUser,socket]);
   useEffect(() => {
     // Add event listeners
     socket.on("receiveMessage", handleSocketMessage);
