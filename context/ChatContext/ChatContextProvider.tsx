@@ -24,7 +24,13 @@ interface ChatContextProviderProps {
 const ChatContextProvider = ({ children }: ChatContextProviderProps) => {
   const socketOptions: SocketOptions = {}; // You can customize socket options if needed
   const socket: Socket = useMemo(
-    () => io("http://localhost:5000", socketOptions),
+    () =>
+      io(
+        process.env.NODE_ENV === "production"
+          ? "https://messengaria.onrender.com"
+          : "http://localhost:5000",
+        socketOptions
+      ),
     [socketOptions]
   );
 
