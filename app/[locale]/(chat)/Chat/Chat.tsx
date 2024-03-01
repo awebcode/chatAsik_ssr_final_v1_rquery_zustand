@@ -127,7 +127,7 @@ const Chat = ({ user }: any) => {
       updateStatusMutation.mutateAsync(updateStatusData);
       //for incoming messages
     }
-  }, []);
+  }, [currentUser]);
   const handleTyping = useCallback((data: any) => {
     // if (data.receiverId === currentUser?._id) {
     startTyping(data.senderId, data.receiverId, data.chatId, data.content);
