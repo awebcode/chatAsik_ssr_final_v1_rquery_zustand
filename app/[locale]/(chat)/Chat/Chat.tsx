@@ -174,13 +174,13 @@ const Chat = ({ user }: any) => {
   }, []);
   useEffect(() => {
     // Emit "setup" event when the component mounts
-    if (currentUserRef.current) {
+    if (currentUser) {
       const setupData = {
-        id: currentUserRef.current?._id,
+        id: currentUser?._id,
       };
       socket.emit("setup", setupData);
     }
-  }, [currentUserRef, socket]);
+  }, [currentUser, socket]);
   useEffect(() => {
     // Add event listeners
     socket.on("receiveMessage", handleSocketMessage);
