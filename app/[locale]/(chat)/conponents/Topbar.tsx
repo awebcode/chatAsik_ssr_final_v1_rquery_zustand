@@ -25,7 +25,7 @@ const ThemeButton = dynamic(() => import("@/components/ThemeButton"), {
   ssr: false,
 });
 const Topbar = ({ user,locale }: any) => {
-   unstable_setRequestLocale(locale);
+  //  unstable_setRequestLocale(locale);
 
   const { theme } = useTheme();
   const [dropdown, setDropdown] = useState(false);
