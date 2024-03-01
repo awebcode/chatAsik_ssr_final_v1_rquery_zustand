@@ -132,7 +132,7 @@ const FriendsCard: React.FC<{
           className="flexBetween gap-2"
           onClick={() => handleClick(chat._id as string)}
         >
-          <div className="relative p-[2px] h-10 w-10 ring-2 ring-gray-900 rounded-full">
+          <div className="relative p-[2px] h-10 w-10 ring-2 ring-violet-600 rounded-full">
             <Image
               height={35}
               width={35}

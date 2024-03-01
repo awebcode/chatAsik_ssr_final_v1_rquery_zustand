@@ -3,14 +3,18 @@ const Topbar = dynamic(() => import("./(chat)/conponents/Topbar"));
 //   ssr: false,
 // });
 import { fetchUser } from "@/functions/serverActions";
+import { redirect } from "@/navigation";
 import dynamic from "next/dynamic";
 
 export default async function Home() {
   const user = await fetchUser();
+   if (user.statusCode === 401) {
+     redirect("/register");
+   }
   return (
     <>
       <Topbar user={user}  />
-      <h1 className="text-5xl text-green-500 wrapper">Hello, Messenger!</h1>
+      <h1 className="text-3xl md:text-6xl  wrapper">Hello, Messengaria!</h1>
     </>
   );
 }

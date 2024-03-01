@@ -132,7 +132,7 @@ const MyFriends = () => {
             value={searchTerm}
             onChange={(e) => handleInputChange(e)}
             placeholder="Search Friends"
-            className="bg-transparent w-full    text-sm py-3 px-3 rounded-md  outline-none border border-black dark:border-white transition-all duration-300"
+            className="bg-transparent w-full    text-sm py-3 px-3 rounded-md  outline-none border border-gray-200 dark:border-gray-500 transition-all duration-300"
           />
 
           <div
