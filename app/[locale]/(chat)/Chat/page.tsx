@@ -6,6 +6,7 @@ import PrefetchMessages from "../conponents/messages/PrefetchMessages";
 import PrefetchMyFriends from "../conponents/myChats/PrefetchMyFriends";
 import { fetchUser } from "@/functions/serverActions";
 import { redirect } from "@/navigation";
+import { unstable_setRequestLocale } from "next-intl/server";
 const EmptyChat = dynamic(() => import("../conponents/EmptyChat"));
 const ChatHeader = dynamic(() => import("../conponents/chatHeader/ChatHeader"), {
   ssr: false,
@@ -28,9 +29,10 @@ const home = async({
   params,
   searchParams,
 }: {
-  params: { domain: string };
+  params: { domain: string,locale:string };
   searchParams: { [key: string]: string | string[] | undefined };
-}) => {
+  }) => {
+  unstable_setRequestLocale(params.locale);
   // console.log({  searchParams });
   const user = await fetchUser();
   if (user.statusCode===401) {

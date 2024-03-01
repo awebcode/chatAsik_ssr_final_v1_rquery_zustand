@@ -7,6 +7,7 @@ import { ReactNode } from "react";
 import { NextIntlClientProvider } from "next-intl";
 import NextThemeProvider from "@/providers/NextThemeProvider";
 import ToastProvider from "@/providers/ToastProvider";
+import { unstable_setRequestLocale } from "next-intl/server";
 
 export const metadata: Metadata = {
   title: "Messengaria - Connect and Chat",
@@ -51,7 +52,8 @@ export default async function LocaleLayout({
 }: {
   children: ReactNode;
   params: { locale: string };
-}) {
+  }) {
+   unstable_setRequestLocale(locale);
   let languages;
 
   try {

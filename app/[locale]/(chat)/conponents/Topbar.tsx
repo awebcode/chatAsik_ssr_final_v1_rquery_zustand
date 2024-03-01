@@ -17,13 +17,16 @@ import { CgProfile } from "react-icons/cg";
 import { logoutUser } from "@/functions/authActions";
 import { revalidateTag } from "next/cache";
 import RevalidateTag from "@/functions/serverActions";
+import { unstable_setRequestLocale } from "next-intl/server";
 const LanguageChanger = dynamic(() => import("@/components/LanguageChanger"), {
   ssr: false,
 });
 const ThemeButton = dynamic(() => import("@/components/ThemeButton"), {
   ssr: false,
 });
-const Topbar = ({ user }: any) => {
+const Topbar = ({ user,locale }: any) => {
+   unstable_setRequestLocale(locale);
+
   const { theme } = useTheme();
   const [dropdown, setDropdown] = useState(false);
   const clickOutsideRef: any = useClickAway(() => {
