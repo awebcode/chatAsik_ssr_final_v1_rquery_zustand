@@ -26,7 +26,7 @@ const Messages = () => {
       getNextPageParam: (lastPage: any) => {
         const { prevOffset, total, limit } = lastPage;
         // Calculate the next offset based on the limit
-        const nextOffset = prevOffset + limit;
+        const nextOffset = prevOffset !== undefined ? prevOffset + limit : 0;
 
         // Check if there are more items to fetch
         if (nextOffset >= total) {
