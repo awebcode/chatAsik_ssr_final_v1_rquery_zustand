@@ -1,6 +1,7 @@
 "use server";
 import { BaseUrl } from "@/config/BaseUrl";
 import axios from "axios";
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 export const getChatsServerAction = async ({
   queryKey = "",
@@ -16,14 +17,13 @@ export const getChatsServerAction = async ({
     {
       headers: {
         "Content-Type": "application/json",
-         Cookie: `authToken=${cookies().get("authToken")?.value};`,
+        Cookie: `authToken=${cookies().get("authToken")?.value};`,
       },
       withCredentials: true,
     }
   );
   return { ...data, prevOffset: pageParam, skip: pageParam };
 };
-
 
 //all messages server action
 
@@ -34,7 +34,7 @@ export const allMessagesServerAction = async ({
 }: {
   pageParam: any;
   queryKey: any;
-  }) => {
+}) => {
   const { data } = await axios.get(
     `${BaseUrl}/allMessages/${queryKey[1]}?skip=${pageParam}&limit=${10}`,
     {
@@ -47,3 +47,20 @@ export const allMessagesServerAction = async ({
   );
   return { ...data, prevOffset: pageParam, skip: pageParam };
 };
+
+//get user
+export const fetchUser = async () => {
+  const res = await fetch(`${BaseUrl}/getUser`, {
+    credentials: "include",
+    next: { tags: ["user"] },
+    headers: { Cookie: `authToken=${cookies().get("authToken")?.value};` },
+  });
+
+  return await res.json();
+};
+
+
+//use revalidate tag
+export default async function useRevalidateTag(tag:string) {
+  revalidateTag(tag);
+}

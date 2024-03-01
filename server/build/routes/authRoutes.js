@@ -14,4 +14,5 @@ authRoute.post("/register", uploadMiddleware_1.default.single("pic"), authContro
 authRoute.post("/login", authControllers_1.login);
 authRoute.get("/getUser", authMiddleware_1.default, authControllers_1.getUser);
 authRoute.get("/getUsers", authMiddleware_1.default, authControllers_1.allUsers);
+authRoute.get("/logout", authMiddleware_1.default, authControllers_1.logout);
 exports.default = authRoute;

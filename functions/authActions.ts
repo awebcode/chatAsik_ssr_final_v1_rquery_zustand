@@ -1,4 +1,6 @@
 import { axiosClient } from "@/config/AxiosConfig";
+import { BaseUrl } from "@/config/BaseUrl";
+
 
 export const registerUser = async (formdata: any) => {
   const { data } = await axiosClient.post("/register", formdata, {
@@ -36,3 +38,10 @@ export const getAllUsers = async ({
 };
 
 
+//logout user
+export const logoutUser = async () => {
+  const res = await fetch(`${BaseUrl}/logout`, {
+    credentials: "include",
+  });
+  return await res.json();
+};

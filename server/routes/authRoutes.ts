@@ -1,5 +1,5 @@
 import express from "express"
-import { register,login, getUser, allUsers } from "../controllers/authControllers";
+import { register,login, getUser, allUsers, logout } from "../controllers/authControllers";
 import authMiddleware from "../middlewares/authMiddleware";
 import uploadMiddleware from "../middlewares/uploadMiddleware";
 
@@ -14,5 +14,6 @@ authRoute.post("/register",uploadMiddleware.single("pic"), register);
 authRoute.post("/login", login);
 authRoute.get("/getUser", authMiddleware, getUser);
 authRoute.get("/getUsers", authMiddleware, allUsers);
+authRoute.get("/logout", authMiddleware, logout);
 export default authRoute;
 

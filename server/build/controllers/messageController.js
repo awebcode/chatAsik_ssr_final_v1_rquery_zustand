@@ -168,13 +168,16 @@ exports.updateAllMessageStatusSeen = updateAllMessageStatusSeen;
 const updateChatMessageAsDeliveredController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
-        if (!userId) {
-            return next(new errorHandler_1.CustomErrorHandler("User Id cannot be empty!", 400));
+        if (!userId || userId === "undefined") {
+            // return next(new CustomErrorHandler("User Id cannot be empty!", 400));
+            return res.json({});
         }
         // Find all chats where the user is a participant
         const chats = yield ChatModel_1.Chat.find({ users: { $in: [userId] } }).populate("latestMessage");
         if (!chats || chats.length === 0) {
-            return next(new errorHandler_1.CustomErrorHandler("No chats found for the user", 404));
+            // console.log("hi")
+            //  return next(new CustomErrorHandler("No chats found for the user", 404));
+            return res.json({});
         }
         // Update all messages in each chat
         const updatePromises = chats.map((chat) => __awaiter(void 0, void 0, void 0, function* () {

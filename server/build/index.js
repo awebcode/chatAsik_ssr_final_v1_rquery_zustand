@@ -88,16 +88,18 @@ io.on("connection", (socket) => {
     socket.on("sentMessage", (message) => {
         // Broadcast the message to all connected clients
         if (message.isGroupChat) {
-            socket.broadcast.emit("receiveMessage", message);
+            io.to(message.groupChatId).emit("receiveMessage", message);
+            //  socket.emit("receiveMessage", message);
         }
         else {
-            io.to(message.receiverId).emit("receiveMessage", message);
-            // socket.emit("receiveMessage", message);
+            //all connected clients in room
+            socket.to(message.receiverId).emit("receiveMessage", message);
+            socket.emit("receiveMessage", message);
         }
     });
     //deliveredMessage
     socket.on("deliveredMessage", (message) => {
-        socket.in(message.receiverId).emit("receiveDeliveredMessage", message);
+        socket.broadcast.to(message.receiverId).emit("receiveDeliveredMessage", message);
     });
     //deliveredAllMessageAfterReconnect -To all users
     socket.on("deliveredAllMessageAfterReconnect", (message) => {
@@ -106,7 +108,7 @@ io.on("connection", (socket) => {
     // Handle typing
     socket.on("startTyping", (data) => {
         if (data.isGroupChat) {
-            socket.broadcast.emit("typing", data);
+            socket.to(data.groupChatId).emit("typing", data);
         }
         else {
             socket.in(data.receiverId).emit("typing", data);
@@ -115,7 +117,7 @@ io.on("connection", (socket) => {
     // Handle stop typing
     socket.on("stopTyping", (data) => {
         if (data.isGroupChat) {
-            socket.broadcast.emit("stopTyping", data);
+            socket.to(data.groupChatId).emit("stopTyping", data);
         }
         else {
             socket.in(data.receiverId).emit("stopTyping", data);
@@ -143,18 +145,18 @@ io.on("connection", (socket) => {
     //groupCreatedNotify
     socket.on("groupCreatedNotify", (data) => {
         data.forEach((userId) => {
-            socket.broadcast.to(userId).emit("groupCreatedNotifyReceived");
+            socket.to(userId).emit("groupCreatedNotifyReceived");
         });
     });
     //singleChat createdNitify
     socket.on("chatCreatedNotify", (data) => {
         console.log({ chatCreatedNotify: data });
-        socket.broadcast.to(data.to).emit("chatCreatedNotifyReceived");
+        socket.to(data.to).emit("chatCreatedNotifyReceived");
     });
     //chatDeletedNotify
     socket.on("chatDeletedNotify", (data) => {
         data.forEach((userId) => {
-            socket.broadcast.to(userId).emit("chatDeletedNotifyReceived");
+            socket.to(userId).emit("chatDeletedNotifyReceived");
         });
     });
     //@@@@@@ calling system end

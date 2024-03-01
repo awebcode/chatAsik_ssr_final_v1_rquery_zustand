@@ -50,7 +50,7 @@ const accessChat = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         };
         try {
             const createdChat = yield ChatModel_1.Chat.create(chatData);
-            const FullChat = yield ChatModel_1.Chat.findOne({ _id: createdChat._id }).populate("users", "lastActive");
+            const FullChat = yield ChatModel_1.Chat.findOne({ _id: createdChat._id }).populate("users", "username email pic lastActive");
             res.status(200).json(FullChat);
         }
         catch (error) {
@@ -85,7 +85,7 @@ const fetchChats = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
             .populate("latestMessage")
             .populate({
             path: "chatStatus.updatedBy",
-            select: "username pic email",
+            select: "username pic email lastActive",
         })
             .sort({ updatedAt: -1 })
             .skip(skip)

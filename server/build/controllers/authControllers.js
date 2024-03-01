@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.allUsers = exports.getUser = exports.login = exports.register = void 0;
+exports.allUsers = exports.getUser = exports.login = exports.register = exports.logout = void 0;
 const cloudinary_1 = require("cloudinary");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -76,7 +76,7 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         const token = jsonwebtoken_1.default.sign({ id: user._id }, "your-secret-key", { expiresIn: "6h" });
         res.cookie("authToken", token, {
             expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
-            // secure:true
+            secure: true
         }); // 6 hours expiration
         res.status(200).json({ token, user });
     }
@@ -167,3 +167,10 @@ const allUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.allUsers = allUsers;
+const logout = (req, res, next) => {
+    res.cookie("authToken", "", { expires: new Date(0), secure: true });
+    // You can also do additional cleanup or handle other logout logic if needed
+    // Respond with a success message or any other relevant information
+    res.status(200).json({ message: "Logout successful" });
+};
+exports.logout = logout;

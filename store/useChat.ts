@@ -1,6 +1,6 @@
 // userStore.ts
 
-import { Tuser } from "@/app/(chat)/conponents/leftsearchDrawer/UserCard";
+import { Tuser } from "@/app/[locale]/(chat)/conponents/leftsearchDrawer/UserCard";
 import { create } from "zustand";
 
 interface ChatData {
@@ -13,6 +13,7 @@ interface ChatData {
   pic?: string;
   isGroupChat: boolean;
   groupChatName: string;
+  userInfo: Tuser;
   groupAdmin?: Tuser[];
   users?: Tuser[];
   status?: string;

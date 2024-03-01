@@ -198,15 +198,18 @@ export const updateChatMessageAsDeliveredController = async (
 ) => {
   try {
     const { userId } = req.params;
-    if (!userId) {
-      return next(new CustomErrorHandler("User Id cannot be empty!", 400));
+    if (!userId||userId==="undefined") {
+      // return next(new CustomErrorHandler("User Id cannot be empty!", 400));
+      return res.json({});
     }
 
     // Find all chats where the user is a participant
     const chats = await Chat.find({ users: { $in: [userId] } }).populate("latestMessage");
 
     if (!chats || chats.length === 0) {
-      return next(new CustomErrorHandler("No chats found for the user", 404));
+      // console.log("hi")
+      //  return next(new CustomErrorHandler("No chats found for the user", 404));
+       return res.json({})
     }
 
     // Update all messages in each chat

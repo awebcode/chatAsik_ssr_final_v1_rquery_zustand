@@ -35,7 +35,7 @@ const register = async (req: Request | any, res: Response, next: NextFunction) =
     const user = await newUser.save();
     const token = jwt.sign({ id: user._id }, "your-secret-key", { expiresIn: "6h" });
     res.cookie("authToken", token, {
-      expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
+       expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
        secure:true
     }); // 6 hours expiration
     res.status(201).json({ message: "User registered successfully", user: user,token });
@@ -69,7 +69,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     const token = jwt.sign({ id: user._id }, "your-secret-key", { expiresIn: "6h" });
     res.cookie("authToken", token, {
       expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
-      // secure:true
+      secure:true
     }); // 6 hours expiration
     res.status(200).json({ token, user });
   } catch (error) {
@@ -169,5 +169,11 @@ const allUsers = async (req: CustomRequest | any, res: Response, next: NextFunct
     res.status(500).send("Internal Server Error");
   }
 };
+export const logout = (req: CustomRequest | any, res: Response, next: NextFunction) => {
+  res.cookie("authToken", "", { expires: new Date(0), secure: true });
+  // You can also do additional cleanup or handle other logout logic if needed
 
+  // Respond with a success message or any other relevant information
+  res.status(200).json({ message: "Logout successful" });
+};
 export { register, login, getUser, allUsers };

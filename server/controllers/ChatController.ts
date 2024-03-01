@@ -48,7 +48,7 @@ export const accessChat = async (
       const createdChat = await Chat.create(chatData);
       const FullChat = await Chat.findOne({ _id: createdChat._id }).populate(
         "users",
-        "lastActive"
+        "username email pic lastActive"
       );
       res.status(200).json(FullChat);
     } catch (error: any) {
@@ -88,7 +88,7 @@ export const fetchChats = async (
       .populate("latestMessage")
       .populate({
         path: "chatStatus.updatedBy",
-        select: "username pic email",
+        select: "username pic email lastActive",
       })
       .sort({ updatedAt: -1 })
       .skip(skip)
