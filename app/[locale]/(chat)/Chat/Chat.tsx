@@ -13,7 +13,9 @@ import {
   updateMessageStatus,
 } from "@/functions/messageActions";
 import { useVidoeCallStore } from "@/store/useCallStore";
-const IncomingCallModal = dynamic(() => import("../conponents/call/IncomingCallModal"),{ssr:false});
+const IncomingCallModal = dynamic(() => import("../conponents/call/IncomingCallModal"), {
+  ssr: false,
+});
 const RejectedCallModal = dynamic(() => import("../conponents/call/RejectCallModal"), {
   ssr: false,
 });
@@ -40,22 +42,19 @@ const Chat = ({ user }: any) => {
   const { selectedChat, myChats } = useChatStore();
   const selectedChatRef = useRef(selectedChat);
   const onlineUsersRef = useRef(onlineUsers);
-  const {
-    IncomingOffer,
-    setIncomingOffer,
-    isRejected,
-  } = useVidoeCallStore();
+  const currentUserRef= useRef(currentUser);
+  const { IncomingOffer, setIncomingOffer, isRejected } = useVidoeCallStore();
   useEffect(() => {
-   if (user) {
-     
-     setCurrentUser(user);
-   }
- }, [user]);
+    if (user) {
+      setCurrentUser(user);
+    }
+  }, [user]);
   // Update the reference whenever selectedChat changes
   useEffect(() => {
     selectedChatRef.current = selectedChat;
     onlineUsersRef.current = onlineUsers;
-  }, [selectedChat, onlineUsers]);
+    currentUserRef.current = currentUser;
+  }, [selectedChat, onlineUsers, currentUserRef]);
 
   const updateStatusMutation = useMutation({
     mutationKey: ["messages"],
@@ -86,48 +85,50 @@ const Chat = ({ user }: any) => {
     },
   });
   // console.log({ selectedChat});
-  const handleSocketMessage = useCallback((data: any) => {
-    console.log({ data: data, currentUser });
-    if (data.senderId === currentUser?._id) {
-      useMessageStore.setState({ isIncomingMessage: true });
-      console.log("isIncomingMessage");
-    } else {
-      useMessageStore.setState({ isFriendsIncomingMessage: true });
-      console.log("isFriendsIncomingMessage");
-    }
-    //  if (data.receiverId === currentUser?._id) {
-    queryclient.invalidateQueries({ queryKey: ["messages"] });
-    //  }
-    // console.log({ data }, selectedChat);
-    if (data.senderId === selectedChatRef.current?.userId) {
-      const updateStatusData = {
-        chatId: selectedChatRef.current?.chatId,
-        status: "seen",
-      };
-      updateStatusMutation.mutateAsync(updateStatusData);
-    } else if (
-      data.receiverId === currentUser?._id &&
-      onlineUsersRef.current.some((user: any) => user.id === currentUser?._id)
-    ) {
-      // console.log({ deliveredMessageCallback: data });
-      const updateStatusData = {
-        chatId: data?.chatId,
-        status: "delivered",
-      };
-      // const notificationSound = new Howl({
-      //   src: [soundPath],
-      //   preload: true,
-      //   onload: () => {
-      //     console.log("howl loaded");
-      //   },
-      // });
-      // notificationSound.play();
-      // console.log("deli")
+  const handleSocketMessage = useCallback(
+    (data: any) => {
+      if (data.senderId === currentUserRef.current?._id) {
+        useMessageStore.setState({ isIncomingMessage: true });
+        console.log("isIncomingMessage");
+      } else {
+        useMessageStore.setState({ isFriendsIncomingMessage: true });
+        console.log("isFriendsIncomingMessage");
+      }
+      //  if (data.receiverId === currentUser?._id) {
+      queryclient.invalidateQueries({ queryKey: ["messages"] });
+      //  }
+      // console.log({ data }, selectedChat);
+      if (data.senderId === selectedChatRef.current?.userId) {
+        const updateStatusData = {
+          chatId: selectedChatRef.current?.chatId,
+          status: "seen",
+        };
+        updateStatusMutation.mutateAsync(updateStatusData);
+      } else if (
+        data.receiverId === currentUserRef.current?._id &&
+        onlineUsersRef.current.some((user: any) => user.id === currentUserRef.current?._id)
+      ) {
+        // console.log({ deliveredMessageCallback: data });
+        const updateStatusData = {
+          chatId: data?.chatId,
+          status: "delivered",
+        };
+        // const notificationSound = new Howl({
+        //   src: [soundPath],
+        //   preload: true,
+        //   onload: () => {
+        //     console.log("howl loaded");
+        //   },
+        // });
+        // notificationSound.play();
+        // console.log("deli")
 
-      updateStatusMutation.mutateAsync(updateStatusData);
-      //for incoming messages
-    }
-  }, [currentUser]);
+        updateStatusMutation.mutateAsync(updateStatusData);
+        //for incoming messages
+      }
+    },
+    [currentUserRef]
+  );
   const handleTyping = useCallback((data: any) => {
     // if (data.receiverId === currentUser?._id) {
     startTyping(data.senderId, data.receiverId, data.chatId, data.content);
@@ -173,13 +174,13 @@ const Chat = ({ user }: any) => {
   }, []);
   useEffect(() => {
     // Emit "setup" event when the component mounts
-    if (currentUser) {
+    if (currentUserRef.current) {
       const setupData = {
-        id: currentUser?._id,
+        id: currentUserRef.current?._id,
       };
       socket.emit("setup", setupData);
     }
-  }, [currentUser,socket]);
+  }, [currentUserRef, socket]);
   useEffect(() => {
     // Add event listeners
     socket.on("receiveMessage", handleSocketMessage);
@@ -197,8 +198,6 @@ const Chat = ({ user }: any) => {
       handleAllDeliveredAfterReconnect
     );
 
-   
-
     // Clean up event listeners when the component unmounts
     return () => {
       socket.off("setup", handleOnlineUsers);
@@ -215,8 +214,6 @@ const Chat = ({ user }: any) => {
       );
     };
   }, []); //
- 
-  
 
   // calling start
 
@@ -276,8 +273,7 @@ const Chat = ({ user }: any) => {
     };
   }, []);
 
-  
-console.log({onlineUsers})
+  console.log({ onlineUsers });
   return (
     <div className="p-1">
       {/* <button
