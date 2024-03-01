@@ -14,7 +14,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { useClickAway } from "@uidotdev/usehooks";
 import dynamic from "next/dynamic";
 import { useRouter } from "@/navigation";
-import { RenderStatus } from "../logics/RenderStatus";
+import { RenderStatus } from "../logics/RenderStatusComponent";
 const Modal = dynamic(() => import("./Modal"));
 const TypingIndicator = dynamic(() => import("../TypingIndicator"));
 type Tuser = {

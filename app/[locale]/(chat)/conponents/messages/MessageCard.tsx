@@ -18,7 +18,7 @@ import { MdOutlineEmojiEmotions } from "react-icons/md";
 
 import { useAddRemoveReactionMutation } from "../mutations/messageMutations";
 import dynamic from "next/dynamic";
-import { RenderStatus } from "../logics/RenderStatus";
+import { RenderStatus } from "../logics/RenderStatusComponent";
 
 const Reactions = dynamic(() => import("./Reactions"));
 const EmojiReactModal = dynamic(() => import("./EmojiReactModal"));
