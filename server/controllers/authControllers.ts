@@ -16,7 +16,7 @@ const register = async (req: Request | any, res: Response, next: NextFunction) =
     // Check if the username or email is already taken
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
-      throw new CustomErrorHandler("Username or email already exists", 400);
+     return next(new CustomErrorHandler("Username or email already exists", 400))
     }
     const url = await v2.uploader.upload(req.file.path);
     const localFilePath = req.file.path;
@@ -54,7 +54,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
     // Check if the user exists
     if (!user) {
-      throw new CustomErrorHandler("Invalid username or password", 401);
+      return next(new CustomErrorHandler("Invalid username or password", 401))
     }
 
     // Compare the hashed password
@@ -62,7 +62,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
     // Check if the password is valid
     if (!isPasswordValid) {
-      throw new CustomErrorHandler("Invalid username or password", 401);
+      return next(new CustomErrorHandler("Invalid password", 401))
     }
 
     // Generate JWT token
@@ -87,7 +87,7 @@ const getUser: any = async (req: CustomRequest, res: Response, next: NextFunctio
     const user = await User.findOne({ _id: id });
 
     if (!user) {
-      throw new CustomErrorHandler("Unauthorized - No user found", 401);
+      return next(new CustomErrorHandler("Unauthorized - No user found", 401))
     }
 
     // You can fetch additional user details from your database or any other source
@@ -166,7 +166,7 @@ const allUsers = async (req: CustomRequest | any, res: Response, next: NextFunct
     res.send({ users, total, limit });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal Server Error");
+    next(error)
   }
 };
 export const logout = (req: CustomRequest | any, res: Response, next: NextFunction) => {

@@ -17,7 +17,7 @@ export const accessChat = async (
   const { userId } = req.params;
 
   if (!userId) {
-    throw new CustomErrorHandler("Chat Id or content cannot be empty!", 400);
+    return next(new CustomErrorHandler("Chat Id or content cannot be empty!", 400))
   }
 
   var isChat: any = await Chat.find({
@@ -200,9 +200,8 @@ export const createGroupChat = async (
   var users = req.body.users;
 
   if (users.length < 2) {
-    return new CustomErrorHandler(
-      "more than 2 users are required to form a group chat!",
-      400
+    return next(
+      new CustomErrorHandler("more than 2 users are required to form a group chat!", 400)
     );
   }
 
@@ -379,7 +378,7 @@ export const addToGroup = async (req: Request, res: Response, next: NextFunction
       .populate("groupAdmin", "-password");
 
     if (!added) {
-      throw new CustomErrorHandler("Chat not found!", 404);
+      return next(new CustomErrorHandler("Chat not found!", 404));
     } else {
       res.json(added);
     }
