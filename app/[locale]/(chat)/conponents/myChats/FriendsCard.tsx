@@ -7,7 +7,6 @@ import React, { useState } from "react";
 import moment from "moment";
 import { useTypingStore } from "@/store/useTyping";
 import { useOnlineUsersStore } from "@/store/useOnlineUsers";
-import { renderStatus } from "../logics/RenderStatus";
 import { useChatContext } from "@/context/ChatContext/ChatContextProvider";
 import { updateAllMessageStatusAsSeen } from "@/functions/messageActions";
 import { getSender, getSenderFull } from "../logics/logics";
@@ -15,6 +14,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { useClickAway } from "@uidotdev/usehooks";
 import dynamic from "next/dynamic";
 import { useRouter } from "@/navigation";
+import { RenderStatus } from "../logics/RenderStatus";
 const Modal = dynamic(() => import("./Modal"));
 const TypingIndicator = dynamic(() => import("../TypingIndicator"));
 type Tuser = {
@@ -202,7 +202,7 @@ const FriendsCard: React.FC<{
           </div>
         </div>
         <div className="flex gap-5 items-center ">
-          {renderStatus(chat?.latestMessage, "onFriendListCard", unseenArray)}
+          {RenderStatus(chat?.latestMessage, "onFriendListCard", unseenArray)}
           <div ref={userModalRef} className="relative">
             <BsThreeDots onClick={() => setOpen((prev) => !prev)} className="h-6 w-6 " />
             <Modal

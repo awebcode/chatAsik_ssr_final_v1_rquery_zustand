@@ -38,7 +38,7 @@ const io = new socket_io_1.Server(server, {
 });
 // Enable CORS for all routes
 const corsOptions = {
-    origin: "http://localhost:3000", // Allow requests from this specific origin
+    origin: ["http://localhost:3000", "https://messengaria.onrender.com"], // Allow requests from this specific origin
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
 };

@@ -3,7 +3,6 @@ import { Tuser } from "../leftsearchDrawer/UserCard";
 import { useUserStore } from "@/store/useUser";
 import moment from "moment";
 import Image from "next/image";
-import { renderStatus } from "../logics/RenderStatus";
 import { BsReply, BsThreeDotsVertical } from "react-icons/bs";
 import { useClickAway } from "@uidotdev/usehooks";
 import useEditReplyStore from "@/store/useEditReply";
@@ -19,6 +18,7 @@ import { MdOutlineEmojiEmotions } from "react-icons/md";
 
 import { useAddRemoveReactionMutation } from "../mutations/messageMutations";
 import dynamic from "next/dynamic";
+import { RenderStatus } from "../logics/RenderStatus";
 
 const Reactions = dynamic(() => import("./Reactions"));
 const EmojiReactModal = dynamic(() => import("./EmojiReactModal"));
@@ -174,7 +174,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
         } space-x-2`}
       >
         {message.sender._id === currentUser?._id ? (
-          renderStatus(message, "onMessage", 0)
+          RenderStatus(message, "onMessage", 0)
         ) : (
           <div className="h-8 w-8 relative">
             <Image
