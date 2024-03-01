@@ -7,7 +7,7 @@ import React from "react";
 import moment from "moment";
 import { useTypingStore } from "@/store/useTyping";
 import { useOnlineUsersStore } from "@/store/useOnlineUsers";
-import { renderStatus } from "../logics/RenderStatusComponent";
+import { RenderStatus } from "../logics/RenderStatusComponent";
 import { useChatContext } from "@/context/ChatContext/ChatContextProvider";
 import { updateAllMessageStatusAsSeen } from "@/functions/messageActions";
 import dynamic from "next/dynamic";
@@ -141,7 +141,7 @@ const FriendsCard: React.FC<{
         </div>
 
         <div className="mx-2">
-          {renderStatus(chat?.latestMessage, "onFriendListCard", unseenMessagesCount)}
+          {RenderStatus(chat?.latestMessage, "onFriendListCard", unseenMessagesCount)}
         </div>
       </div>
     </div>
