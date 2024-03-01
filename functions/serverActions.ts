@@ -61,6 +61,6 @@ export const fetchUser = async () => {
 
 
 //use revalidate tag
-export default async function useRevalidateTag(tag:string) {
+export default async function RevalidateTag(tag:string) {
   revalidateTag(tag);
 }

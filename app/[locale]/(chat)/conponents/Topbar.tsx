@@ -16,7 +16,7 @@ import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { logoutUser } from "@/functions/authActions";
 import { revalidateTag } from "next/cache";
-import useRevalidateTag from "@/functions/serverActions";
+import RevalidateTag from "@/functions/serverActions";
 const LanguageChanger = dynamic(() => import("@/components/LanguageChanger"), {
   ssr: false,
 });
@@ -49,7 +49,7 @@ const Topbar = ({ user }: any) => {
     toast.success("Logged Out!");
     setCurrentUser(null as any);
     logoutUser();
-    useRevalidateTag("user");
+    RevalidateTag("user");
     router.push("/login");
   };
 
