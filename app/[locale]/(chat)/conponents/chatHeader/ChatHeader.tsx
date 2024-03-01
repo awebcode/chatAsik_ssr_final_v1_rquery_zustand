@@ -63,23 +63,20 @@ const ChatHeader = () => {
               <span className="text-xs ">
                 {isUserOnline ? (
                   <span className="text-green-500">Online</span>
+                ) : !isUserOnline &&
+                  !selectedChat.isGroupChat &&
+                  selectedChat?.userInfo?.lastActive ? (
+                  <span className="text-[9px]">
+                    active: {selectedChat?.userInfo?.lastActive as any}
+                    {moment(selectedChat?.userInfo?.lastActive as any)
+                      .startOf("hour")
+                      .fromNow()}
+                    ago
+                  </span>
                 ) : (
-                  <span className="text-rose-500">Offline</span>
+                  ""
                 )}
               </span>
-              {!isUserOnline &&
-              !selectedChat.isGroupChat &&
-              selectedChat?.userInfo?.lastActive ? (
-                <span className="text-[9px]">
-                  active: {selectedChat?.userInfo?.lastActive as any}
-                  {moment(selectedChat?.userInfo?.lastActive as any)
-                    .startOf("hour")
-                    .fromNow()}{" "}
-                  ago
-                </span>
-              ) : (
-                ""
-              )}
             </div>
           </>
         )}
