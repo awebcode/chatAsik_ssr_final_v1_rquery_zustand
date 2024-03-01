@@ -1,4 +1,4 @@
-import { Tuser } from "@/app/(chat)/conponents/leftsearchDrawer/UserCard";
+import { Tuser } from "@/app/[locale]/(chat)/conponents/leftsearchDrawer/UserCard";
 import { create } from "zustand";
 
 type Message = {
