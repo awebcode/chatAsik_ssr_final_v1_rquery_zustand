@@ -167,7 +167,7 @@ const allUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
 });
 exports.allUsers = allUsers;
 const logout = (req, res, next) => {
-    res.cookie("authToken", "", { expires: new Date(0), secure: false, sameSite: "none" });
+    res.cookie("authToken", "", { expires: new Date(0), secure: true, sameSite: "none" });
     res.clearCookie("authToken");
     // You can also do additional cleanup or handle other logout logic if needed
     // Respond with a success message or any other relevant information

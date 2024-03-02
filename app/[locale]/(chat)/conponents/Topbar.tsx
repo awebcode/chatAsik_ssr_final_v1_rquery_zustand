@@ -40,13 +40,15 @@ const Topbar = ({ user }: any) => {
       setCurrentUser(user);
     }
   }, [user, setCurrentUser]);
-  const handleLogout = () => {
+  const handleLogout = async() => {
+    await logoutUser();
+  
     localStorage.removeItem("userInfo");
     toast.success("Logged Out!");
-    setCurrentUser(null as any);
-    logoutUser();
     Cookies.remove("authToken")
     RevalidateTag("user");
+    setCurrentUser(null as any);
+
     router.push("/login");
   };
 
@@ -84,7 +86,7 @@ const Topbar = ({ user }: any) => {
             onMouseOver={() => setDropdown(true)}
             onMouseLeave={() => setDropdown(false)}
           >
-            {currentUser ? (
+            {currentUser&&currentUser._id ? (
               <div className="flex flex-col items-center">
                 {" "}
                 <div className="h-6 w-6 md:h-9 md:w-9 ">
@@ -92,8 +94,8 @@ const Topbar = ({ user }: any) => {
                     height={35}
                     width={35}
                     className="rounded-full h-full w-full object-cover"
-                    alt={currentUser.username}
-                    src={currentUser.pic}
+                    alt={currentUser?.username}
+                    src={currentUser?.pic}
                   />
                 </div>
                 <h1 className="text-[10px] md:text-sm ">

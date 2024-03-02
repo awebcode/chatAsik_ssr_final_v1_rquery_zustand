@@ -169,7 +169,7 @@ const allUsers = async (req: CustomRequest | any, res: Response, next: NextFunct
   }
 };
 export const logout = (req: CustomRequest | any, res: Response, next: NextFunction) => {
-  res.cookie("authToken", "", { expires: new Date(0), secure: false, sameSite: "none" });
+  res.cookie("authToken", "", { expires: new Date(0), secure: true, sameSite: "none" });
   res.clearCookie("authToken")
   // You can also do additional cleanup or handle other logout logic if needed
 
