@@ -36,7 +36,7 @@ const Topbar = ({ user }: any) => {
   ];
 
   useEffect(() => {
-    if (user && user?.username) {
+    if (user && user?._id) {
       setCurrentUser(user);
     }
   }, [user, setCurrentUser]);
@@ -47,9 +47,10 @@ const Topbar = ({ user }: any) => {
     toast.success("Logged Out!");
     Cookies.remove("authToken")
     RevalidateTag("user");
+    router.push("/login");
+
     setCurrentUser(null as any);
 
-    router.push("/login");
   };
 
   return (
@@ -86,7 +87,7 @@ const Topbar = ({ user }: any) => {
             onMouseOver={() => setDropdown(true)}
             onMouseLeave={() => setDropdown(false)}
           >
-            {currentUser&&currentUser._id ? (
+            {currentUser && currentUser._id ? (
               <div className="flex flex-col items-center">
                 {" "}
                 <div className="h-6 w-6 md:h-9 md:w-9 ">
@@ -140,7 +141,7 @@ const Topbar = ({ user }: any) => {
                     </Link>
                   ))}
                 </div>
-                {currentUser && (
+                {currentUser && currentUser._id && (
                   <>
                     {" "}
                     <Link
