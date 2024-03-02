@@ -37,7 +37,7 @@ const register = async (req: Request | any, res: Response, next: NextFunction) =
     res.cookie("authToken", token, {
       expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
       secure: true,
-      sameSite: "none",
+      sameSite: "lax",
     }); // 6 hours expiration
     res.status(201).json({ message: "User registered successfully", user: user,token });
   } catch (error) {
@@ -49,13 +49,12 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   const { username, password } = req.body;
 
   try {
-   
     // Find the user by username
     const user = await User.findOne({ username });
 
     // Check if the user exists
     if (!user) {
-      return next(new CustomErrorHandler("Invalid username or password", 401))
+      return next(new CustomErrorHandler("Invalid username or password", 401));
     }
 
     // Compare the hashed password
@@ -63,7 +62,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
     // Check if the password is valid
     if (!isPasswordValid) {
-      return next(new CustomErrorHandler("Invalid password", 401))
+      return next(new CustomErrorHandler("Invalid password", 401));
     }
 
     // Generate JWT token
@@ -71,7 +70,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     res.cookie("authToken", token, {
       expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
       secure: true,
-      sameSite: "none",
+      sameSite: "lax",
     }); // 6 hours expiration
     res.status(200).json({ token, user });
   } catch (error) {
@@ -170,7 +169,7 @@ const allUsers = async (req: CustomRequest | any, res: Response, next: NextFunct
   }
 };
 export const logout = (req: CustomRequest | any, res: Response, next: NextFunction) => {
-  res.cookie("authToken", "", { expires: new Date(0), secure: true, sameSite: "none" });
+  res.cookie("authToken", "", { expires: new Date(0), secure: false, sameSite: "lax" });
   res.clearCookie("authToken")
   // You can also do additional cleanup or handle other logout logic if needed
 

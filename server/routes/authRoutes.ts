@@ -14,6 +14,6 @@ authRoute.post("/register",uploadMiddleware.single("pic"), register);
 authRoute.post("/login", login);
 authRoute.get("/getUser", authMiddleware, getUser);
 authRoute.get("/getUsers", authMiddleware, allUsers);
-authRoute.get("/logout", authMiddleware, logout);
+authRoute.get("/logout",  logout);
 export default authRoute;
 
