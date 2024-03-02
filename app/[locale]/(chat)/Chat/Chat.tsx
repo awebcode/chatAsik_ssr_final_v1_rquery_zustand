@@ -21,8 +21,8 @@ const RejectedCallModal = dynamic(() => import("../conponents/call/RejectCallMod
 });
 import Peer from "@/context/peer/Peer";
 import useMessageStore from "@/store/useMessage";
-// import useSound from "use-sound";
-// import soundPath from "./audio/notification.mp3";
+import useSound from "use-sound";
+import soundPath from "./audio/notification.mp3";
 
 const Chat = ({ user }: any) => {
   const { currentUser, setCurrentUser } = useUserStore();
@@ -35,6 +35,7 @@ const Chat = ({ user }: any) => {
   // };
 
   const router = useRouter();
+  const [playNotificationSound] = useSound(soundPath);
   const queryclient = useQueryClient();
   const { startTyping, stopTyping } = useTypingStore();
   const { addOnlineUser, onlineUsers } = useOnlineUsersStore();
@@ -110,20 +111,14 @@ const Chat = ({ user }: any) => {
           (user: any) => user.id === currentUserRef.current?._id
         )
       ) {
+        playNotificationSound();
+
         // console.log({ deliveredMessageCallback: data });
         const updateStatusData = {
           chatId: data?.chatId,
           status: "delivered",
         };
-        // const notificationSound = new Howl({
-        //   src: [soundPath],
-        //   preload: true,
-        //   onload: () => {
-        //     console.log("howl loaded");
-        //   },
-        // });
-        // notificationSound.play();
-        // console.log("deli")
+        
 
         updateStatusMutation.mutateAsync(updateStatusData);
         //for incoming messages
