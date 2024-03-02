@@ -89,6 +89,10 @@ const Chat = ({ user }: any) => {
   }, [user]);
   // Update the reference whenever selectedChat changes
   useEffect(() => {
+    // Check if selectedChat is null and reset the reference to null
+    if (selectedChat === null) {
+      selectedChatRef.current = null;
+    }
     selectedChatRef.current = selectedChat;
     onlineUsersRef.current = onlineUsers;
     currentUserRef.current = currentUser;
