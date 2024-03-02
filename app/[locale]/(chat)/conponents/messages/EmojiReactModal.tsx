@@ -9,7 +9,8 @@ const EmojiPicker = dynamic(
   },
   { ssr: false }
 );
-import { Theme, EmojiStyle, SuggestionMode } from "emoji-picker-react";
+import { Theme, EmojiStyle, SuggestionMode, Emoji } from "emoji-picker-react";
+import { useMediaQuery } from "@uidotdev/usehooks";
 
 const EmojiReactModal = ({
   message,
@@ -21,6 +22,7 @@ const EmojiReactModal = ({
   setOpenEmojiModal,
   isCurrentUserMessage,
 }: any) => {
+   const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
   return (
     <div>
       <div
@@ -30,8 +32,8 @@ const EmojiReactModal = ({
             : "translate-y-0 scale-0 opacity-0"
         }`}
       >
-        <div className="flexBetween flex-row w-full gap-x-2">
-          {["🙂", "😍", "❤", "😠", "😜"].map((v, i: number) => {
+        <div className="flexBetween flex-row w-full gap-x-2 text-inherit">
+          {["🙂", "😢", "🥰", "😠", "😜"].map((v, i: number) => {
             return (
               <div key={i}>
                 {" "}
@@ -42,10 +44,16 @@ const EmojiReactModal = ({
                     // setOpenReactModal(false);
                     // setOpenEmojiModal(false);
                   }}
-                  className={`text-gray-300 h-6 w-6 mr-1 cursor-pointer transition-all duration-500 hover:scale-105`}
+                  className={`text-gray-300 h-4 w-4 md:h-6 md:w-6 mr-1 cursor-pointer transition-all duration-500 hover:scale-105`}
                 >
                   {" "}
-                  {v}
+                  {/* {v} */}
+                  <Emoji
+                    size={isSmallDevice ? 14 : 20}
+                    lazyLoad
+                    emojiStyle={EmojiStyle.FACEBOOK}
+                    unified={(v as any)?.codePointAt(0).toString(16)}
+                  />{" "}
                 </span>
               </div>
             );
@@ -62,9 +70,10 @@ const EmojiReactModal = ({
                 top: !isCurrentUserMessage ? "50px" : "50px", // Adjust this value based on your design
                 right: !isCurrentUserMessage ? "-220px" : "0px",
                 zIndex: 1000,
+                height: isSmallDevice ? "310px" : "310px",
+                width: isSmallDevice ? "270px" : "290px",
+                fontSize: "10px",
               }}
-              height={360}
-              width={310}
               onEmojiClick={(e) => {
                 onEmojiClick(e, message._id);
                 setOpenReactModal(false);

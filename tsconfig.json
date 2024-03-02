@@ -15,6 +15,7 @@
     "allowArbitraryExtensions": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
+    "target":"es2022",
     "plugins": [
       {
         "name": "next"

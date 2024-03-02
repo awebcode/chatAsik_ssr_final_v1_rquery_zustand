@@ -135,7 +135,7 @@ const Messages = () => {
               scrollableTarget="CustomscrollableTarget"
               scrollThreshold={1}
             >
-              <div className="flex flex-col gap-5 ">
+              <div className="flex flex-col gap-5 mb-16">
                 {isLoading ? (
                   <div className="m-4 h-8 w-8 block mx-auto animate-spin rounded-full border-4 border-blue-500  border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
                 ) : (

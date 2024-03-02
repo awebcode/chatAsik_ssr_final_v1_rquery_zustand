@@ -172,7 +172,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
     <div
       className={`flex ${
         isCurrentUserMessage ? "justify-end " : "justify-start"
-      } mb-6 py-10`}
+      } mb-4 py-10`}
     >
       <div
         className={`flex items-end ${
@@ -280,7 +280,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
                         onReply(message as any);
                         setOpen(false);
                       }}
-                      className={` h-5 w-5 cursor-pointer`}
+                      className={` h-4 w-4 md:h-[18px] md:w-[18px] cursor-pointer`}
                     />
                   </span>
                   {/* Emoji reaction start */}
@@ -288,7 +288,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
                     <span>
                       <MdOutlineEmojiEmotions
                         onClick={() => setOpenReactModal((prev) => !prev)}
-                        className={` h-[18px] w-[18px] mr-1 cursor-pointer`}
+                        className={`h-4 w-4 md:h-[18px] md:w-[18px] mr-1 cursor-pointer ${openReactModal?"text-blue-500":""}`}
                       />
                     </span>
                     {/* Emoji Modal */}

@@ -120,7 +120,8 @@ const ImageMessage = ({
             onChange={handleImageChange}
           />
           <div>
-            <AiOutlineCloudUpload className="block text-sky-500 mx-auto h-20 w-20 my-2" />
+              <AiOutlineCloudUpload className="block text-sky-500 mx-auto h-20 w-20 my-2" />
+              <p className="text-[10px] md:text-sm">select image to sent type should be (png*jpg*jpeg*x-icon)</p>
           </div>
           {/* <span className="">Upload Image</span> */}
         </label>

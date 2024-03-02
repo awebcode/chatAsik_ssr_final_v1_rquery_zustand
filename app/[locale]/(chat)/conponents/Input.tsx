@@ -10,8 +10,8 @@ const EmojiPicker = dynamic(
   },
   { ssr: false }
 );
-import { Theme, EmojiStyle, SuggestionMode } from "emoji-picker-react";
-
+import { Theme, EmojiStyle, SuggestionMode, Emoji } from "emoji-picker-react";
+import emojiRegex from "emoji-regex";
 import { useClickAway } from "@uidotdev/usehooks";
 import { useChatContext } from "@/context/ChatContext/ChatContextProvider";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -29,13 +29,16 @@ import AudioVoice from "./audioVoice/Voice";
 import ImageMessage from "./imageMess/ImageMessage";
 import { LuSendHorizonal } from "react-icons/lu";
 import useMessageStore from "@/store/useMessage";
+import { useMediaQuery } from "@uidotdev/usehooks";
 type Tmessage = {
   message: string | any;
 };
 type Temoji = {
   emoji: string;
+  unified:string
 };
 const Input = () => {
+  const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
   const { selectedChat } = useChatStore();
   const { socket } = useChatContext();
   const { currentUser } = useUserStore();
@@ -55,9 +58,28 @@ const Input = () => {
     setMessage((prev) => ({ ...prev, [name]: value }));
   };
   //emoji click
+  // const onEmojiClick = (e: Temoji) => {
+
+  //   setMessage((prev) => ({ ...prev, message: prev.message + e.emoji }));
+  // };
+  const [emojiValue, setemojiValue] = useState("");
+  // Function to handle emoji click
+  const emojiRef = useRef<HTMLSpanElement>(null);
+
   const onEmojiClick = (e: Temoji) => {
-    setMessage((prev) => ({ ...prev, message: prev.message + e.emoji }));
+    // Render the Emoji component and get its value
+    setemojiValue(e.unified);
+
+    // Append the value of the Emoji component to the message
+    setMessage((prev) => ({
+      ...prev,
+      message: prev.message + e.emoji
+    }));
   };
+  
+
+  // Function to render the Emoji component and get its value
+
   const timerRef = useRef<any | null>(null);
   useEffect(() => {
     if (message.message.trim() !== "") {
@@ -149,7 +171,6 @@ const Input = () => {
     },
     onSettled: () => {
       useMessageStore.setState({ isIncomingMessage: true });
-      console.log("incoming message")
     },
   });
 
@@ -176,6 +197,9 @@ const Input = () => {
         queryKey: ["messages"],
       });
     },
+    onSettled: () => {
+      useMessageStore.setState({ isIncomingMessage: true });
+    },
   });
 
   //edit message mutation
@@ -200,6 +224,9 @@ const Input = () => {
       queryclient.invalidateQueries({
         queryKey: ["messages"],
       });
+    },
+    onSettled: () => {
+      useMessageStore.setState({ isIncomingMessage: true });
     },
   });
   const onSubmit = () => {
@@ -253,9 +280,13 @@ const Input = () => {
   if (selectedChat?.status === "blocked") {
     return <ChatStatus user={selectedChat.chatUpdatedBy} />;
   }
+  //check emoji
 
   return (
     <>
+      <span ref={emojiRef}>
+        <Emoji unified={emojiValue} lazyLoad emojiStyle={EmojiStyle.FACEBOOK} />
+      </span>
       {isTyping && typingContent && typingChatId === selectedChat?.chatId && (
         <TypingIndicatot user={selectedChat} />
       )}
@@ -297,7 +328,25 @@ const Input = () => {
             </div>
           </div>
         )}
-
+        {/* {renderMessageWithEmojis(message.message, false).map((part, index) => {
+          if (typeof part === "string") {
+            return <span key={index}>{part}</span>;
+          } else if (React.isValidElement(part)) {
+            // Render the Emoji component with click handling
+            return (
+              <Emoji
+                key={index}
+                unified={part.props.unified}
+                size={isSmallDevice ? 14 : 20}
+                lazyLoad
+                emojiStyle={EmojiStyle.FACEBOOK}
+                // onClick={() => handleEmojiClick(part.props.unified)}
+              />
+            );
+          } else {
+            return null; // Handle other cases as needed
+          }
+        })} */}
         <div className="flex items-center justify-center w-full p-2 md:p-4 ">
           <span className="p-2 flex items-center justify-center gap-2 ">
             <button className="rounded-md  text-xs md:text-sm">
@@ -333,6 +382,7 @@ const Input = () => {
               <RiEmojiStickerLine className="text-blue-400 h-full w-full mx-1" />
             </button>
           </span>
+          <h1></h1>
           <div className="relative basis-[100%]">
             <textarea
               className=" resize-none px-1 h-[70px] text-xs md:text-sm md:px-2 py-3 bg-transparent rounded-xl pr-12  max-h-[200px] overflow-y-auto border border-gray-300 dark:border-gray-600 md:border-2 md:border-violet-800 md:hover:border-green-500 transition-all duration-300 outline-none   w-full "
@@ -351,20 +401,26 @@ const Input = () => {
                 className="rounded-md mr-1 text-sm md:text-xl"
                 onClick={() => setOpenEmoji((prev) => !prev)}
               >
-                😀
+                <Emoji unified="1f423" size={20} />
               </button>
+
               <EmojiPicker
                 open={openEmoji}
                 style={{
                   position: "absolute",
-                  top: "-470px", // Adjust this value based on your design
+                  top: isSmallDevice ? "-360px" : "-350px", // Adjust this value based on your design
                   right: "0",
                   zIndex: 1000,
+                  height: isSmallDevice ? "310px" : "310px",
+                  width: isSmallDevice ? "270px" : "290px",
+                  fontSize: "10px",
                 }}
                 onEmojiClick={onEmojiClick}
                 autoFocusSearch
                 theme={Theme.DARK}
                 lazyLoadEmojis
+                // previewConfig={{defaultEmoji:<Emoji/>}}
+
                 emojiStyle={EmojiStyle.FACEBOOK}
                 searchPlaceholder="Search chat emojis..."
                 suggestedEmojisMode={SuggestionMode.RECENT}
@@ -388,7 +444,7 @@ const Input = () => {
                 <span className="btn capitalize text-xs h-full">Edit</span>
               ) : isReply ? (
                 <span className="btn capitalize text-xs h-full">Reply</span>
-              ) : message.message ? (
+              ) :message.message ? (
                 <div className="text-lg md:text-2xl">
                   <LuSendHorizonal className="text-blue-500 h-full w-full" />
                 </div>
