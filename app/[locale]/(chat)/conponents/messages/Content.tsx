@@ -63,7 +63,7 @@ const Content = ({
                 ? ` ${selectedChat?.username} replied to you `
                 : `You replied to ${selectedChat?.username} `}
             </span>
-            <div className="relative text-[10px] md:text-xs  bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 duration-300  rounded-lg p-3  max-w-[260px] break-words !h-fit  ">
+            <div className="relative text-[10px] md:text-xs  bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 duration-300  rounded-lg p-3 max-w-[40vw] md:max-w-[40vw] break-words !h-fit  ">
               <span className="">
                 {/* {message.isReply?.messageId?.content} */}
                 {message.isReply?.messageId?.content ? (
@@ -89,7 +89,7 @@ const Content = ({
                 <div
                   className={`absolute ${
                     message.image ? "-bottom-[70px]" : "-bottom-5"
-                  } ring-2 ring-gray-400 left-8 right-0 text-sm   bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 duration-300 rounded-lg p-2  max-w-[260px] break-words !h-fit  `}
+                  } ring md:ring-2 text-[10px] md:text-xs dark:ring-gray-600 ring-gray-300 left-8 right-0 text-sm   bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 duration-300 rounded-lg p-2  max-w-[40vw] md:max-w-[40vw] break-words !h-fit  `}
                 >
                   {message.content ? (
                     RenderMessageWithEmojis(message?.content, isSmallDevice)
@@ -117,14 +117,14 @@ const Content = ({
                   />
                 </div>
               ) : (
-                <div className="absolute text-[10px] md:text-xs -bottom-7 ring-2 ring-gray-400 left-8 right-0 text-sm bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 duration-300 rounded-lg p-2  max-w-[260px] break-words !h-fit  ">
+                <div className="absolute text-[10px] md:text-xs -bottom-7 ring-2 ring-gray-400 left-8 right-0 text-sm bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 duration-300 rounded-lg p-2  max-w-[40vw] md:max-w-[40vw] break-words !h-fit  ">
                   Removed
                 </div>
               )}
             </div>
           </div>
         ) : message.status !== "remove" && message.removedBy !== currentUser?._id ? (
-          <div className="text-[10px] md:text-xs relative duration-300 bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg p-3  max-w-[260px] break-words !h-fit  ">
+          <div className="text-[10px] md:text-xs relative duration-300 bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg p-2  max-w-[40vw] md:max-w-[40vw] break-words !h-fit  ">
             {message.content ? (
               RenderMessageWithEmojis(message?.content, isSmallDevice)
             ) : message.image ? (
@@ -154,7 +154,7 @@ const Content = ({
             {/*Display Reactions end */}
           </div>
         ) : (
-          <div className="text-[10px] md:text-xs  bg-gray-200 duration-300 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg p-3  max-w-[260px] break-words !h-fit  ">
+          <div className="text-[10px] md:text-xs  bg-gray-200 duration-300 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg p-3  max-w-[40vw] md:max-w-[40vw] break-words !h-fit  ">
             Removed
           </div>
         )}
