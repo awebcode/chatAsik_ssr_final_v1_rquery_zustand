@@ -98,7 +98,8 @@ export const fetchChats = async (
 
     const populatedChats = await User.populate(chats, {
       path: "latestMessage.sender",
-      select: "username pic email lastActive",
+      select: "username pic email lastActive ",
+      
     });
     // Filter the populatedChats array based on the keyword
     let filteredChats: any = [];

@@ -44,16 +44,7 @@ const Chat = ({ user }: any) => {
     src: ["/audio/notification.mp3"],
     preload: true,
     volume: 1,
-    autoplay: true,
-    onloaderror: (err) => {
-      console.log("on load error", err);
-    },
-    onload: (load) => {
-      console.log("on load", load);
-    },
-    onplay: (play) => {
-      console.log("playing on play", play);
-    },
+    
   });
 
   // Function to play audio with AudioContext state check
@@ -76,7 +67,7 @@ const Chat = ({ user }: any) => {
   const { startTyping, stopTyping } = useTypingStore();
   const { addOnlineUser, onlineUsers } = useOnlineUsersStore();
   const { socket } = useChatContext();
-  const { selectedChat, myChats } = useChatStore();
+  const { selectedChat, myChats, setSelectedChat } = useChatStore();
   const selectedChatRef = useRef(selectedChat);
   const onlineUsersRef = useRef(onlineUsers);
   const currentUserRef = useRef(currentUser);
@@ -89,13 +80,14 @@ const Chat = ({ user }: any) => {
   // Update the reference whenever selectedChat changes
   useEffect(() => {
     // Check if selectedChat is null and reset the reference to null
+    console.log({ selectedChat, selectedChatRef });
     if (selectedChat === null) {
       selectedChatRef.current = null;
     }
     selectedChatRef.current = selectedChat;
     onlineUsersRef.current = onlineUsers;
     currentUserRef.current = currentUser;
-  }, [selectedChat, onlineUsers, currentUser]);
+  }, [selectedChat,setSelectedChat, onlineUsers, currentUser]);
 
   const updateStatusMutation = useMutation({
     mutationKey: ["messages"],
@@ -108,6 +100,8 @@ const Chat = ({ user }: any) => {
         chatId: data.chat?._id,
         pic: currentUser?.pic,
       };
+      playNotificationSound();
+
       socket.emit("deliveredMessage", deliverData);
       queryclient.invalidateQueries({ queryKey: ["messages"] });
     },
@@ -126,45 +120,40 @@ const Chat = ({ user }: any) => {
     },
   });
   // console.log({ selectedChat});
-  const handleSocketMessage = useCallback(
-    (data: any) => {
-      if (data.senderId === currentUserRef.current?._id) {
-        // useMessageStore.setState({ isIncomingMessage: true });
-        // console.log("isIncomingMessage");
-      } else {
-        useMessageStore.setState({ isFriendsIncomingMessage: true });
-        console.log("isFriendsIncomingMessage");
-      }
-      //  if (data.receiverId === currentUser?._id) {
-      queryclient.invalidateQueries({ queryKey: ["messages"] });
-      //  }
-      // console.log({ data }, selectedChat);
-      if (data.senderId === selectedChatRef.current?.userId) {
-        const updateStatusData = {
-          chatId: selectedChatRef.current?.chatId,
-          status: "seen",
-        };
-        updateStatusMutation.mutateAsync(updateStatusData);
-      } else if (
-        data.receiverId === currentUserRef.current?._id &&
-        onlineUsersRef.current.some(
-          (user: any) => user.id === currentUserRef.current?._id
-        )
-      ) {
-        playNotificationSound();
+  const handleSocketMessage = useCallback((data: any) => {
+    if (data.senderId === currentUserRef.current?._id) {
+      // useMessageStore.setState({ isIncomingMessage: true });
+      // console.log("isIncomingMessage");
+    } else {
+      useMessageStore.setState({ isFriendsIncomingMessage: true });
+      console.log("isFriendsIncomingMessage");
+    }
+    //  if (data.receiverId === currentUser?._id) {
+    queryclient.invalidateQueries({ queryKey: ["messages"] });
+    //  }
+    // console.log({ data }, selectedChat);
+    if (data.senderId === selectedChatRef.current?.userId) {
+      const updateStatusData = {
+        chatId: selectedChatRef.current?.chatId,
+        status: "seen",
+      };
+      updateStatusMutation.mutateAsync(updateStatusData);
+    } else if (
+      data.receiverId === currentUserRef.current?._id &&
+      onlineUsersRef.current.some((user: any) => user.id === currentUserRef.current?._id)
+    ) {
+      // playNotificationSound();
 
-        // console.log({ deliveredMessageCallback: data });
-        const updateStatusData = {
-          chatId: data?.chatId,
-          status: "delivered",
-        };
+      // console.log({ deliveredMessageCallback: data });
+      const updateStatusData = {
+        chatId: data?.chatId,
+        status: "delivered",
+      };
 
-        updateStatusMutation.mutateAsync(updateStatusData);
-        //for incoming messages
-      }
-    },
-    [currentUserRef, playNotificationSound]
-  );
+      updateStatusMutation.mutateAsync(updateStatusData);
+      //for incoming messages
+    }
+  }, []);
   const handleTyping = useCallback((data: any) => {
     // if (data.receiverId === currentUser?._id) {
     startTyping(data.senderId, data.receiverId, data.chatId, data.content);

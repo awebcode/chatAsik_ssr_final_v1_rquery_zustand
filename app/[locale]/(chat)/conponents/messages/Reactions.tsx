@@ -69,7 +69,9 @@ const Reactions = ({
         <div
           className={`z-50 absolute -top-20 ${
             !isCurrentUserMessage
-              ? "-right-[290px] w-auto md:w-[400px]"
+              ? isSmallDevice
+                ? "-60px min-w-60 -top-52 max-h-[250px]"
+                : "-right-[290px]  md:w-[400px]"
               : "right-10 min-w-60"
           } rounded transition-all bg-gray-100 hover:bg-gray-200 dark:bg-gray-800  p-4 md:p-8 duration-500 ${
             isReactionListModal

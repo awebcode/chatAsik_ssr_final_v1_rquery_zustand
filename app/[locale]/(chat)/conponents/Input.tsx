@@ -303,7 +303,10 @@ const Input = () => {
                 </span>
               </div>
               <IoMdClose
-                onClick={() => cancelEdit()}
+                onClick={() => {
+                  setMessage({ message: "" })
+                  cancelEdit();
+                }}
                 className="h-4 w-4 md:h-6 md:w-6 cursor-pointer"
               />
             </div>

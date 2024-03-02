@@ -92,7 +92,7 @@ const fetchChats = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
             .limit(limit);
         const populatedChats = yield UserModel_1.User.populate(chats, {
             path: "latestMessage.sender",
-            select: "username pic email lastActive",
+            select: "username pic email lastActive ",
         });
         // Filter the populatedChats array based on the keyword
         let filteredChats = [];

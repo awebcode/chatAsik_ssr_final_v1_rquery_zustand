@@ -90,6 +90,7 @@ const MyFriends = () => {
       return;
     }
     if (paramsChatId && foundChat) {
+      console.log("i am called")
       const chatData = {
         chatId: foundChat?._id,
         lastMessage: foundChat?.latestMessage?.content,
@@ -123,7 +124,7 @@ const MyFriends = () => {
       setSelectedChat(chatData);
       // router.push(`/Chat?chatId=${paramsChatId}`);
     }
-  }, [searchParams, router, chats]);
+  }, [searchParams, router]);
 
   return (
     <>

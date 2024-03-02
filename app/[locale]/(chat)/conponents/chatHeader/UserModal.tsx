@@ -30,7 +30,7 @@ const UserModal = ({ open, setOpen, isUserOnline }: any) => {
   };
   return (
     <div
-      className={`z-50 fixed max-h-screen max-w-3xl p-10 px-14 left-1/2 top-10 md:top-[100px] transform -translate-x-1/2 -translate-y-1/2 dark:bg-gray-800  bg-white hover:bg-gray-200 rounded-md duration-500 ring-2 ring-violet-500   ${
+      className={`z-50 fixed max-h-screen w-full p-4 md:p-10 px-5 md:px-14  top-10 md:top-[100px] transform  dark:bg-gray-800  bg-white hover:bg-gray-200 rounded-md duration-500 ring-2 ring-violet-500   ${
         open
           ? "translate-y-1 scale-100 opacity-100 duration-300"
           : "translate-y-0 scale-0 opacity-0 duration-300"
@@ -63,13 +63,13 @@ const UserModal = ({ open, setOpen, isUserOnline }: any) => {
             {" "}
             <button
               onClick={() => blockHandler()}
-              className="btn capitalize text-xl w-full bg-blue-500 hover:bg-blue-700"
+              className="btn capitalize text-xs md:text-lg w-full bg-blue-500 hover:bg-blue-700"
             >
               UnBlock {selectedChat.username}
             </button>
             <button
               onClick={() => deleteHandler()}
-              className="btn capitalize text-xl w-full my-2 bg-rose-500 hover:bg-rose-700"
+              className="btn capitalize text-xs md:text-lg w-full my-2 bg-rose-500 hover:bg-rose-700"
             >
               Delete Chat
             </button>
@@ -78,7 +78,7 @@ const UserModal = ({ open, setOpen, isUserOnline }: any) => {
           selectedChat.chatUpdatedBy._id !== currentUser?._id ? (
           <button
             // onClick={() => blockHandler()}
-            className="btn capitalize text-xl w-full bg-rose-500 hover:bg-rose-600"
+            className="btn capitalize text-xs md:text-lg w-full bg-rose-500 hover:bg-rose-600"
           >
             {selectedChat.username} Blocked You!
           </button>
@@ -86,13 +86,13 @@ const UserModal = ({ open, setOpen, isUserOnline }: any) => {
           <>
             <button
               onClick={() => blockHandler()}
-              className="btn capitalize text-xl w-full bg-rose-500 hover:bg-rose-700"
+              className="btn capitalize text-xs md:text-lg w-full bg-rose-500 hover:bg-rose-700"
             >
               Block {selectedChat?.username}
             </button>
             <button
               onClick={() => deleteHandler()}
-              className="btn capitalize text-xl w-full my-2 bg-rose-500 hover:bg-rose-700"
+              className="btn capitalize text-xs md:text-lg w-full my-2 bg-rose-500 hover:bg-rose-700"
             >
               Delete Chat
             </button>
@@ -101,7 +101,7 @@ const UserModal = ({ open, setOpen, isUserOnline }: any) => {
       </div>
 
       <button
-        className="absolute mt-5 bottom-2 right-1  btn capitalize text-xl"
+        className="absolute mt-5 bottom-2 right-1  btn capitalize text-xs md:text-lg"
         onClick={() => setOpen(false)}
       >
         Close

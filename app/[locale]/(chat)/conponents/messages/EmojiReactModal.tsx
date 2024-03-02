@@ -22,20 +22,20 @@ const EmojiReactModal = ({
   setOpenEmojiModal,
   isCurrentUserMessage,
 }: any) => {
-   const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
+  const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
   return (
     <div>
       <div
-        className={`absolute z-50 -top-[90px] -right-20 p-4 rounded-xl bg-gray-800  max-w-[40rem] transition-transform   duration-500  ${
+        className={`absolute  z-50 -top-[90px] -right-20 p-4 rounded-xl bg-gray-800  max-w-[40rem] transition-transform   duration-500  ${
           openReactModal
             ? "translate-y-1 scale-100 opacity-100"
             : "translate-y-0 scale-0 opacity-0"
         }`}
       >
-        <div className="flexBetween flex-row w-full gap-x-2 text-inherit">
+        <div className="flex justify-between items-center gap-x-2 h-full">
           {["🙂", "😢", "🥰", "😠", "😜"].map((v, i: number) => {
             return (
-              <div key={i}>
+              <div key={i} className=" flex items-center">
                 {" "}
                 <span
                   onClick={() => {
@@ -44,7 +44,7 @@ const EmojiReactModal = ({
                     // setOpenReactModal(false);
                     // setOpenEmojiModal(false);
                   }}
-                  className={`text-gray-300 h-4 w-4 md:h-6 md:w-6 mr-1 cursor-pointer transition-all duration-500 hover:scale-105`}
+                  className={`text-gray-300 h-5 w-5 md:h-6 md:w-6 mr-1 cursor-pointer transition-all duration-500 hover:scale-105`}
                 >
                   {" "}
                   {/* {v} */}
@@ -61,18 +61,21 @@ const EmojiReactModal = ({
           <span ref={emojiModalRef} className="p-2 rounded-full bg-gray-700 relative">
             <MdAdd
               onClick={() => setOpenEmojiModal((prev: boolean) => !prev)}
-              className={`text-gray-300 h-[18px] w-[18px] mr-1 cursor-pointer `}
+              className={`text-gray-300 h-5 w-5 md:h-6 md:w-6 mr-1 cursor-pointer `}
             />
             <EmojiPicker
               open={openEmojiModal}
               style={{
                 position: "absolute",
                 top: !isCurrentUserMessage ? "50px" : "50px", // Adjust this value based on your design
-                right: !isCurrentUserMessage ? "-220px" : "0px",
+                right: !isCurrentUserMessage
+                  ? isSmallDevice
+                    ? "-90px"
+                    : "-220px"
+                  : "0px",
                 zIndex: 1000,
-                height: isSmallDevice ? "310px" : "310px",
-                width: isSmallDevice ? "270px" : "290px",
-                fontSize: "10px",
+                height: isSmallDevice ? "280px" : "310px",
+                width: isSmallDevice ? "250px" : "290px",
               }}
               onEmojiClick={(e) => {
                 onEmojiClick(e, message._id);
