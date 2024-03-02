@@ -13,16 +13,18 @@ import {
   updateMessageStatus,
 } from "@/functions/messageActions";
 import { useVidoeCallStore } from "@/store/useCallStore";
+import { Howl } from "howler";
+import Peer from "@/context/peer/Peer";
+import useMessageStore from "@/store/useMessage";
+import useSound from "use-sound";
+import soundPath from "./audio/notification.mp3";
 const IncomingCallModal = dynamic(() => import("../conponents/call/IncomingCallModal"), {
   ssr: false,
 });
 const RejectedCallModal = dynamic(() => import("../conponents/call/RejectCallModal"), {
   ssr: false,
 });
-import Peer from "@/context/peer/Peer";
-import useMessageStore from "@/store/useMessage";
-import useSound from "use-sound";
-import soundPath from "./audio/notification.mp3";
+
 
 const Chat = ({ user }: any) => {
   const { currentUser, setCurrentUser } = useUserStore();
@@ -35,7 +37,12 @@ const Chat = ({ user }: any) => {
   // };
 
   const router = useRouter();
-  const [playNotificationSound] = useSound(soundPath);
+  const playSound = new Howl({
+    src:[soundPath]
+  });
+  const playNotificationSound = () => {
+    playSound.play()
+  }
   const queryclient = useQueryClient();
   const { startTyping, stopTyping } = useTypingStore();
   const { addOnlineUser, onlineUsers } = useOnlineUsersStore();
