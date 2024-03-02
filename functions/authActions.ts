@@ -40,8 +40,9 @@ export const getAllUsers = async ({
 
 //logout user
 export const logoutUser = async () => {
-  const res = await fetch(`${BaseUrl}/logout`, {
-    credentials: "include",
+  const res = await axiosClient.post(`/logout`, {
+    withCredentials:true,
+    headers: { "Content-Type": "application/json" },
   });
-  return await res.json();
+  return res.data;
 };
