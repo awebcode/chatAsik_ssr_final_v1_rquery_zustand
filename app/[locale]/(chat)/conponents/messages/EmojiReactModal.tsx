@@ -71,6 +71,8 @@ const EmojiReactModal = ({
                 right: !isCurrentUserMessage
                   ? isSmallDevice
                     ? "-60px"
+                    : isSmallDevice
+                    ? "-80px"
                     : "-220px"
                   : "0px",
                 zIndex: 1000,
