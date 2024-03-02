@@ -47,7 +47,7 @@ const register = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         res.cookie("authToken", token, {
             expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
             secure: true,
-            sameSite: "lax",
+            sameSite: "none",
         }); // 6 hours expiration
         res.status(201).json({ message: "User registered successfully", user: user, token });
     }
@@ -76,7 +76,7 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         res.cookie("authToken", token, {
             expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
             secure: true,
-            sameSite: "lax",
+            sameSite: "none",
         }); // 6 hours expiration
         res.status(200).json({ token, user });
     }
@@ -167,7 +167,7 @@ const allUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
 });
 exports.allUsers = allUsers;
 const logout = (req, res, next) => {
-    res.cookie("authToken", "", { expires: new Date(0), secure: false, sameSite: "lax" });
+    res.cookie("authToken", "", { expires: new Date(0), secure: false, sameSite: "none" });
     res.clearCookie("authToken");
     // You can also do additional cleanup or handle other logout logic if needed
     // Respond with a success message or any other relevant information
