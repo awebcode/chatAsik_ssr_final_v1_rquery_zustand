@@ -17,7 +17,7 @@ import { Howl } from "howler";
 import Peer from "@/context/peer/Peer";
 import useMessageStore from "@/store/useMessage";
 // import useSound from "use-sound";
-import soundPath from "./audio/notification.mp3";
+// import soundPath from "./audio/notification.mp3";
 const IncomingCallModal = dynamic(() => import("../conponents/call/IncomingCallModal"), {
   ssr: false,
 });
@@ -38,7 +38,7 @@ const Chat = ({ user }: any) => {
 
   const router = useRouter();
   const playSound = new Howl({
-    src:[soundPath]
+    src: ["/audio/notification.mp3"],
   });
   const playNotificationSound = () => {
     playSound.play()
