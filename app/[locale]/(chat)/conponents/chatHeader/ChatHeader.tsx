@@ -37,6 +37,7 @@ const ChatHeader = () => {
           onClick={() => {
             useChatStore.setState({selectedChat:null})
             clearselectedChat();
+            router.refresh();
             router.push("/Chat");
           }}
         >

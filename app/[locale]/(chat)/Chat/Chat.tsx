@@ -25,7 +25,6 @@ const RejectedCallModal = dynamic(() => import("../conponents/call/RejectCallMod
   ssr: false,
 });
 
-
 const Chat = ({ user }: any) => {
   const { currentUser, setCurrentUser } = useUserStore();
 
@@ -40,9 +39,9 @@ const Chat = ({ user }: any) => {
   const playSound = new Howl({
     src: ["/audio/notification.mp3"],
   });
-  const playNotificationSound = () => {
-    playSound.play()
-  }
+  const playNotificationSound = useCallback(() => {
+    playSound.play();
+  }, []);
   const queryclient = useQueryClient();
   const { startTyping, stopTyping } = useTypingStore();
   const { addOnlineUser, onlineUsers } = useOnlineUsersStore();
@@ -125,13 +124,12 @@ const Chat = ({ user }: any) => {
           chatId: data?.chatId,
           status: "delivered",
         };
-        
 
         updateStatusMutation.mutateAsync(updateStatusData);
         //for incoming messages
       }
     },
-    [currentUserRef, selectedChatRef,onlineUsersRef]
+    [currentUserRef, selectedChatRef, onlineUsersRef, playNotificationSound]
   );
   const handleTyping = useCallback((data: any) => {
     // if (data.receiverId === currentUser?._id) {
@@ -166,13 +164,13 @@ const Chat = ({ user }: any) => {
   //group chat created
   const groupCreatedNotifyHandler = useCallback(() => {
     queryclient.invalidateQueries({ queryKey: ["messages"] });
-     playNotificationSound();
-  }, []);
+    playNotificationSound();
+  }, [playNotificationSound]);
   //single| one to one chat created notice
   const chatCreatedNotifyHandler = useCallback(() => {
     queryclient.invalidateQueries({ queryKey: ["messages"] });
-     playNotificationSound();
-  }, []);
+    playNotificationSound();
+  }, [playNotificationSound]);
   const chatDeletedNotifyReceivedHandler = useCallback(() => {
     queryclient.invalidateQueries({ queryKey: ["messages"] });
   }, []);
