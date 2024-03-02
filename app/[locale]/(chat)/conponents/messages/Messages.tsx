@@ -8,7 +8,7 @@ const InfiniteScroll = dynamic(() => import("react-infinite-scroll-component"));
 const ChatLoading = dynamic(() => import("../ChatLoading"));
 const MessageCard = dynamic(() => import("./MessageCard"), {
   ssr: false,
-  loading: () => <ChatLoading count={1} height={50} inline={false} radius={5} />,
+  loading: () => <ChatLoading count={1} height={58} inline={false} radius={5} />,
 });
 import { allMessages } from "@/functions/messageActions";
 import { FaArrowDown } from "react-icons/fa";
