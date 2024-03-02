@@ -159,12 +159,12 @@ const Chat = ({ user }: any) => {
   //group chat created
   const groupCreatedNotifyHandler = useCallback(() => {
     queryclient.invalidateQueries({ queryKey: ["messages"] });
-    // playNotificationSound();
+     playNotificationSound();
   }, []);
   //single| one to one chat created notice
   const chatCreatedNotifyHandler = useCallback(() => {
     queryclient.invalidateQueries({ queryKey: ["messages"] });
-    // playNotificationSound();
+     playNotificationSound();
   }, []);
   const chatDeletedNotifyReceivedHandler = useCallback(() => {
     queryclient.invalidateQueries({ queryKey: ["messages"] });
