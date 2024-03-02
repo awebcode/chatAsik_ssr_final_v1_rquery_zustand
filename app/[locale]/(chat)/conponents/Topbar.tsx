@@ -45,6 +45,7 @@ const Topbar = ({ user }: any) => {
     toast.success("Logged Out!");
     setCurrentUser(null as any);
     logoutUser();
+    Cookies.remove("authToken")
     RevalidateTag("user");
     router.push("/login");
   };
