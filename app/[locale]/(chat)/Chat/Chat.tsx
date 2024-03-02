@@ -62,7 +62,6 @@ const Chat = ({ user }: any) => {
     if (audioContext.state === "suspended") {
       audioContext.resume().then(() => {
         console.log("AudioContext resumed successfully");
-        playSound.play(); // Play the audio after the context is resumed
       });
     } else {
       playSound.play(); // If the context is not suspended, play audio directly
@@ -164,7 +163,7 @@ const Chat = ({ user }: any) => {
         //for incoming messages
       }
     },
-    [currentUserRef]
+    [currentUserRef, playNotificationSound]
   );
   const handleTyping = useCallback((data: any) => {
     // if (data.receiverId === currentUser?._id) {
