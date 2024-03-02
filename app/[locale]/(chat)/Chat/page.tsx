@@ -46,8 +46,9 @@ const home = async({
   unstable_setRequestLocale(params.locale);
   // console.log({  searchParams });
   const user = await fetchUser();
+  console.log({user})
   if (user.statusCode===401) {
-    redirect("/login")
+   return redirect("/login")
   }
   return (
     <div className="">
