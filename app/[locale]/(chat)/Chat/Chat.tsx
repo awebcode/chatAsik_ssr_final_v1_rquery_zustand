@@ -36,11 +36,42 @@ const Chat = ({ user }: any) => {
   // };
 
   const router = useRouter();
+  // Create an AudioContext instance
+  const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+
+  // Initialize Howler for playing audio
   const playSound = new Howl({
     src: ["/audio/notification.mp3"],
+    preload: true,
+    volume: 1,
+    autoplay: true,
+    onloaderror: (err) => {
+      console.log("on load error", err);
+    },
+    onload: (load) => {
+      console.log("on load", load);
+    },
+    onplay: (play) => {
+      console.log("playing on play", play);
+    },
   });
+
+  // Function to play audio with AudioContext state check
+  const playAudio = () => {
+    // Check if the AudioContext is suspended and resume if needed
+    if (audioContext.state === "suspended") {
+      audioContext.resume().then(() => {
+        console.log("AudioContext resumed successfully");
+        playSound.play(); // Play the audio after the context is resumed
+      });
+    } else {
+      playSound.play(); // If the context is not suspended, play audio directly
+    }
+  };
+
+  // Function to handle playing notification sound
   const playNotificationSound = useCallback(() => {
-    playSound.play();
+    playAudio();
   }, []);
   const queryclient = useQueryClient();
   const { startTyping, stopTyping } = useTypingStore();
