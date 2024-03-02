@@ -164,14 +164,16 @@ const Input = () => {
       socket.emit("sentMessage", socketData);
       // toast.success("Message Sent!");
       setMessage({ message: "" });
+       useMessageStore.setState({ isIncomingMessage: true });
 
       queryclient.invalidateQueries({
         queryKey: ["messages"],
       });
+
     },
-    onSettled: () => {
-      useMessageStore.setState({ isIncomingMessage: true });
-    },
+    // onSettled: () => {
+    //   useMessageStore.setState({ isIncomingMessage: true });
+    // },
   });
 
   //reply message mutation
@@ -193,13 +195,16 @@ const Input = () => {
       // toast.success("Message Replied!");
       setMessage({ message: "" });
       setOpenImageModal(false);
+       useMessageStore.setState({ isIncomingMessage: true });
+
       queryclient.invalidateQueries({
         queryKey: ["messages"],
       });
+
     },
-    onSettled: () => {
-      useMessageStore.setState({ isIncomingMessage: true });
-    },
+    // onSettled: () => {
+    //   useMessageStore.setState({ isIncomingMessage: true });
+    // },
   });
 
   //edit message mutation
@@ -221,13 +226,16 @@ const Input = () => {
       // toast.success("Message Edited!");
       setMessage({ message: "" });
       setOpenImageModal(false);
+       useMessageStore.setState({ isIncomingMessage: true });
+
       queryclient.invalidateQueries({
         queryKey: ["messages"],
       });
+
     },
-    onSettled: () => {
-      useMessageStore.setState({ isIncomingMessage: true });
-    },
+    // onSettled: () => {
+    //   useMessageStore.setState({ isIncomingMessage: true });
+    // },
   });
   const onSubmit = () => {
     if (!selectedChat?.chatId) {
@@ -414,8 +422,8 @@ const Input = () => {
                   top: isSmallDevice ? "-360px" : "-350px", // Adjust this value based on your design
                   right: "0",
                   zIndex: 1000,
-                  height: isSmallDevice ? "310px" : "310px",
-                  width: isSmallDevice ? "270px" : "290px",
+                  height: isSmallDevice ? "320px" : "340px",
+                  width: isSmallDevice ? "290px" : "310px",
                   fontSize: "10px",
                 }}
                 onEmojiClick={onEmojiClick}

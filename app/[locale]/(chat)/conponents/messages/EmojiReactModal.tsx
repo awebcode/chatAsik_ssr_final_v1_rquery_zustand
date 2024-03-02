@@ -70,12 +70,12 @@ const EmojiReactModal = ({
                 top: !isCurrentUserMessage ? "50px" : "50px", // Adjust this value based on your design
                 right: !isCurrentUserMessage
                   ? isSmallDevice
-                    ? "-90px"
+                    ? "-60px"
                     : "-220px"
                   : "0px",
                 zIndex: 1000,
-                height: isSmallDevice ? "280px" : "310px",
-                width: isSmallDevice ? "250px" : "290px",
+                height: isSmallDevice ? "320px" : "340px",
+                width: isSmallDevice ? "280px" : "310px",
               }}
               onEmojiClick={(e) => {
                 onEmojiClick(e, message._id);
