@@ -164,7 +164,7 @@ const Chat = ({ user }: any) => {
         //for incoming messages
       }
     },
-    [currentUserRef, selectedChatRef, onlineUsersRef, playNotificationSound]
+    [currentUserRef]
   );
   const handleTyping = useCallback((data: any) => {
     // if (data.receiverId === currentUser?._id) {
@@ -200,12 +200,12 @@ const Chat = ({ user }: any) => {
   const groupCreatedNotifyHandler = useCallback(() => {
     queryclient.invalidateQueries({ queryKey: ["messages"] });
     playNotificationSound();
-  }, [playNotificationSound]);
+  }, []);
   //single| one to one chat created notice
   const chatCreatedNotifyHandler = useCallback(() => {
     queryclient.invalidateQueries({ queryKey: ["messages"] });
     playNotificationSound();
-  }, [playNotificationSound]);
+  }, []);
   const chatDeletedNotifyReceivedHandler = useCallback(() => {
     queryclient.invalidateQueries({ queryKey: ["messages"] });
   }, []);
