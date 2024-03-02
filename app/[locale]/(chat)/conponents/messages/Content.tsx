@@ -89,7 +89,7 @@ const Content = ({
                 <div
                   className={`absolute ${
                     message.image ? "-bottom-[70px]" : "-bottom-5"
-                  } ring md:ring-2 text-[10px] md:text-xs dark:ring-gray-600 ring-gray-300 left-8 right-0 text-sm   bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 duration-300 rounded-lg p-2  max-w-[40vw] md:max-w-[40vw] break-words !h-fit  `}
+                  } border  text-[10px] md:text-xs dark:border-gray-600 border-gray-300 left-8 right-0 text-sm   bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 duration-300 rounded-lg p-2  max-w-[40vw] md:max-w-[40vw] break-words !h-fit  `}
                 >
                   {message.content ? (
                     RenderMessageWithEmojis(message?.content, isSmallDevice)

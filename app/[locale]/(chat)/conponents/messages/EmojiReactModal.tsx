@@ -26,13 +26,13 @@ const EmojiReactModal = ({
   return (
     <div>
       <div
-        className={`absolute  z-50 -top-[90px] -right-20 p-4 rounded-xl bg-gray-800  max-w-[40rem] transition-transform   duration-500  ${
+        className={`absolute  z-50 -top-[90px] -right-20 p-2 md:p-4 rounded-xl bg-gray-800  max-w-[40rem] transition-transform   duration-500  ${
           openReactModal
             ? "translate-y-1 scale-100 opacity-100"
             : "translate-y-0 scale-0 opacity-0"
         }`}
       >
-        <div className="flex justify-between items-center gap-x-2 h-full">
+        <div className="flex justify-between items-center gap-x-[6px] md:gap-x-2 h-full">
           {["🙂", "😢", "🥰", "😠", "😜"].map((v, i: number) => {
             return (
               <div key={i} className=" flex items-center">
@@ -72,7 +72,7 @@ const EmojiReactModal = ({
                   ? isSmallDevice
                     ? "-60px"
                     : isSmallDevice
-                    ? "-80px"
+                    ? "0px"
                     : "-220px"
                   : "0px",
                 zIndex: 1000,

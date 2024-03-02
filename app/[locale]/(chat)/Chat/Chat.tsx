@@ -16,6 +16,7 @@ import { useVidoeCallStore } from "@/store/useCallStore";
 import { Howl } from "howler";
 import Peer from "@/context/peer/Peer";
 import useMessageStore from "@/store/useMessage";
+import { useSearchParams } from "next/navigation";
 // import useSound from "use-sound";
 // import soundPath from "./audio/notification.mp3";
 const IncomingCallModal = dynamic(() => import("../conponents/call/IncomingCallModal"), {
@@ -41,10 +42,9 @@ const Chat = ({ user }: any) => {
 
   // Initialize Howler for playing audio
   const playSound = new Howl({
-    src: ["/audio/notification.mp3"],
+    src: ["/audio/notification.mp3"], ///audio/notification.mp3
     preload: true,
     volume: 1,
-    
   });
 
   // Function to play audio with AudioContext state check
@@ -67,7 +67,7 @@ const Chat = ({ user }: any) => {
   const { startTyping, stopTyping } = useTypingStore();
   const { addOnlineUser, onlineUsers } = useOnlineUsersStore();
   const { socket } = useChatContext();
-  const { selectedChat, myChats, setSelectedChat } = useChatStore();
+  const { selectedChat, myChats, setSelectedChat,clearselectedChat } = useChatStore();
   const selectedChatRef = useRef(selectedChat);
   const onlineUsersRef = useRef(onlineUsers);
   const currentUserRef = useRef(currentUser);
@@ -78,15 +78,19 @@ const Chat = ({ user }: any) => {
     }
   }, [user]);
   // Update the reference whenever selectedChat changes
+  const searchParams=useSearchParams()
+  const paramsChatId = searchParams.get("chatId");
   useEffect(() => {
     // Check if selectedChat is null and reset the reference to null
-    if (selectedChat === null) {
+    if (selectedChat === null || !paramsChatId) {
+       clearselectedChat();
+
       selectedChatRef.current = null;
     }
     selectedChatRef.current = selectedChat;
     onlineUsersRef.current = onlineUsers;
     currentUserRef.current = currentUser;
-  }, [selectedChat,setSelectedChat, onlineUsers, currentUser]);
+  }, [selectedChat,  onlineUsers, currentUser, paramsChatId]);
 
   const updateStatusMutation = useMutation({
     mutationKey: ["messages"],

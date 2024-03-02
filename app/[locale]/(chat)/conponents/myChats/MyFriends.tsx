@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
@@ -10,7 +10,7 @@ import { getChats } from "@/functions/chatActions";
 import { useUserStore } from "@/store/useUser";
 import { useChatStore } from "@/store/useChat";
 import { getSenderFull } from "../logics/logics";
-import {  useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useRouter } from "@/navigation";
 const ChatLoading = dynamic(() => import("../ChatLoading"));
 
@@ -84,13 +84,26 @@ const MyFriends = () => {
 
   useEffect(() => {
     const paramsChatId = searchParams.get("chatId");
-    const foundChat = chats?.find((c) => c._id === paramsChatId);
-    // Check if the chat has already been selected
-    if (selectedChat) {
+
+    // Check if there is no paramsChatId, and return early if so
+    if (!paramsChatId) {
       return;
     }
-    if (paramsChatId && foundChat) {
-      console.log("i am called")
+    let foundChat;
+
+    if (paramsChatId) {
+      foundChat = chats?.find((c) => c._id === paramsChatId);
+    }
+
+    // Check if the chat has already been selected or if chat is not found
+    // Check if the chat has already been selected or if chat is not found
+    if (selectedChat || (paramsChatId && !foundChat)) {
+      // Clear paramsChatId to avoid persistence
+      //  router.replace("/Chat", undefined);
+      return;
+    }
+    if (paramsChatId && foundChat && chats) {
+      console.log("i am called");
       const chatData = {
         chatId: foundChat?._id,
         lastMessage: foundChat?.latestMessage?.content,
@@ -124,8 +137,9 @@ const MyFriends = () => {
       setSelectedChat(chatData);
       // router.push(`/Chat?chatId=${paramsChatId}`);
     }
-  }, [searchParams, router]);
-
+    // Log values inside useEffect to ensure they are the most up-to-date
+    //  console.log({ selectedChat, paramsChatId });
+  }, [chats]);
   return (
     <>
       <div>

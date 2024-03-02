@@ -43,13 +43,13 @@ const Reactions = ({
         ) : (
           <span
             onClick={() => setReactionListVisible(!isReactionListModal)}
-            className="absolute -bottom-3 right-[6px]  cursor-pointer"
+            className="absolute -bottom-3 right-[6px] flex gap-x-1  cursor-pointer"
           >
             {lastThreeReactions.reverse().map((v: any, i: any) => (
-              <span key={i} className="inline text-[14px] md:text-lg">
+              <span key={i} className="  text-[14px] md:text-lg">
                 {/* v */}
                 <Emoji
-                  size={isSmallDevice ? 14 : 20}
+                  size={isSmallDevice ? 14 : 16}
                   lazyLoad
                   emojiStyle={EmojiStyle.FACEBOOK}
                   unified={v?.codePointAt(0).toString(16)}
@@ -88,7 +88,7 @@ const Reactions = ({
           <h1 className="text-sm md:text-3xl p-3 border-b-2 mb-6 border-violet-600">
             Reactions ({message?.reactions?.length})
           </h1>
-          <div className="">
+          <div className="flex flex-col  gap-y-2 w-full">
             {message.reactions.map((v: any, i: any) => {
               return (
                 <div

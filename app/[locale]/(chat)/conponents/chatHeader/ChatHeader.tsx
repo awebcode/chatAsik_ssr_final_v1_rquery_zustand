@@ -37,8 +37,7 @@ const ChatHeader = () => {
           onClick={() => {
             useChatStore.setState({selectedChat:null})
             clearselectedChat();
-            router.refresh();
-            router.push("/Chat");
+            router.replace("/Chat", undefined);
           }}
         >
           <FaArrowLeft className="h-3 md:h-4 w-3 md:w-4" />
