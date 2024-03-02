@@ -8,7 +8,14 @@ import { NextIntlClientProvider } from "next-intl";
 import NextThemeProvider from "@/providers/NextThemeProvider";
 import ToastProvider from "@/providers/ToastProvider";
 import { unstable_setRequestLocale } from "next-intl/server";
+import dynamic from "next/dynamic";
 
+const ChatLoading = dynamic(() => import("./(chat)/conponents/ChatLoading"));
+const Topbar = dynamic(() => import("./(chat)/conponents/Topbar"), {
+  ssr: false,
+  loading: () => <ChatLoading count={1} height={80} inline={false} radius={5} />,
+});
+import { fetchUser } from "@/functions/serverActions";
 export const metadata: Metadata = {
   title: "Messengaria - Connect and Chat",
   creator: "Md Asikur Rahman",
@@ -65,6 +72,11 @@ export default async function LocaleLayout({
   } catch (error) {
     notFound();
   }
+
+  let user = await fetchUser();
+  if (user.statusCode === 401) {
+    user = {};
+  }
   return (
     <html lang={locale} suppressHydrationWarning>
       {/* {locale} */}
@@ -74,7 +86,10 @@ export default async function LocaleLayout({
             {" "}
             <NextThemeProvider>
               <NextIntlClientProvider locale={locale} messages={languages}>
-                <ToastProvider>{children} </ToastProvider>
+                <ToastProvider>
+                  <Topbar user={user} />
+                  {children}{" "}
+                </ToastProvider>
                 {/* <IntlPolyfills /> */}
               </NextIntlClientProvider>
             </NextThemeProvider>

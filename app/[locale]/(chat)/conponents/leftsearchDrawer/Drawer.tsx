@@ -5,15 +5,17 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { getAllUsers } from "@/functions/authActions";
 
 import dynamic from "next/dynamic";
+import { useTheme } from "next-themes";
 const InfiniteScroll = dynamic(() => import("react-infinite-scroll-component"));
 
 const UserCard = dynamic(() => import("./UserCard"));
 const MyDrawer = dynamic(() => import("react-modern-drawer"));
 const Drawer = () => {
+  const { theme } = useTheme();
   const [searchTerm, setSearchTerm] = useState("");
   const searchText = useDebounce(searchTerm, 600);
   const { data, isFetching, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ["messages", searchText],
+    queryKey: ["messages", searchText], //messages
 
     queryFn: getAllUsers as any,
 
@@ -57,7 +59,8 @@ const Drawer = () => {
         open={isOpen}
         onClose={toggleDrawer}
         direction="left"
-        className="bg-gray-900 w-[450px] ring-2 ring-violet-600"
+        style={{ backgroundColor: theme === "dark" ? "black" : "white" }}
+        className="bg-gray-900 w-[550px] ring-2 ring-violet-600"
       >
         <div>
           <div className="menu p-4   bg-base-200 text-base-content overflow-y-scroll">
@@ -66,7 +69,7 @@ const Drawer = () => {
               value={searchTerm}
               onChange={(e) => handleInputChange(e)}
               placeholder="Enter username.."
-              className="shadow-lg w-full bg-blue-100 ring ring-blue-500  text-sm py-3 px-3 rounded-md  outline-none border-1 border-yellow-500 hover:border-yellow-500 transition-all duration-300"
+              className="shadow-lg w-full bg-transparent border border-gray-500 text  text-sm py-3 px-3 rounded-md  outline-none border-1  transition-all duration-300"
             />
 
             <div id="customTarget" style={{ height: "90vh", overflowY: "scroll" }}>
@@ -79,14 +82,18 @@ const Drawer = () => {
                 hasMore={searchText.trim() !== "" && hasNextPage}
                 loader={<div>Loading...</div>}
                 endMessage={
-                  <p className="text-green-400">
-                    <b>Yay! You have seen it all</b>
-                  </p>
+                  users &&
+                  users?.length > 0 &&
+                  searchText.trim() !== "" && (
+                    <p className="text-green-400">
+                      <b>all  users here!</b>
+                    </p>
+                  )
                 }
                 style={{ height: "100%" }}
                 scrollableTarget="customTarget"
               >
-                <div className="flex flex-col gap-5">
+                <div className="flex flex-col gap-5 my-4">
                   {/* {users?.map((user: any) => {
           return <UserCard user={user} key={user._id} />;
         })} */}

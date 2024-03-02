@@ -164,10 +164,8 @@ const allUsers = async (req: CustomRequest | any, res: Response, next: NextFunct
 
     const users = await User.find(usersQuery).limit(limit).skip(skip);
     const total = await User.countDocuments(usersQuery);
-
     res.send({ users, total, limit });
   } catch (error) {
-    console.error(error);
     next(error)
   }
 };

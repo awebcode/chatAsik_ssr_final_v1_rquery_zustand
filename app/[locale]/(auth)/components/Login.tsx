@@ -43,7 +43,7 @@ const Login = () => {
     return <div>{mutation.error.message}</div>;
   }
   return (
-    <main className="w-full h-screen flex flex-col items-center justify-center bg-white dark:bg-gray-800 sm:px-4">
+    <main className="w-full min-h-screen p-2 md:p-4 flex flex-col items-center justify-center bg-white dark:bg-gray-800 sm:px-4">
       <div className="w-full space-y-6  sm:max-w-md">
         <div className="text-center">
           <div className="mt-5 space-y-2">

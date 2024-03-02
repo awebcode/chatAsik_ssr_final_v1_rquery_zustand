@@ -162,7 +162,6 @@ const allUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         res.send({ users, total, limit });
     }
     catch (error) {
-        console.error(error);
         next(error);
     }
 });

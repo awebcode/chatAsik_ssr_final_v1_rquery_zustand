@@ -5,7 +5,11 @@ import { useInfiniteQuery, useSuspenseInfiniteQuery } from "@tanstack/react-quer
 import { useChatStore } from "@/store/useChat";
 import dynamic from "next/dynamic";
 const InfiniteScroll = dynamic(() => import("react-infinite-scroll-component"));
-const MessageCard = dynamic(() => import("./MessageCard"));
+const ChatLoading = dynamic(() => import("../ChatLoading"));
+const MessageCard = dynamic(() => import("./MessageCard"), {
+  ssr: false,
+  loading: () => <ChatLoading count={1} height={50} inline={false} radius={5} />,
+});
 import { allMessages } from "@/functions/messageActions";
 import { FaArrowDown } from "react-icons/fa";
 import { useRouter } from "@/navigation";

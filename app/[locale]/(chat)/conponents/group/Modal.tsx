@@ -87,6 +87,7 @@ const GroupModal = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const clickOutsideRef: any = useClickAway((e) => {
     setIsOpen(false);
+    // useGroupStore.setState({ selectedAddGroupUsers: [] });
   });
 
   const toggleDrawer = () => {
@@ -108,7 +109,7 @@ const GroupModal = () => {
   };
 
   return (
-    <div ref={clickOutsideRef}>
+    <div ref={clickOutsideRef} className="w-full flexCenter">
       <button
         onClick={toggleDrawer}
         className=" btn btn-primary drawer-button w-full rounded-none my-1 box-border"
@@ -116,7 +117,7 @@ const GroupModal = () => {
         +Create Group
       </button>
       <div
-        className={`fixed top-[50px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-h-fit min-h-max w-auto max-w-md   transition-all duration-300 rounded-lg p-8 bg-gray-700 ring-2 ring-violet-600 z-50 ${
+        className={`fixed top-[30px]  transform  max-h-fit min-h-max  m-4 mx-auto  transition-all duration-300 rounded-lg p-6 bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 ring-2 ring-violet-600 z-50 ${
           isOpen
             ? " translate-y-1 scale-100 opacity-1 duration-500"
             : " translate-y-0 scale-0 opacity-0"
@@ -124,7 +125,7 @@ const GroupModal = () => {
       >
         <div>
           <span
-            className="cursor-pointer absolute right-2 top-2  p-2 bg-white rounded-full  "
+            className="cursor-pointer absolute right-2 top-2  p-2 dark:bg-white dark:text-black bg-gray-900 text-white rounded-full  "
             onClick={toggleDrawer}
           >
             <IoMdClose className=" h-full w-full rounded-full " />
@@ -141,7 +142,7 @@ const GroupModal = () => {
                   value={groupName}
                   onChange={(e) => setGroupName(e.target.value)}
                   placeholder="Group Name."
-                  className="shadow-lg w-full h-auto bg-blue-100 ring ring-blue-500 text-sm py-3 px-3 rounded-md  outline-none border-1 border-yellow-500 hover:border-yellow-500 transition-all duration-300"
+                  className="shadow-lg w-full h-auto bg-transparent  text-[10px] md:text-sm py-3 px-3 rounded-md  outline-none border border-gray-400  transition-all duration-300"
                 />
                 <button
                   disabled={selectedAddGroupUsers.length < 2}
@@ -161,7 +162,7 @@ const GroupModal = () => {
                   value={searchTerm}
                   onChange={(e) => handleInputChange(e)}
                   placeholder="Enter username to search user..."
-                  className="shadow-lg w-full h-auto bg-blue-100 ring ring-blue-500 text-sm py-3 px-3 rounded-md  outline-none border-1 border-yellow-500 hover:border-yellow-500 transition-all duration-300"
+                  className="shadow-lg w-full h-auto bg-transparent  text-[10px] md:text-sm py-3 px-3 rounded-md  outline-none border-1 border border-gray-400  transition-all duration-300"
                 />
               </div>
               {selectedAddGroupUsers.length > 0 && (
@@ -178,15 +179,18 @@ const GroupModal = () => {
               <InfiniteScroll
                 dataLength={users ? users?.length : 0}
                 next={() => {
-                  console.log("next call");
                   fetchNextPage();
                 }}
                 hasMore={searchText.trim() !== "" && hasNextPage}
                 loader={<div>Loading...</div>}
                 endMessage={
-                  <p className="text-green-400">
-                    <b>Yay! You have seen it all</b>
-                  </p>
+                  users &&
+                  users?.length > 0 &&
+                  searchText.trim() !== "" && (
+                    <p className="text-green-400">
+                      <b>All friends here!</b>
+                    </p>
+                  )
                 }
                 style={{ height: "100%" }}
                 scrollableTarget="targetModal"

@@ -42,7 +42,7 @@ const Chat = ({ user }: any) => {
   const { selectedChat, myChats } = useChatStore();
   const selectedChatRef = useRef(selectedChat);
   const onlineUsersRef = useRef(onlineUsers);
-  const currentUserRef= useRef(currentUser);
+  const currentUserRef = useRef(currentUser);
   const { IncomingOffer, setIncomingOffer, isRejected } = useVidoeCallStore();
   useEffect(() => {
     if (user) {
@@ -88,8 +88,8 @@ const Chat = ({ user }: any) => {
   const handleSocketMessage = useCallback(
     (data: any) => {
       if (data.senderId === currentUserRef.current?._id) {
-        useMessageStore.setState({ isIncomingMessage: true });
-        console.log("isIncomingMessage");
+        // useMessageStore.setState({ isIncomingMessage: true });
+        // console.log("isIncomingMessage");
       } else {
         useMessageStore.setState({ isFriendsIncomingMessage: true });
         console.log("isFriendsIncomingMessage");
@@ -106,7 +106,9 @@ const Chat = ({ user }: any) => {
         updateStatusMutation.mutateAsync(updateStatusData);
       } else if (
         data.receiverId === currentUserRef.current?._id &&
-        onlineUsersRef.current.some((user: any) => user.id === currentUserRef.current?._id)
+        onlineUsersRef.current.some(
+          (user: any) => user.id === currentUserRef.current?._id
+        )
       ) {
         // console.log({ deliveredMessageCallback: data });
         const updateStatusData = {
@@ -201,6 +203,7 @@ const Chat = ({ user }: any) => {
     // Clean up event listeners when the component unmounts
     return () => {
       socket.off("setup", handleOnlineUsers);
+      socket.off("disconnect");
       socket.off("receiveMessage", handleSocketMessage);
       socket.off("receiveDeliveredMessage", handleDeliverMessage);
       socket.off("typing", handleTyping);
@@ -273,7 +276,6 @@ const Chat = ({ user }: any) => {
     };
   }, []);
 
-  console.log({ onlineUsers });
   return (
     <div className="p-1">
       {/* <button

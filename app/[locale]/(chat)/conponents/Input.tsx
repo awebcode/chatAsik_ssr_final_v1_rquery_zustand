@@ -28,6 +28,7 @@ import ChatStatus from "./ChatStatus";
 import AudioVoice from "./audioVoice/Voice";
 import ImageMessage from "./imageMess/ImageMessage";
 import { LuSendHorizonal } from "react-icons/lu";
+import useMessageStore from "@/store/useMessage";
 type Tmessage = {
   message: string | any;
 };
@@ -40,6 +41,7 @@ const Input = () => {
   const { currentUser } = useUserStore();
   const [message, setMessage] = useState<Tmessage>({ message: "" });
   const [openEmoji, setOpenEmoji] = useState(false);
+  const { isIncomingMessage } = useMessageStore();
   const [openImageModal, setOpenImageModal] = useState(false);
   const { isTyping, content: typingContent, chatId: typingChatId } = useTypingStore();
   const { cancelEdit, cancelReply, isEdit, isReply, isSentImageModalOpen } =
@@ -138,12 +140,16 @@ const Input = () => {
         groupChatId: selectedChat?.isGroupChat ? selectedChat.chatId : null,
       };
       socket.emit("sentMessage", socketData);
-      toast.success("Message Sent!");
+      // toast.success("Message Sent!");
       setMessage({ message: "" });
 
       queryclient.invalidateQueries({
         queryKey: ["messages"],
       });
+    },
+    onSettled: () => {
+      useMessageStore.setState({ isIncomingMessage: true });
+      console.log("incoming message")
     },
   });
 
@@ -163,7 +169,7 @@ const Input = () => {
         groupChatId: selectedChat?.isGroupChat ? selectedChat.chatId : null,
       };
       socket.emit("sentMessage", socketData);
-      toast.success("Message Replied!");
+      // toast.success("Message Replied!");
       setMessage({ message: "" });
       setOpenImageModal(false);
       queryclient.invalidateQueries({
@@ -188,7 +194,7 @@ const Input = () => {
         groupChatId: selectedChat?.isGroupChat ? selectedChat.chatId : null,
       };
       socket.emit("sentMessage", socketData);
-      toast.success("Message Edited!");
+      // toast.success("Message Edited!");
       setMessage({ message: "" });
       setOpenImageModal(false);
       queryclient.invalidateQueries({

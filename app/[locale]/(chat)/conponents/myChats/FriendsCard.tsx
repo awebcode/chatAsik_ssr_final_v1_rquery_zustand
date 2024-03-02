@@ -129,7 +129,7 @@ const FriendsCard: React.FC<{
     <div className="p-3 rounded-md  dark:bg-gray-800  bg-gray-200 text-black hover:bg-gray-300 dark:text-white  cursor-pointer   dark:hover:bg-gray-700 duration-300">
       <div className="flex items-center gap-2 justify-between">
         <div
-          className="flexBetween gap-2"
+          className="flex items-center gap-2 basis-[80%]"
           onClick={() => handleClick(chat._id as string)}
         >
           <div className="relative p-[2px] h-10 w-10 ring-2 ring-violet-600 rounded-full">

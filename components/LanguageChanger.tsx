@@ -43,7 +43,7 @@ export default function LanguageChanger() {
         <option
           key={item.name}
           className={`${
-            theme === "dark" ? "bg-white text-black" : "bg-black text-white "
+            theme === "dark" ? "bg-white text-black" :locale===item.name?"bg-blue-500": "bg-black text-white "
           } m-2   capitalize text-[10px] md:text-sm flex gap-2 p-3 md:p-4 `}
           value={item.name}
         >

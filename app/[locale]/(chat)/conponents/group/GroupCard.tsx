@@ -22,7 +22,7 @@ const GroupCard: React.FC<{ user: Tuser; }> = ({ user}) => {
   return (
     <div
       onClick={handleClick}
-      className={`p-2 rounded-md  text-gray-900 cursor-pointer  bg-violet-300  duration-500 ${
+      className={`p-2 rounded-md  dark:text-white cursor-pointer  dark:bg-gray-700 dark:hover:bg-gray-800 bg-gray-200 hover:bg-gray-300  duration-500 ${
         selectedAddGroupUsers.some((u) => u._id === user._id) ? "!bg-emerald-300" : ""
       }`}
     >

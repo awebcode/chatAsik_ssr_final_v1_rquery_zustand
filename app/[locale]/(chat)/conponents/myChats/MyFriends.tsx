@@ -12,6 +12,8 @@ import { useChatStore } from "@/store/useChat";
 import { getSenderFull } from "../logics/logics";
 import {  useSearchParams } from "next/navigation";
 import { useRouter } from "@/navigation";
+const ChatLoading = dynamic(() => import("../ChatLoading"));
+
 const MyFriends = () => {
   const { currentUser } = useUserStore();
   const [searchTerm, setSearchTerm] = useState("");
@@ -161,7 +163,7 @@ const MyFriends = () => {
             >
               <div className="flex flex-col gap-5 z-50 min-h-[80vh] ">
                 {isLoading ? (
-                  <h1>loading...</h1>
+                  <ChatLoading count={9} height={70} inline={false} radius={5} />
                 ) : chats && chats.length > 0 ? (
                   chats.map((chat: any) => (
                     <FriendsCard

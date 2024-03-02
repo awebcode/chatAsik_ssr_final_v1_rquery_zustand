@@ -35,8 +35,9 @@ const ChatHeader = () => {
         <span
           className=" cursor-pointer  md:p-[6px]  rounded-full"
           onClick={() => {
+            clearselectedChat();
+
             router.push("/Chat");
-            //  clearselectedChat();
           }}
         >
           <FaArrowLeft className="h-3 md:h-4 w-3 md:w-4" />
@@ -64,15 +65,20 @@ const ChatHeader = () => {
               <span className="text-[10px] ">
                 {isUserOnline ? (
                   <span className="text-green-500">Online</span>
-                ) : !isUserOnline &&
-                  !selectedChat.isGroupChat &&
-                  selectedChat?.userInfo?.lastActive ? (
+                ) : (!isUserOnline &&
+                    !selectedChat.isGroupChat &&
+                    selectedChat?.userInfo?.lastActive) ||
+                  selectedChat.createdAt ? (
                   <span className="text-[9px]">
                     <span className="mr-1">active</span>
-                    {moment(selectedChat?.userInfo?.lastActive as any).fromNow()}
+                    {moment(
+                      (selectedChat?.userInfo?.lastActive as any) ||
+                        selectedChat.createdAt
+                    ).fromNow()}
                   </span>
                 ) : (
-                  ""
+                    <span className="text-rose-500">Offline</span>
+                  
                 )}
               </span>
             </div>

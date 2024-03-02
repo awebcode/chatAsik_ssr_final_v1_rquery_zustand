@@ -7,19 +7,30 @@ import PrefetchMyFriends from "../conponents/myChats/PrefetchMyFriends";
 import { fetchUser } from "@/functions/serverActions";
 import { redirect } from "@/navigation";
 import { unstable_setRequestLocale } from "next-intl/server";
+import ChatLoading from "../conponents/ChatLoading";
 const EmptyChat = dynamic(() => import("../conponents/EmptyChat"));
 const ChatHeader = dynamic(() => import("../conponents/chatHeader/ChatHeader"), {
   ssr: false,
+  loading: () => <ChatLoading count={1} height={80} inline={false} radius={10} />,
 });
-const Input = dynamic(() => import("../conponents/Input"), { ssr: false });
+const Input = dynamic(() => import("../conponents/Input"), {
+  ssr: false,
+  loading: () => <ChatLoading count={1} height={90} inline={false} radius={10} />,
+});
 const Chat = dynamic(() => import("./Chat"));
 
-const Topbar = dynamic(() => import("../conponents/Topbar"));
+// const Topbar = dynamic(() => import("../conponents/Topbar"), {
+//   ssr: false,
+//   loading: () => <ChatLoading count={1} height={80} inline={false} radius={5} />,
+// });
 const Drawer = dynamic(() => import("../conponents/leftsearchDrawer/Drawer"), {
   ssr: false,
+
+  loading: () => <ChatLoading count={1} height={70} inline={false} radius={1} />,
 });
 const GroupModal = dynamic(() => import("../../(chat)/conponents/group/Modal"), {
   ssr: false,
+  loading: () => <ChatLoading count={1} height={70} inline={false} radius={1} />,
 });
 // import PrefetchMessages from "../conponents/messages/PrefetchMessages";
 // const Chat = dynamic(() => import("./Index"));
@@ -36,14 +47,14 @@ const home = async({
   // console.log({  searchParams });
   const user = await fetchUser();
   if (user.statusCode===401) {
-    redirect("/")
+    redirect("/login")
   }
   return (
     <div className="">
       <Chat />
 
       <ClientWrap>
-        <Topbar user={user} />
+        {/* <Topbar user={user} /> */}
         <div className="flex w-screen overflow-hidden">
           {/* <LeftSide /> */}
           <div

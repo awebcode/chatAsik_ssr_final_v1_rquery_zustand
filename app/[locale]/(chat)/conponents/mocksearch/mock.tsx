@@ -49,7 +49,7 @@ const LeftSide = () => {
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
-    queryKey: ["search", searchText],
+    queryKey: ["users", "search", searchText],
 
     queryFn: getAllUsers as any,
 

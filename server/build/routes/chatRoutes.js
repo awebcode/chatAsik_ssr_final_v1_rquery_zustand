@@ -8,7 +8,7 @@ const authMiddleware_1 = __importDefault(require("../middlewares/authMiddleware"
 const ChatController_1 = require("../controllers/ChatController");
 const chatRoute = express_1.default.Router();
 chatRoute.route("/accessChats/:userId").post(authMiddleware_1.default, ChatController_1.accessChat);
-chatRoute.route("/fetchChats/:userId").get(authMiddleware_1.default, ChatController_1.fetchChats);
+chatRoute.route("/fetchChats").get(authMiddleware_1.default, ChatController_1.fetchChats);
 chatRoute.route("/group").post(authMiddleware_1.default, ChatController_1.createGroupChat);
 chatRoute.route("/rename").put(authMiddleware_1.default, ChatController_1.renameGroup);
 chatRoute.route("/removefromgroup").put(authMiddleware_1.default, ChatController_1.removeFromGroup);

@@ -15,15 +15,9 @@ import { CiLogin, CiLogout } from "react-icons/ci";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { logoutUser } from "@/functions/authActions";
-import { revalidateTag } from "next/cache";
 import RevalidateTag from "@/functions/serverActions";
-import { unstable_setRequestLocale } from "next-intl/server";
-const LanguageChanger = dynamic(() => import("@/components/LanguageChanger"), {
-  ssr: false,
-});
-const ThemeButton = dynamic(() => import("@/components/ThemeButton"), {
-  ssr: false,
-});
+const LanguageChanger = dynamic(() => import("@/components/LanguageChanger"));
+const ThemeButton = dynamic(() => import("@/components/ThemeButton"));
 const Topbar = ({ user }: any) => {
 
   const { theme } = useTheme();
@@ -62,7 +56,7 @@ const Topbar = ({ user }: any) => {
         <div className="flex items-center gap-4 flex-wrap">
           <div className=" transition-transform hidden md:flex md:items-center md:gap-3">
             {links.map((link, i) => (
-              <Link key={i} href={link.path} className="hover:text-gray-200">
+              <Link key={i} href={link.path} className="hover:text-gray-200 duration-500">
                 {/* Wrap the link content inside an anchor tag */}
                 {currentUser && link.name === "Login" ? (
                   ""

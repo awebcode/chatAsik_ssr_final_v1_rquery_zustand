@@ -1,12 +1,16 @@
 import dynamic from "next/dynamic";
-const Login = dynamic(() => import("../components/Login"),{
+const ChatLoading = dynamic(() => import("../../(chat)/conponents/ChatLoading"));
+
+const Login = dynamic(() => import("../components/Login"), {
   ssr: false,
-  loading:()=><h1>Loading.......</h1>
+  loading: () => <ChatLoading count={8} height={80} inline={false} radius={5} />,
 });
 const page = () => {
   return (
-    <div><Login/></div>
-  )
-}
+    <div>
+      <Login />
+    </div>
+  );
+};
 
-export default page
+export default page;
