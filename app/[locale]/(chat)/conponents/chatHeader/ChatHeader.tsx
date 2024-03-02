@@ -35,8 +35,8 @@ const ChatHeader = () => {
         <span
           className=" cursor-pointer  md:p-[6px]  rounded-full"
           onClick={() => {
+            useChatStore.setState({selectedChat:null})
             clearselectedChat();
-
             router.push("/Chat");
           }}
         >

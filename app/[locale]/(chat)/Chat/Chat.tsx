@@ -54,7 +54,7 @@ const Chat = ({ user }: any) => {
     selectedChatRef.current = selectedChat;
     onlineUsersRef.current = onlineUsers;
     currentUserRef.current = currentUser;
-  }, [selectedChat, onlineUsers, currentUserRef]);
+  }, [selectedChat, onlineUsers, currentUser]);
 
   const updateStatusMutation = useMutation({
     mutationKey: ["messages"],
@@ -129,7 +129,7 @@ const Chat = ({ user }: any) => {
         //for incoming messages
       }
     },
-    [currentUserRef]
+    [currentUserRef, selectedChatRef,onlineUsersRef]
   );
   const handleTyping = useCallback((data: any) => {
     // if (data.receiverId === currentUser?._id) {
