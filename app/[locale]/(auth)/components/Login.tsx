@@ -6,6 +6,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { Link, useRouter } from "@/navigation";
+import RevalidateTag from "@/functions/serverActions";
 type Tlogin = {
   username: string;
   password: string;
@@ -18,9 +19,9 @@ const Login = () => {
     mutationFn: (data) => loginUser(data),
     onSuccess: (data) => {
       toast.success("Login successful!");
+      RevalidateTag("user");
       localStorage.setItem("authToken", data.token);
-      setCurrentUser(data.user);
-      router.push("/Chat");
+      // setCurrentUser(data.user);
       Cookies.set("authToken", data.token);
     },
   });
