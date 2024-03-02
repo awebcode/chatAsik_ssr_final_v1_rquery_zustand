@@ -80,7 +80,6 @@ const Chat = ({ user }: any) => {
   // Update the reference whenever selectedChat changes
   useEffect(() => {
     // Check if selectedChat is null and reset the reference to null
-    console.log({ selectedChat, selectedChatRef });
     if (selectedChat === null) {
       selectedChatRef.current = null;
     }
@@ -126,7 +125,6 @@ const Chat = ({ user }: any) => {
       // console.log("isIncomingMessage");
     } else {
       useMessageStore.setState({ isFriendsIncomingMessage: true });
-      console.log("isFriendsIncomingMessage");
     }
     //  if (data.receiverId === currentUser?._id) {
     queryclient.invalidateQueries({ queryKey: ["messages"] });
