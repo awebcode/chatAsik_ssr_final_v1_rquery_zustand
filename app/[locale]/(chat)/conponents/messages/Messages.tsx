@@ -18,6 +18,7 @@ import { useMessageStore } from "@/store/useMessage";
 import { useSearchParams } from "next/navigation";
 import useIncomingMessageStore from "@/store/useIncomingMessage";
 import { useMediaQuery } from "@uidotdev/usehooks";
+import { findLastSeenMessageIndex } from "../logics/logics";
 const NoChatProfile = dynamic(() => import("../NoChatProfile"));
 
 const Messages = () => {
@@ -181,8 +182,15 @@ const Messages = () => {
               ) : (
                 messages &&
                 messages.reverse().length > 0 &&
-                messages.map((message: any) => {
-                  return <MessageCard message={message} key={message?._id} />;
+                messages.map((message: any,index:number) => {
+                 
+                  return (
+                    <MessageCard
+                      message={message}
+                      key={message?._id}
+                      isLastSeenMessage={index === findLastSeenMessageIndex(messages)}
+                    />
+                  );
                 })
               )}
 

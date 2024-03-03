@@ -202,7 +202,7 @@ const FriendsCard: React.FC<{
           </div>
         </div>
         <div className="flex gap-5 items-center ">
-          {RenderStatus(chat?.latestMessage, "onFriendListCard", unseenArray,currentUser)}
+          {RenderStatus(chat?.latestMessage, "onFriendListCard", unseenArray,currentUser,false)}
           <div ref={userModalRef} className="relative">
             <BsThreeDots onClick={() => setOpen((prev) => !prev)} className="h-6 w-6 " />
             <Modal

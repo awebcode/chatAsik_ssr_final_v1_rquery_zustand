@@ -234,6 +234,16 @@ export const updateChatMessageAsDeliveredController = async (
         await Chat.findByIdAndUpdate(chat._id, {
           latestMessage: chat.latestMessage._id,
         });
+
+        await Message.find(
+          { chat: chat._id },
+          {
+            status: { $in: ["unseen", "unsent"] },
+            // sender: { $ne: req.id }
+          }
+        ).updateMany({
+          status: "delivered"
+        });
       }
     });
 

@@ -1,15 +1,20 @@
 import Image from "next/image";
 import { IoIosCheckmarkCircle, IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { useUserStore } from "@/store/useUser";
-export const RenderStatus = (message: any, type: string, unseenArray: any,currentUser:any) => {
-
+import { useChatStore } from "@/store/useChat";
+export const RenderStatus = (
+  message: any,
+  type: string,
+  unseenArray: any,
+  currentUser: any,
+  isLastSeenMessage: any) => {
+  const {selectedChat}=useChatStore()
   const unseenMessagesCount =
     unseenArray?.length > 0 &&
     unseenArray.find((item: any) => item._id === message?.chat)?.unseenMessagesCount;
-  
-  
+
   let statusDiv;
-  
+
   switch (message?.status) {
     case "seen":
       message.sender._id !== currentUser?._id && type === "onFriendListCard"
@@ -24,17 +29,17 @@ export const RenderStatus = (message: any, type: string, unseenArray: any,curren
             //     />
             // </div>
             "")
-        : (statusDiv = (
-            <div className="h-5 w-5 relative m-1">
+        : (statusDiv = isLastSeenMessage ? (
+            <div className="h-5 w-5 relative m-2">
               <Image
                 height={15}
                 width={15}
                 className="rounded-full h-full w-full object-cover"
-                alt={message.sender.username as any}
-                src={message.sender.pic as any}
+                alt={selectedChat?.username as any}
+                src={selectedChat?.pic as any}
               />
             </div>
-          ));
+          ):null);
       break;
     case "delivered":
       message.sender._id !== currentUser?._id && type === "onFriendListCard"

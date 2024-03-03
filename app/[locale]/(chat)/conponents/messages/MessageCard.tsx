@@ -37,7 +37,13 @@ type TMessage = {
   image: { url: string };
 };
 
-const MessageCard = ({ message }: { message: TMessage }) => {
+const MessageCard = ({
+  message,
+  isLastSeenMessage,
+}: {
+  message: TMessage;
+  isLastSeenMessage:boolean
+}) => {
   const { onEdit, onReply } = useEditReplyStore();
   const { currentUser } = useUserStore();
   const { selectedChat } = useChatStore();
@@ -179,8 +185,8 @@ const MessageCard = ({ message }: { message: TMessage }) => {
           isCurrentUserMessage ? "flex-row-reverse" : "flex-row"
         } space-x-2`}
       >
-        {message?.sender?._id === currentUser?._id ? (
-          RenderStatus(message, "onMessage", 0, currentUser)
+        {message?.sender?._id === currentUser?._id  ? (
+          RenderStatus(message, "onMessage", 0, currentUser,isLastSeenMessage)
         ) : (
           <div className="h-8 w-8 relative">
             <Image

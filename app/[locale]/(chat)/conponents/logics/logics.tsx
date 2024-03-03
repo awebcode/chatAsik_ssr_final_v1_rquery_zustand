@@ -60,3 +60,14 @@ export const getSenderFull = (loggedUser: Tuser | any, users: Tuser[]): Tuser | 
   }
   return users[0]?._id === loggedUser?._id ? users[1] : users[0];
 };
+
+//find last seen message
+
+export function findLastSeenMessageIndex(messages: any) {
+  for (let i = messages.length - 1; i >= 0; i--) {
+    if (messages[i].status === "seen") {
+      return i;
+    }
+  }
+  return -1; // No seen messages found
+}

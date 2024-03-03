@@ -195,6 +195,12 @@ const updateChatMessageAsDeliveredController = (req, res, next) => __awaiter(voi
                 yield ChatModel_1.Chat.findByIdAndUpdate(chat._id, {
                     latestMessage: chat.latestMessage._id,
                 });
+                yield MessageModel_1.Message.find({ chat: chat._id }, {
+                    status: { $in: ["unseen", "unsent"] },
+                    // sender: { $ne: req.id }
+                }).updateMany({
+                    status: "delivered"
+                });
             }
         }));
         // Wait for all updates to complete
