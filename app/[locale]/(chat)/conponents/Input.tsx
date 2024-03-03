@@ -141,6 +141,7 @@ const Input = () => {
     mutationFn: (data) => sentMessage(data),
     // mutationKey: ["messages"],
     onSuccess: (data) => {
+      console.log({inputSentSuccessData:data})
        queryclient.invalidateQueries({
          queryKey: ["messages"],
        });
