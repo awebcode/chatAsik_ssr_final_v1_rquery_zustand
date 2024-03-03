@@ -33,7 +33,7 @@ const allMessages = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
             select: "content image",
             populate: { path: "sender", select: "username pic email" },
         })
-            .populate("sender", "username pic email")
+            .populate("sender removedBy", "username pic email")
             .populate("chat")
             .sort({ _id: -1 }) // Use _id for sorting in descending order
             .limit(limit)

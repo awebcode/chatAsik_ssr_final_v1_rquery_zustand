@@ -32,7 +32,7 @@ type TMessage = {
   isReply: any;
   createdAt: Date; // Assuming createdAt is a string, adjust accordingly
   updatedAt: Date;
-  removedBy: string;
+  removedBy: Tuser;
   reactions: any[];
   image: { url: string };
 };
@@ -231,39 +231,59 @@ const MessageCard = ({ message }: { message: TMessage }) => {
                           onEdit(message as any);
                           setOpen(false);
                         }}
-                        className=" text-xs hover:bg-gray-300  p-[6px] duration-300  rounded"
+                        className=" text-xs hover:bg-gray-300 dark:hover:bg-gray-600  p-[6px] duration-300  rounded"
                       >
                         Edit
                       </a>
                     )}
-                    {message.status !== "remove" ? (
+                    {message.status !== "remove" &&
+                    message.removedBy?._id !== currentUser?._id ? (
                       <>
                         <a
                           onClick={() => removeHandler(message._id)}
-                          className=" text-[10px] md:text-xs hover:bg-gray-300  p-[6px] duration-300  rounded"
+                          className=" text-[10px] md:text-xs hover:bg-gray-300 dark:hover:bg-gray-600  p-[6px] duration-300  rounded"
                         >
                           Remove
                         </a>
                         <a
                           onClick={() => removeFromAllHandler(message._id)}
-                          className="text-[10px] md:text-xs hover:bg-gray-300  p-[6px] duration-300  rounded"
+                          className="text-[10px] md:text-xs hover:bg-gray-300 dark:hover:bg-gray-600  p-[6px] duration-300  rounded"
+                        >
+                          Remove from all
+                        </a>
+                      </>
+                    ) : message.status === "remove" &&
+                      message.removedBy?._id === currentUser?._id ? (
+                      <a
+                        onClick={() => BackRemoveFromAllHandler(message._id)}
+                        className="text-[10px] md:text-xs hover:bg-gray-300 dark:hover:bg-gray-600  p-[6px] duration-300  rounded"
+                      >
+                        Back Message
+                      </a>
+                    ) : message.status === "remove" &&
+                      message.removedBy?._id !== currentUser?._id ? (
+                      <>
+                        <a
+                          // onClick={() => removeHandler(message._id)}
+                          className=" text-[8px] md:text-[10px] text-rose-500 cursor-not-allowed hover:bg-gray-300 dark:hover:bg-gray-600  p-[6px] duration-300  rounded"
+                        >
+                          {message.removedBy?.username} Removed this
+                        </a>
+                        <a
+                          onClick={() => removeFromAllHandler(message._id)}
+                          className="text-[10px] md:text-xs hover:bg-gray-300 dark:hover:bg-gray-600  p-[6px] duration-300  rounded"
                         >
                           Remove from all
                         </a>
                       </>
                     ) : (
-                      <a
-                        onClick={() => BackRemoveFromAllHandler(message._id)}
-                        className="text-[10px] md:text-xs hover:bg-gray-300  p-[6px] duration-300  rounded"
-                      >
-                        Back Message
-                      </a>
+                      ""
                     )}
 
                     {isCurrentUserMessage && (
                       <a
                         onClick={() => unsentHandler(message._id)}
-                        className=" text-[10px] md:text-xs hover:bg-gray-300  p-[6px] duration-300  rounded"
+                        className=" text-[10px] md:text-xs hover:bg-gray-300 dark:hover:bg-gray-600  p-[6px] duration-300  rounded"
                       >
                         Unsent
                       </a>
@@ -288,7 +308,9 @@ const MessageCard = ({ message }: { message: TMessage }) => {
                     <span>
                       <MdOutlineEmojiEmotions
                         onClick={() => setOpenReactModal((prev) => !prev)}
-                        className={`h-4 w-4 md:h-[18px] md:w-[18px] mr-1 cursor-pointer ${openReactModal?"text-blue-500":""}`}
+                        className={`h-4 w-4 md:h-[18px] md:w-[18px] mr-1 cursor-pointer ${
+                          openReactModal ? "text-blue-500" : ""
+                        }`}
                       />
                     </span>
                     {/* Emoji Modal */}

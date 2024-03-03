@@ -79,13 +79,11 @@ const getUser = (id: string) => {
 io.on("connection", (socket: Socket) => {
   socket.on("setup", (userData) => {
     socket.join(userData.id);
-    console.log({setup:userData})
     checkOnlineUsers(userData.id, socket.id);
     io.emit("setup", users);
     console.log("Client connected");
   });
   socket.on("join", (data: any) => {
-    console.log({ data });
     socket.join(data.chatId);
     io.emit("join", data.chatId);
   });

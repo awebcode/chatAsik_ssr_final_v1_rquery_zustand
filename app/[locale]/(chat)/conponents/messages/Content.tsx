@@ -1,11 +1,12 @@
-import Image from 'next/image';
-import React from 'react'
+import Image from "next/image";
+import React from "react";
 const Reactions = dynamic(() => import("./Reactions"));
-import moment from 'moment';
-import { BsReply } from 'react-icons/bs';
-import dynamic from 'next/dynamic';
-import { useMediaQuery } from '@uidotdev/usehooks';
-import { RenderMessageWithEmojis } from '../logics/checkEmoji';
+import moment from "moment";
+import { BsReply } from "react-icons/bs";
+import dynamic from "next/dynamic";
+import { useMediaQuery } from "@uidotdev/usehooks";
+import { RenderMessageWithEmojis } from "../logics/checkEmoji";
+import RenderMesseage from "./RenderMesseage";
 
 const Content = ({
   message,
@@ -17,16 +18,16 @@ const Content = ({
   setReactionListVisible,
   reactionListModalRef,
 }: {
-  message:any,
-  currentUser:any,
-  selectedChat:any,
-  isCurrentUserMessage:any,
-  handleRemoveReact:any,
-  isReactionListModal:any,
-  setReactionListVisible:any,
-  reactionListModalRef:any,
-    }) => {
-    const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
+  message: any;
+  currentUser: any;
+  selectedChat: any;
+  isCurrentUserMessage: any;
+  handleRemoveReact: any;
+  isReactionListModal: any;
+  setReactionListVisible: any;
+  reactionListModalRef: any;
+}) => {
+  const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
   return (
     <div>
       {" "}
@@ -37,7 +38,8 @@ const Content = ({
             <span className="font-bold mr-2">Edited</span>
           ) : message.status === "unsent" ? (
             <span className="font-bold mr-2">UnsentAt</span>
-          ) : message.status === "remove" ? (
+          ) : message.status === "remove" &&
+            message.removedBy?._id === currentUser?._id ? (
             <span className="font-bold mr-2">removedAt</span>
           ) : null}
           {moment(
@@ -85,7 +87,8 @@ const Content = ({
                   ""
                 )}
               </span>
-              {message.status !== "remove" && message.removedBy !== currentUser?._id ? (
+              {message.status !== "remove" &&
+              message.removedBy?._id !== currentUser?._id ? (
                 <div
                   className={`absolute ${
                     message.image ? "-bottom-[70px]" : "-bottom-5"
@@ -116,51 +119,49 @@ const Content = ({
                     reactionListModalRef={reactionListModalRef}
                   />
                 </div>
-              ) : (
-                <div className="absolute text-[10px] md:text-xs -bottom-7 ring-2 ring-gray-400 left-8 right-0 text-sm bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 duration-300 rounded-lg p-2  max-w-[40vw] md:max-w-[40vw] break-words !h-fit  ">
+              ) : message.status === "remove" &&
+                message.removedBy?._id === currentUser?._id ? (
+                <div className="text-[10px] md:text-xs  bg-gray-200 duration-300 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg p-3  max-w-[40vw] md:max-w-[40vw] break-words !h-fit  ">
                   Removed
                 </div>
+              ) : (
+                <RenderMesseage
+                  message={message}
+                  isCurrentUserMessage={isCurrentUserMessage}
+                  handleRemoveReact={handleRemoveReact}
+                  isReactionListModal={isReactionListModal}
+                  setReactionListVisible={setReactionListVisible}
+                  reactionListModalRef={reactionListModalRef}
+                />
               )}
             </div>
           </div>
-        ) : message.status !== "remove" && message.removedBy !== currentUser?._id ? (
-          <div className="text-[10px] md:text-xs relative duration-300 bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg p-2  max-w-[40vw] md:max-w-[40vw] break-words !h-fit  ">
-            {message.content ? (
-              RenderMessageWithEmojis(message?.content, isSmallDevice)
-            ) : message.image ? (
-              <div className="h-[130px] w-[130px] rounded">
-                <Image
-                  src={message.image.url}
-                  alt={message?.sender?.username}
-                  height={100}
-                  width={100}
-                  className="h-full w-full rounded-lg"
-                />
-              </div>
-            ) : (
-              ""
-            )}
-
-            {/* Reactions */}
-
-            <Reactions
-              message={message}
-              isCurrentUserMessage={isCurrentUserMessage}
-              handleRemoveReact={handleRemoveReact}
-              isReactionListModal={isReactionListModal}
-              setReactionListVisible={setReactionListVisible}
-              reactionListModalRef={reactionListModalRef}
-            />
-            {/*Display Reactions end */}
-          </div>
-        ) : (
+        ) : message.status !== "remove" && message.removedBy?._id !== currentUser?._id ? (
+          <RenderMesseage
+            message={message}
+            isCurrentUserMessage={isCurrentUserMessage}
+            handleRemoveReact={handleRemoveReact}
+            isReactionListModal={isReactionListModal}
+            setReactionListVisible={setReactionListVisible}
+            reactionListModalRef={reactionListModalRef}
+          />
+        ) : message.status === "remove" && message.removedBy?._id === currentUser?._id ? (
           <div className="text-[10px] md:text-xs  bg-gray-200 duration-300 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg p-3  max-w-[40vw] md:max-w-[40vw] break-words !h-fit  ">
             Removed
           </div>
+        ) : (
+          <RenderMesseage
+            message={message}
+            isCurrentUserMessage={isCurrentUserMessage}
+            handleRemoveReact={handleRemoveReact}
+            isReactionListModal={isReactionListModal}
+            setReactionListVisible={setReactionListVisible}
+            reactionListModalRef={reactionListModalRef}
+          />
         )}
       </div>
     </div>
   );
 };
 
-export default Content
+export default Content;
