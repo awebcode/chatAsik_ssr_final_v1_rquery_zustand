@@ -42,7 +42,7 @@ const Chat = ({ user }: any) => {
 
   // Initialize Howler for playing audio
   const playSound = new Howl({
-    src: [""], ///audio/notification.mp3
+    src: ["/audio/notification.mp3"], ///audio/notification.mp3
     preload: true,
     volume: 1,
   });
