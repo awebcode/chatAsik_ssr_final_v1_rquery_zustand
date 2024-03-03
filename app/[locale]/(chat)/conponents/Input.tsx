@@ -141,6 +141,9 @@ const Input = () => {
     mutationFn: (data) => sentMessage(data),
     // mutationKey: ["messages"],
     onSuccess: (data) => {
+       queryclient.invalidateQueries({
+         queryKey: ["messages"],
+       });
       const socketData = {
         senderId: currentUser?._id,
         receiverId: selectedChat?.userId,
@@ -156,9 +159,7 @@ const Input = () => {
       setMessage({ message: "" });
       useIncomingMessageStore.setState({ isIncomingMessage: true });
 
-      queryclient.invalidateQueries({
-        queryKey: ["messages"],
-      });
+     
     },
     // onSettled: () => {
     //   useIncomingMessageStore.setState({ isIncomingMessage: true });

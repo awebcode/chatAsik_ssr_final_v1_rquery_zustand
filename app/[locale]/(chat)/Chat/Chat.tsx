@@ -96,6 +96,8 @@ const Chat = ({ user }: any) => {
     mutationKey: ["messages"],
     mutationFn: (data: any) => updateMessageStatus(data),
     onSuccess: (data) => {
+      queryclient.invalidateQueries({ queryKey: ["messages"] });
+
       const receiver = data.chat?.users.find((u: any) => u._id !== currentUser?._id);
       const deliverData = {
         senderId: currentUser?._id,
@@ -106,7 +108,6 @@ const Chat = ({ user }: any) => {
       playNotificationSound();
 
       socket.emit("deliveredMessage", deliverData);
-      queryclient.invalidateQueries({ queryKey: ["messages"] });
     },
   });
 
@@ -114,12 +115,13 @@ const Chat = ({ user }: any) => {
     mutationKey: ["messages"],
     mutationFn: () => updateAllMessageStatusAsDelivered(currentUser?._id as any),
     onSuccess: (data) => {
+      queryclient.invalidateQueries({ queryKey: ["messages"] });
+
       const deliverData = {
         senderId: currentUser?._id,
         pic: currentUser?.pic,
       };
       socket.emit("deliveredAllMessageAfterReconnect", deliverData);
-      queryclient.invalidateQueries({ queryKey: ["messages"] });
     },
   });
   // console.log({ selectedChat});
