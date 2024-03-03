@@ -30,7 +30,7 @@ export const RenderStatus = (
             // </div>
             "")
         : (statusDiv = isLastSeenMessage ? (
-            <div className="h-5 w-5 relative m-2">
+            <div className="h-4 w-4 md:h-5 md:w-5 relative m-[2px] mt-3">
               <Image
                 height={15}
                 width={15}
