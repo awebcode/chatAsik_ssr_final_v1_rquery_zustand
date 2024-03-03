@@ -1,27 +1,55 @@
-import { Tuser } from "@/app/[locale]/(chat)/conponents/leftsearchDrawer/UserCard";
-import { create } from "zustand";
+import {create} from "zustand";
 
-type Message = {
-  content: string;
-  status: string;
-  sender: Tuser;
-  createdAt: Date; // Assuming createdAt is a string, adjust accordingly
-};
-
-interface MessageStore {
-  isIncomingMessage: boolean;
-  isFriendsIncomingMessage: boolean;
-  messages: Message[];
-  setMessage: (message: Message) => void;
+interface User {
+  email: string;
+  pic: string;
+  username: string;
+  _id: string;
 }
 
-const useMessageStore = create<MessageStore>((set) => ({
-  isIncomingMessage: false,
-  isFriendsIncomingMessage: false,
-  messages: [],
-  setMessage: (newMessage) => {
-    set((state) => ({ messages: [...state.messages, newMessage] }));
-  },
+interface Message {
+  content: string;
+  createdAt: Date;
+  reactions: any[]; // Adjust the type based on your actual data structure
+  sender: User;
+  status: string;
+  updatedAt: Date;
+  // __v: number;
+  // _id: string;
+}
+
+interface Chat {
+  chatName: string;
+  createdAt: Date;
+  isGroupChat: boolean;
+  latestMessage: string;
+  updatedAt: Date;
+  users: string[];
+
+  _id: string;
+}
+
+interface AppState {
+ 
+  message: Message | Chat | null;
+  chat:Chat|null
+  
+}
+
+interface AppStore extends AppState {
+ 
+  setInitialMessage: (messageData: Message) => void;
+  setInitialChat: (chatData: Chat) => void;
+  clearData: () => void;
+}
+
+export const useMessageStore = create<AppStore>((set) => ({
+  
+  message: null,
+  chat:null,
+  
+  setInitialMessage: (messageData) => set({ message: messageData }),
+  setInitialChat: (chatData) => set({ chat: chatData }),
+  clearData: () => set({ message: null }),
 }));
 
-export default useMessageStore;

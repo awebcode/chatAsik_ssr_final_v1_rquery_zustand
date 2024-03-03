@@ -66,7 +66,7 @@ export const sendMessage = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { content, chatId, type } = req.body;
+  const { content, chatId, type, createdAt } = req.body;
 
   if (!chatId) {
     return next(new CustomErrorHandler("Chat Id cannot be empty!", 400));
@@ -76,6 +76,7 @@ export const sendMessage = async (
     sender: req.id,
     content: content,
     chat: chatId,
+    createdAt,
   };
 
   try {

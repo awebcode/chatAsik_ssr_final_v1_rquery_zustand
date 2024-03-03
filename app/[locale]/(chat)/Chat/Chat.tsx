@@ -15,7 +15,7 @@ import {
 import { useVidoeCallStore } from "@/store/useCallStore";
 import { Howl } from "howler";
 import Peer from "@/context/peer/Peer";
-import useMessageStore from "@/store/useMessage";
+import useMessageStore from "@/store/useIncomingMessage";
 import { useSearchParams } from "next/navigation";
 // import useSound from "use-sound";
 // import soundPath from "./audio/notification.mp3";
@@ -67,7 +67,7 @@ const Chat = ({ user }: any) => {
   const { startTyping, stopTyping } = useTypingStore();
   const { addOnlineUser, onlineUsers } = useOnlineUsersStore();
   const { socket } = useChatContext();
-  const { selectedChat, myChats, setSelectedChat,clearselectedChat } = useChatStore();
+  const { selectedChat, myChats, setSelectedChat, clearselectedChat } = useChatStore();
   const selectedChatRef = useRef(selectedChat);
   const onlineUsersRef = useRef(onlineUsers);
   const currentUserRef = useRef(currentUser);
@@ -78,19 +78,19 @@ const Chat = ({ user }: any) => {
     }
   }, [user]);
   // Update the reference whenever selectedChat changes
-  const searchParams=useSearchParams()
+  const searchParams = useSearchParams();
   const paramsChatId = searchParams.get("chatId");
   useEffect(() => {
     // Check if selectedChat is null and reset the reference to null
     if (selectedChat === null || !paramsChatId) {
-       clearselectedChat();
+      clearselectedChat();
 
       selectedChatRef.current = null;
     }
     selectedChatRef.current = selectedChat;
     onlineUsersRef.current = onlineUsers;
     currentUserRef.current = currentUser;
-  }, [selectedChat,  onlineUsers, currentUser, paramsChatId]);
+  }, [selectedChat, onlineUsers, currentUser, paramsChatId]);
 
   const updateStatusMutation = useMutation({
     mutationKey: ["messages"],

@@ -1,6 +1,5 @@
 "use client";
 import React, { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
 import dynamic from "next/dynamic";
 const EmojiPicker = dynamic(
   () => {
@@ -11,7 +10,6 @@ const EmojiPicker = dynamic(
   { ssr: false }
 );
 import { Theme, EmojiStyle, SuggestionMode, Emoji } from "emoji-picker-react";
-import emojiRegex from "emoji-regex";
 import { useClickAway } from "@uidotdev/usehooks";
 import { useChatContext } from "@/context/ChatContext/ChatContextProvider";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -28,14 +26,15 @@ import ChatStatus from "./ChatStatus";
 import AudioVoice from "./audioVoice/Voice";
 import ImageMessage from "./imageMess/ImageMessage";
 import { LuSendHorizonal } from "react-icons/lu";
-import useMessageStore from "@/store/useMessage";
 import { useMediaQuery } from "@uidotdev/usehooks";
+import useIncomingMessageStore from "@/store/useIncomingMessage";
+import { useMessageStore } from "@/store/useMessage";
 type Tmessage = {
   message: string | any;
 };
 type Temoji = {
   emoji: string;
-  unified:string
+  unified: string;
 };
 const Input = () => {
   const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
@@ -44,7 +43,8 @@ const Input = () => {
   const { currentUser } = useUserStore();
   const [message, setMessage] = useState<Tmessage>({ message: "" });
   const [openEmoji, setOpenEmoji] = useState(false);
-  const { isIncomingMessage } = useMessageStore();
+  const { isIncomingMessage } = useIncomingMessageStore();
+  const { setInitialMessage } = useMessageStore();
   const [openImageModal, setOpenImageModal] = useState(false);
   const { isTyping, content: typingContent, chatId: typingChatId } = useTypingStore();
   const { cancelEdit, cancelReply, isEdit, isReply, isSentImageModalOpen } =
@@ -73,10 +73,9 @@ const Input = () => {
     // Append the value of the Emoji component to the message
     setMessage((prev) => ({
       ...prev,
-      message: prev.message + e.emoji
+      message: prev.message + e.emoji,
     }));
   };
-  
 
   // Function to render the Emoji component and get its value
 
@@ -134,15 +133,6 @@ const Input = () => {
     };
   }, [message.message, currentUser, selectedChat, socket]);
 
-  const onkeydown = (e: KeyboardEvent) => {
-    if (e.key === "Enter" && !isEdit && !isReply) {
-      onSubmit();
-    } else if (e.key === "Enter" && isEdit) {
-      onEditSubmit();
-    } else if (e.key === "Enter" && isReply) {
-      onReplySubmit();
-    }
-  };
   //onsubmit
   // const { setMessage } = useMessageStore();
   const queryclient = useQueryClient();
@@ -164,15 +154,14 @@ const Input = () => {
       socket.emit("sentMessage", socketData);
       // toast.success("Message Sent!");
       setMessage({ message: "" });
-       useMessageStore.setState({ isIncomingMessage: true });
+      useIncomingMessageStore.setState({ isIncomingMessage: true });
 
       queryclient.invalidateQueries({
         queryKey: ["messages"],
       });
-
     },
     // onSettled: () => {
-    //   useMessageStore.setState({ isIncomingMessage: true });
+    //   useIncomingMessageStore.setState({ isIncomingMessage: true });
     // },
   });
 
@@ -195,15 +184,14 @@ const Input = () => {
       // toast.success("Message Replied!");
       setMessage({ message: "" });
       setOpenImageModal(false);
-       useMessageStore.setState({ isIncomingMessage: true });
+      useIncomingMessageStore.setState({ isIncomingMessage: true });
 
       queryclient.invalidateQueries({
         queryKey: ["messages"],
       });
-
     },
     // onSettled: () => {
-    //   useMessageStore.setState({ isIncomingMessage: true });
+    //   useIncomingMessageStore.setState({ isIncomingMessage: true });
     // },
   });
 
@@ -226,26 +214,59 @@ const Input = () => {
       // toast.success("Message Edited!");
       setMessage({ message: "" });
       setOpenImageModal(false);
-       useMessageStore.setState({ isIncomingMessage: true });
+      useIncomingMessageStore.setState({ isIncomingMessage: true });
 
       queryclient.invalidateQueries({
         queryKey: ["messages"],
       });
-
     },
     // onSettled: () => {
-    //   useMessageStore.setState({ isIncomingMessage: true });
+    //   useIncomingMessageStore.setState({ isIncomingMessage: true });
     // },
   });
   const onSubmit = () => {
     if (!selectedChat?.chatId) {
       return;
     }
+    const createdAtTime = new Date(Date.now());
     const messageData = {
       chatId: selectedChat?.chatId,
       content: message.message ? message.message : "😍",
+      createdAt: createdAtTime,
     };
+
+    const initialUserMessageData = {
+      chat: {
+        chatName: selectedChat?.isGroupChat ? selectedChat?.groupChatName : "sender",
+        createdAt: selectedChat.createdAt,
+        isGroupChat: selectedChat?.isGroupChat,
+        latestMessage: selectedChat?.lastMessage,
+        updatedAt: new Date(Date.now()),
+        users: selectedChat?.users,
+        _id: selectedChat.chatId,
+      },
+      content: message.message ? message.message : "😍",
+      status: "unseen",
+
+      sender: currentUser,
+      reactions: [],
+      createdAt: createdAtTime,
+      updatedAt: new Date(),
+    };
+    setInitialMessage(initialUserMessageData as any);
     mutation.mutateAsync(messageData as any);
+  };
+
+  //when key down
+
+  const onkeydown = (e: KeyboardEvent) => {
+    if (e.key === "Enter" && !isEdit && !isReply) {
+      onSubmit();
+    } else if (e.key === "Enter" && isEdit) {
+      onEditSubmit();
+    } else if (e.key === "Enter" && isReply) {
+      onReplySubmit();
+    }
   };
   //edit handler
   const onEditSubmit = () => {
@@ -312,7 +333,7 @@ const Input = () => {
               </div>
               <IoMdClose
                 onClick={() => {
-                  setMessage({ message: "" })
+                  setMessage({ message: "" });
                   cancelEdit();
                 }}
                 className="h-4 w-4 md:h-6 md:w-6 cursor-pointer"
@@ -455,8 +476,8 @@ const Input = () => {
                 <span className="btn capitalize text-xs h-full">Edit</span>
               ) : isReply ? (
                 <span className="btn capitalize text-xs h-full">Reply</span>
-              ) :message.message ? (
-                <div className="text-lg md:text-2xl">
+              ) : message.message ? (
+                <div className="text-xl md:text-2xl">
                   <LuSendHorizonal className="text-blue-500 h-full w-full" />
                 </div>
               ) : (

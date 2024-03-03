@@ -78,7 +78,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
         isGroupChat: selectedChat?.isGroupChat,
       };
       socket.emit("sentMessage", socketData);
-      toast.success("Message Unsent!");
+      // toast.success("Message Unsent!");
       setOpen(false);
       queryclient.invalidateQueries({
         queryKey: ["messages"],
@@ -101,7 +101,7 @@ const MessageCard = ({ message }: { message: TMessage }) => {
         isGroupChat: selectedChat?.isGroupChat,
       };
       socket.emit("sentMessage", socketData);
-      toast.success("Message Removed!");
+      // toast.success("Message Removed!");
       setOpen(false);
       queryclient.invalidateQueries({
         queryKey: ["messages"],

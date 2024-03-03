@@ -64,7 +64,7 @@ exports.allMessages = allMessages;
 //@route           POST /api/Message/
 //@access          Protected
 const sendMessage = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { content, chatId, type } = req.body;
+    const { content, chatId, type, createdAt } = req.body;
     if (!chatId) {
         return next(new errorHandler_1.CustomErrorHandler("Chat Id cannot be empty!", 400));
     }
@@ -72,6 +72,7 @@ const sendMessage = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         sender: req.id,
         content: content,
         chat: chatId,
+        createdAt,
     };
     try {
         var message;
