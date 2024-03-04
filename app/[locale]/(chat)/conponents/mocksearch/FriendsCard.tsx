@@ -141,7 +141,7 @@ const FriendsCard: React.FC<{
         </div>
 
         <div className="mx-2">
-          {RenderStatus(chat?.latestMessage, "onFriendListCard", unseenMessagesCount,currentUser)}
+          {RenderStatus(chat?.latestMessage, "onFriendListCard", unseenMessagesCount,currentUser,false)}
         </div>
       </div>
     </div>
