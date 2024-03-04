@@ -7,7 +7,7 @@ export const RenderStatus = (
   type: string,
   unseenArray: any,
   currentUser: any,
-  isLastSeenMessage: boolean) => {
+  isLastSeenMessage: any) => {
   const {selectedChat}=useChatStore()
   const unseenMessagesCount =
     unseenArray?.length > 0 &&
