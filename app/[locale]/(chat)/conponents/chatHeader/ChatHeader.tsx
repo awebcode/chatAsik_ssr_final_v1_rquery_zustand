@@ -44,7 +44,7 @@ const ChatHeader = () => {
         </span>
         {selectedChat && (
           <>
-            <div className="relative p-[2px] h-8 w-8 md:h-10 md:w-10 ring md:ring-2 ring-violet-500 rounded-full">
+            <div className="relative  p-[2px] h-8 w-8 md:h-10 md:w-10 ring md:ring-2 ring-violet-500 rounded-full">
               <Image
                 height={35}
                 width={35}

@@ -30,10 +30,10 @@ const UserModal = ({ open, setOpen, isUserOnline }: any) => {
   };
   return (
     <div
-      className={`z-50 fixed max-h-screen w-full p-4 md:p-10 px-5 md:px-14  top-10 md:top-[100px] transform  dark:bg-gray-800  bg-white hover:bg-gray-200 rounded-md duration-500 ring-2 ring-violet-500   ${
+      className={`z-50 fixed max-w-md w-full p-10 left-1/2 top-10 md:top-[100px] transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 dark:bg-gray-800 rounded-md shadow-lg transition-transform duration-500 ring-2 ring-blue-500 ${
         open
-          ? "translate-y-1 scale-100 opacity-100 duration-300"
-          : "translate-y-0 scale-0 opacity-0 duration-300"
+          ? "translate-y-0 opacity-100 scale-100"
+          : "opacity-0 scale-50 translate-y-full"
       }`}
     >
       <div className="flex flex-col gap-6  mb-8">
