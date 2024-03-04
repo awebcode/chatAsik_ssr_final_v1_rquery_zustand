@@ -394,14 +394,14 @@ const Input = () => {
               >
                 <MdAddAPhoto className="text-blue-400 h-full w-full mx-1" />
               </button>
-              {openImageModal && (
                 <ImageMessage
                   mutation={mutation}
                   replymutation={replymutation}
                   editmutation={editmutation}
                   setOpenImageModal={setOpenImageModal}
+                  openImageModal={openImageModal}
                 />
-              )}
+              
             </div>
             {/* <button
               className="rounded-md text-xs md:text-sm"

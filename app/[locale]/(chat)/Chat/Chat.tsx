@@ -17,6 +17,7 @@ import { Howl } from "howler";
 import Peer from "@/context/peer/Peer";
 import useMessageStore from "@/store/useIncomingMessage";
 import { useSearchParams } from "next/navigation";
+import { UseImageActions } from "@/hooks/imageAction";
 // import useSound from "use-sound";
 // import soundPath from "./audio/notification.mp3";
 const IncomingCallModal = dynamic(() => import("../conponents/call/IncomingCallModal"), {
@@ -42,7 +43,7 @@ const Chat = ({ user }: any) => {
 
   // Initialize Howler for playing audio
   const playSound = new Howl({
-    src: ["/audio/notification.mp3"], ///audio/notification.mp3
+    src: [""], ///audio/notification.mp3
     preload: true,
     volume: 1,
   });
@@ -302,18 +303,12 @@ const Chat = ({ user }: any) => {
       socket.off("peer:nego:final", handleNegoNeedFinal);
     };
   }, []);
+  const { PreviewModal, isPreviewOpen } = UseImageActions();
 
   return (
     <div className="p-1">
-      {/* <button
-        className="btn"
-        onClick={() => {
-          playNotificationSound();
-          playTickSound()
-        }}
-      >
-        Play Sound
-      </button> */}
+     
+      <PreviewModal />
       {IncomingOffer && <IncomingCallModal />}
       {isRejected && <RejectedCallModal />}
     </div>

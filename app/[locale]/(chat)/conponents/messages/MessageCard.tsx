@@ -18,7 +18,7 @@ import { MdOutlineEmojiEmotions } from "react-icons/md";
 import { useAddRemoveReactionMutation } from "../mutations/messageMutations";
 import dynamic from "next/dynamic";
 import { RenderStatus } from "../logics/RenderStatusComponent";
-import { useOnlineUsersStore } from "@/store/useOnlineUsers";
+import { useOnlineUsersStore } from "@/store/useOnlineUsers"
 // const ChatLoading = dynamic(() => import("../ChatLoading"));
 const Content = dynamic(() => import("./Content"));
 
@@ -43,7 +43,7 @@ const MessageCard = ({
 }: {
   message: TMessage;
   isLastSeenMessage:boolean
-}) => {
+  }) => {
   const { onEdit, onReply } = useEditReplyStore();
   const { currentUser } = useUserStore();
   const { selectedChat } = useChatStore();
@@ -185,8 +185,8 @@ const MessageCard = ({
           isCurrentUserMessage ? "flex-row-reverse" : "flex-row"
         } space-x-2`}
       >
-        {message?.sender?._id === currentUser?._id  ? (
-          RenderStatus(message, "onMessage", 0, currentUser,isLastSeenMessage)
+        {message?.sender?._id === currentUser?._id ? (
+          RenderStatus(message, "onMessage", 0, currentUser, isLastSeenMessage)
         ) : (
           <div className="h-8 w-8 relative">
             <Image

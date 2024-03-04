@@ -3,6 +3,7 @@ import React from "react";
 import { RenderMessageWithEmojis } from "../logics/checkEmoji";
 import Reactions from "./Reactions";
 import { useMediaQuery } from "@uidotdev/usehooks";
+import DownloadAndView from "./DownloadAndView";
 
 const RenderMesseage = ({
   message,
@@ -29,14 +30,16 @@ const RenderMesseage = ({
         {message.content ? (
           RenderMessageWithEmojis(message?.content, isSmallDevice)
         ) : message.image ? (
-          <div className="h-[130px] w-[130px] rounded">
+          // h-[130px] w-[130px]
+          <div className=" rounded relative">
             <Image
               src={message.image.url}
               alt={message?.sender?.username}
-              height={100}
-              width={100}
+              height={isSmallDevice ? 300 : 600}
+              width={isSmallDevice ? 300 : 600}
               className="h-full w-full rounded-lg"
             />
+            <DownloadAndView url={message.image.url} />
           </div>
         ) : (
           ""

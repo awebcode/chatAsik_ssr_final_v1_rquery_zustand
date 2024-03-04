@@ -7,6 +7,10 @@ import dynamic from "next/dynamic";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import { RenderMessageWithEmojis } from "../logics/checkEmoji";
 import RenderMesseage from "./RenderMesseage";
+import { UseImageActions } from "@/hooks/imageAction";
+import { IoCloudDownloadOutline } from "react-icons/io5";
+import { IoIosExpand } from "react-icons/io";
+import DownloadAndView from "./DownloadAndView";
 
 const Content = ({
   message,
@@ -30,7 +34,8 @@ const Content = ({
   const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
   return (
     <div>
-      {" "}
+      {/* <PreviewModal /> */}
+
       <div className="">
         {/* Time */}
         <p className="text-[10px] md:text-xs ">
@@ -65,23 +70,30 @@ const Content = ({
                 ? ` ${selectedChat?.username} replied to you `
                 : `You replied to ${selectedChat?.username} `}
             </span>
-            <div className="relative text-[10px] md:text-xs  bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 duration-300  rounded-lg p-3 max-w-[40vw] md:max-w-[40vw] break-words !h-fit  ">
+            <div
+              className={`relative text-[10px] md:text-xs  ${
+                !message?.isReply?.messageId?.image || !message?.image
+                  ? "bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700"
+                  : ""
+              } duration-300  rounded-lg p-3 max-w-[40vw] md:max-w-[40vw] break-words !h-fit  `}
+            >
               <span className="">
                 {/* {message.isReply?.messageId?.content} */}
-                {message.isReply?.messageId?.content ? (
+                {message.isReply && message.isReply?.messageId?.content ? (
                   RenderMessageWithEmojis(
                     message.isReply?.messageId?.content,
                     isSmallDevice
                   )
                 ) : message.isReply?.messageId?.image ? (
-                  <div className="h-[130px] w-[130px] rounded">
+                  <div className=" rounded relative h-[100px] md:h-[150px] bg-red-300 inline-block">
                     <Image
                       src={message.isReply?.messageId?.image.url}
                       alt={message?.sender?.username}
-                      height={100}
-                      width={100}
-                      className="h-full w-full rounded-lg"
+                      height={isSmallDevice ? 300 : 1000}
+                      width={isSmallDevice ? 300 : 1000}
+                      className="h-full w-auto rounded-lg"
                     />
+                    <DownloadAndView url={message.isReply?.messageId?.image.url} />
                   </div>
                 ) : (
                   ""
@@ -90,21 +102,24 @@ const Content = ({
               {message.status !== "remove" &&
               message.removedBy?._id !== currentUser?._id ? (
                 <div
-                  className={`absolute ${
-                    message.image ? "-bottom-[70px]" : "-bottom-5"
-                  } border  text-[10px] md:text-xs dark:border-gray-600 border-gray-300 left-8 right-0 text-sm   bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700 duration-300 rounded-lg p-2  max-w-[40vw] md:max-w-[40vw] break-words !h-fit  `}
+                  className={` ${
+                    message.image
+                      ? "-mt-2 md:-mt-2"
+                      : "border dark:border-gray-600 border-gray-300 left-8 right-0 text-sm   bg-gray-200 hover:bg-gray-100  dark:bg-gray-800 dark:hover:bg-gray-700"
+                  }   text-[10px] md:text-xs  duration-300 rounded-lg p-2  max-w-[40vw] md:max-w-[40vw] break-words !h-fit  `}
                 >
                   {message.content ? (
                     RenderMessageWithEmojis(message?.content, isSmallDevice)
                   ) : message.image ? (
-                    <div className="h-[60px]  rounded">
+                    <div className="  rounded relative">
                       <Image
                         src={message.image.url}
                         alt={message?.sender?.username}
-                        height={80}
-                        width={80}
+                        height={isSmallDevice ? 300 : 600}
+                        width={isSmallDevice ? 300 : 600}
                         className="h-full w-full rounded-lg object-cover"
                       />
+                      <DownloadAndView url={message.image.url} />
                     </div>
                   ) : (
                     ""

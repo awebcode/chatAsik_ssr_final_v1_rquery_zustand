@@ -27,7 +27,7 @@ const Reactions = ({
           <span
             onClick={() => setReactionListVisible(!isReactionListModal)}
             className={`absolute ${
-              message.isReply ? "-bottom-6" : "-bottom-3"
+              message.isReply ? "-bottom-2" : "-bottom-3"
             } right-[6px] text-xl cursor-pointer`}
           >
             <span className="flex text-[14px] md:text-lg">
@@ -67,12 +67,12 @@ const Reactions = ({
           </span>
         )}
         <div
-          className={`z-50 absolute -top-20 ${
+          className={`z-50 absolute bottom-4 ${
             !isCurrentUserMessage
               ? isSmallDevice
                 ? "-60px min-w-60 -top-52 max-h-[250px]"
                 : "-right-[290px]  md:w-[400px]"
-              : "right-10 min-w-60"
+              : "right-10   min-w-60"
           } rounded transition-all bg-gray-100 hover:bg-gray-200 dark:bg-gray-800  p-4 md:p-8 duration-500 ${
             isReactionListModal
               ? "translate-y-1 scale-100 opacity-100 w-auto md:w-[400px] max-h-[300px] overflow-y-auto"
