@@ -16,6 +16,7 @@ const Topbar = dynamic(() => import("./(chat)/conponents/Topbar"), {
   loading: () => <ChatLoading count={1} height={80} inline={false} radius={5} />,
 });
 import { fetchUser } from "@/functions/serverActions";
+import Script from "next/script";
 export const metadata: Metadata = {
   title: "Messengaria - Connect and Chat",
   creator: "Md Asikur Rahman",
@@ -89,6 +90,7 @@ export default async function LocaleLayout({
                 <ToastProvider>
                   <Topbar user={user} />
                   {children}{" "}
+                
                 </ToastProvider>
                 {/* <IntlPolyfills /> */}
               </NextIntlClientProvider>
