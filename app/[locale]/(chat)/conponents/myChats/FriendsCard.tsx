@@ -13,7 +13,7 @@ import { getSender, getSenderFull } from "../logics/logics";
 import { BsThreeDots } from "react-icons/bs";
 import { useClickAway } from "@uidotdev/usehooks";
 import dynamic from "next/dynamic";
-import { useRouter } from "@/navigation";
+import { Link, useRouter } from "@/navigation";
 import { RenderStatus } from "../logics/RenderStatusComponent";
 const Modal = dynamic(() => import("./Modal"));
 const TypingIndicator = dynamic(() => import("../TypingIndicator"));
@@ -123,7 +123,8 @@ const FriendsCard: React.FC<{
   return (
     <div className="p-3 rounded-md  dark:bg-gray-800  bg-gray-200 text-black hover:bg-gray-300 dark:text-white  cursor-pointer   dark:hover:bg-gray-700 duration-300">
       <div className="flex items-center gap-2 justify-between">
-        <div
+        <Link
+          href={`/Chat?chatId=${chat._id as string}`}
           className="flex items-center gap-2 basis-[80%]"
           onClick={() => handleClick(chat._id as string)}
         >
@@ -195,7 +196,7 @@ const FriendsCard: React.FC<{
               ""
             )} */}
           </div>
-        </div>
+        </Link>
         <div className="flex gap-5 items-center ">
           {RenderStatus(
             chat?.latestMessage,
