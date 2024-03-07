@@ -123,8 +123,7 @@ const FriendsCard: React.FC<{
   return (
     <div className="p-3 rounded-md  dark:bg-gray-800  bg-gray-200 text-black hover:bg-gray-300 dark:text-white  cursor-pointer   dark:hover:bg-gray-700 duration-300">
       <div className="flex items-center gap-2 justify-between">
-        <Link
-          href={`/Chat?chatId=${chat._id as string}`}
+        <div
           className="flex items-center gap-2 basis-[80%]"
           onClick={() => handleClick(chat._id as string)}
         >
@@ -196,7 +195,7 @@ const FriendsCard: React.FC<{
               ""
             )} */}
           </div>
-        </Link>
+        </div>
         <div className="flex gap-5 items-center ">
           {RenderStatus(
             chat?.latestMessage,
