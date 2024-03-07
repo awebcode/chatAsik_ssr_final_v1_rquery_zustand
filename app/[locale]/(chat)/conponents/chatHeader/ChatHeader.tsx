@@ -35,9 +35,8 @@ const ChatHeader = () => {
         <span
           className=" cursor-pointer  md:p-[6px]  rounded-full"
           onClick={() => {
-            useChatStore.setState({selectedChat:null})
             clearselectedChat();
-            router.replace("/Chat", undefined);
+            router.push("/Chat");
           }}
         >
           <FaArrowLeft className="h-3 md:h-4 w-3 md:w-4" />
@@ -49,8 +48,8 @@ const ChatHeader = () => {
                 height={35}
                 width={35}
                 className="rounded-full object-fill h-full w-full"
-                alt={selectedChat.username as any}
-                src={selectedChat.pic as any}
+                alt={selectedChat?.username as any}
+                src={selectedChat?.pic as any}
                 loading="lazy"
               />
 
