@@ -81,10 +81,9 @@ const MyFriends = () => {
   //     router.push(`/Chat?chatId=${chat?._id}`);
   //   }
   // }, [chats]);
+  const paramsChatId = searchParams.get("chatId");
 
   useEffect(() => {
-    const paramsChatId = searchParams.get("chatId");
-
     // Check if there is no paramsChatId, and return early if so
     if (!paramsChatId) {
       return;
@@ -94,14 +93,13 @@ const MyFriends = () => {
     if (paramsChatId) {
       foundChat = chats?.find((c) => c._id === paramsChatId);
     }
+    if (selectedChat?.chatId === foundChat?._id) {
+      return;
+    }
 
     // Check if the chat has already been selected or if chat is not found
     // Check if the chat has already been selected or if chat is not found
-    if (selectedChat || (paramsChatId && !foundChat)) {
-      // Clear paramsChatId to avoid persistence
-      //  router.replace("/Chat", undefined);
-      return;
-    }
+
     if (paramsChatId && foundChat && chats) {
       console.log("i am called");
       const chatData = {
@@ -139,7 +137,7 @@ const MyFriends = () => {
     }
     // Log values inside useEffect to ensure they are the most up-to-date
     //  console.log({ selectedChat, paramsChatId });
-  }, [chats]);
+  }, [chats, paramsChatId]);
   return (
     <>
       <div>

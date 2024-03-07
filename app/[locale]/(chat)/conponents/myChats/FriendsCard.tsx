@@ -66,8 +66,40 @@ const FriendsCard: React.FC<{
       // console.log({onsuccess:data})
     },
   });
-
+  const selectedFriend = chat?.users?.find((v:any) => v._id !== currentUser?._id);
   const handleClick = (chatId: string) => {
+    //select chat
+
+    // const chatData = {
+    //   chatId: chat?._id,
+    //   lastMessage: chat?.latestMessage?.content,
+    //   createdAt: chat?.latestMessage?.createdAt,
+    //   chatCreatedAt: chat?.createdAt,
+    //   username: !chat.isGroupChat ? selectedFriend?.username : chat.chatName,
+    //   email: !chat.isGroupChat ? selectedFriend?.email : "",
+    //   userId: !chat.isGroupChat ? selectedFriend?._id : chat._id,
+    //   pic: !chat.isGroupChat ? selectedFriend?.pic : "/vercel.svg",
+    //   groupChatName: chat.chatName,
+    //   isGroupChat: chat.isGroupChat,
+    //   groupAdmin: chat.groupAdmin,
+    //   status: chat?.chatStatus?.status,
+    //   chatUpdatedBy: chat?.chatStatus?.updatedBy,
+    //   users: chat.isGroupChat ? chat.users : null,
+    //   userInfo: {
+    //     lastActive: !chat.isGroupChat ? selectedFriend?.lastActive : "",
+    //   } as any,
+    // };
+   
+
+    // setSelectedChat(chatData);
+
+    router.push(`/Chat?chatId=${chatId}`);
+     if (chat.isGroupChat) {
+       socket.emit("setup", { id: chat?._id } as any);
+     }
+    socket.emit("join", {
+      chatId: chat?._id,
+    });
     //accessChat
     mutaion.mutateAsync(getSenderFull(currentUser, chat.users)?._id as any);
     if (
@@ -76,43 +108,6 @@ const FriendsCard: React.FC<{
     ) {
       updateStatusMutation.mutateAsync(chatId);
     }
-
-    //select chat
-
-    const chatData = {
-      chatId: chat?._id,
-      lastMessage: chat?.latestMessage?.content,
-      createdAt: chat?.latestMessage?.createdAt,
-      chatCreatedAt: chat?.createdAt,
-      username: !chat.isGroupChat
-        ? getSenderFull(currentUser, chat.users)?.username
-        : chat.chatName,
-      email: !chat.isGroupChat ? getSenderFull(currentUser, chat.users)?.email : "",
-      userId: !chat.isGroupChat ? getSenderFull(currentUser, chat.users)?._id : chat._id,
-      pic: !chat.isGroupChat
-        ? getSenderFull(currentUser, chat.users)?.pic
-        : "/vercel.svg",
-      groupChatName: chat.chatName,
-      isGroupChat: chat.isGroupChat,
-      groupAdmin: chat.groupAdmin,
-      status: chat?.chatStatus?.status,
-      chatUpdatedBy: chat?.chatStatus?.updatedBy,
-      users: chat.isGroupChat ? chat.users : null,
-      userInfo: {
-        lastActive: !chat.isGroupChat
-          ? getSenderFull(currentUser, chat.users)?.lastActive
-          : "",
-      } as any,
-    };
-    if (chat.isGroupChat) {
-      socket.emit("setup", { id: chat?._id } as any);
-    }
-
-    socket.emit("join", {
-      chatId: chat?._id,
-    });
-    setSelectedChat(chatData);
-    router.push(`/Chat?chatId=${chatId}`);
     // queryclient.invalidateQueries({ queryKey: ["messages", chatId] });
   };
   const isUserOnline = onlineUsers.some((u: any) =>
@@ -202,7 +197,13 @@ const FriendsCard: React.FC<{
           </div>
         </div>
         <div className="flex gap-5 items-center ">
-          {RenderStatus(chat?.latestMessage, "onFriendListCard", unseenArray,currentUser,false)}
+          {RenderStatus(
+            chat?.latestMessage,
+            "onFriendListCard",
+            unseenArray,
+            currentUser,
+            false
+          )}
           <div ref={userModalRef} className="relative">
             <BsThreeDots onClick={() => setOpen((prev) => !prev)} className="h-6 w-6 " />
             <Modal
