@@ -44,27 +44,28 @@ const Chat = ({ user }: any) => {
 
   // Initialize Howler for playing audio
   const playSound = new Howl({
-    src: ["/audio/notification.mp3"], //
+    src: ["/audio/notification.mp3"],
     preload: true,
     volume: 1,
   });
-
+ 
   // Function to play audio with AudioContext state check
   const playAudio = () => {
-    // Check if the AudioContext is suspended and resume if needed
     if (audioContext.state === "suspended") {
       audioContext.resume().then(() => {
         console.log("AudioContext resumed successfully");
       });
-    } else {
-      playSound.play(); // If the context is not suspended, play audio directly
     }
+    playSound.play(); // Play audio directly
   };
-
+  console.log({ state: audioContext.state });
   // Function to handle playing notification sound
   const playNotificationSound = useCallback(() => {
     playAudio();
   }, []);
+  
+  // ... (remaining code)
+
   const queryclient = useQueryClient();
   const { startTyping, stopTyping } = useTypingStore();
   const { addOnlineUser, onlineUsers } = useOnlineUsersStore();
@@ -310,7 +311,7 @@ const Chat = ({ user }: any) => {
     <div className="p-1">
       {/* <InputEmojiComponent/> */}
       <PreviewModal />
-      {IncomingOffer && <IncomingCallModal />}
+      {IncomingOffer && IncomingOffer?.user && <IncomingCallModal />}
       {isRejected && <RejectedCallModal />}
     </div>
   );
